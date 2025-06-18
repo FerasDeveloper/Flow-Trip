@@ -1,0 +1,194 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Auth_request;
+use App\Models\Owner;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+
+class AuthController extends Controller
+{
+  public function user_Register(Request $request): \Illuminate\Http\JsonResponse
+  {
+    $request->validate([
+      'name' => 'required',
+      'email' => 'required|email|unique:users',
+      'password' => 'required|min:8',
+      'role_id' => 'required',
+      'phone_number' => 'required|unique:users',
+    ]);
+    $code = rand(111111, 999999);
+
+    $user = User::query()->create([
+      'name' => $request['name'],
+      'email' => $request['email'],
+      'password' => $request['password'],
+      'phone_number' => $request['phone_number'],
+      'role_id' => $request['role_id'],
+    ]);
+
+    if($user['role_id'] == 3){
+        $user['token'] = $user->createToken('AccessToken')->plainTextToken;
+        return response()->json([
+          'message' => 'User Created Successfully',
+          'token' => $user['token']
+        ]);
+    }
+    else if($user['role_id'] == 4){
+        $user->update( [ 'status' => 1 ] );
+    }
+
+     return response()->json([
+      'message' => 'User Created Successfully',
+    ]);
+
+    /*
+
+    $emailBody = "Hello {$user->username}!
+    \n\nWelcome to HireHub! There is just one more step befor you reach the site.
+    \nverify your email address by this verification code:
+    \n\n                     {$code} 
+    \n\nThank you for registering at our site.\n\nBest regards.";
+
+    Mail::raw($emailBody, function ($message) use ($user) {
+        $message->to($user->email)
+                ->subject('Hire Hub - email verification');
+    });
+    */
+
+  }
+
+/*
+  public function resend_email(string $username)
+  {
+    $user = User::query()->where('username', $username)->first();
+    $emailBody = "Hello {$user->username}!
+    \n\nWelcome to HureHub! There is just one more step befor you reach the site.
+    \nverify your email address by this verification code:
+    \n\n                     {$user->verification_code} 
+    \n\nThank you for registering at our site.\n\nBest regards.";
+
+    Mail::raw($emailBody, function ($message) use ($user) {
+        $message->to($user->email)
+                ->subject('HIRE HUB - email verification');
+    });
+
+    return response()->json([
+      'message' => 'We have sent the code to your email address'
+    ]);
+  }
+
+  public function verification(Request $request, string $username)
+  {
+    $user = User::query()->where('username', $username)->first();
+    $request->validate([
+      'verification_code' => 'required|min:6|max:6',
+    ]);
+    if($request['verification_code'] == $user['verification_code']){
+      return response()->json([
+        'message' => 'your email has been verified successfully'
+      ]);
+    }
+    return response()->json([
+      'message' => 'the code is wrong, pleaze try again'
+    ]);
+  }
+    */
+  
+  public function create_owner(Request $request, string $email)
+  {
+    $user = User::query()->where('email', $email)->first();
+    if ($user['role_id'] != 4) {
+      return response()->json([
+        'something went wrong'
+      ]);
+    }
+
+    $id = $user['id'];
+    $owner = Owner::query()->where('user_id', $id)->first();
+    $auth_request = Auth_request::query()->where('user_id', $id)->first();
+    if ($owner || $auth_request) {
+      return response()->json([
+        'You already have an account.'
+      ]);
+    }
+
+    $request->validate([
+      'owner_category_id' => 'required',
+      'country_id' => 'required',
+      'location' => 'required',
+      'description' => 'required',
+    ]);
+
+    $create_auth_request = Auth_request::query()->create([
+      'owner_category_id' => $request['owner_category_id'],
+      'country_id' => $request['country_id'],
+      'location' => $request['location'],
+      'description' => $request['description'],
+      'user_id' => $user['id'],
+      'business_name' => $request['business_name']
+    ]);
+    if($request['owner_category_id'] == 1){
+        Auth_request::query()->where('user_id', $id)->update( [ 
+            'accommodation_type' => $request['accommodation_type'] 
+        ] );
+    }
+    else if($request['owner_category_id'] == 5){
+        Auth_request::query()->where('user_id', $id)->update( [ 
+            'activity_name' => $request['activity_name'] 
+        ] );
+    }
+
+    return response()->json([
+      'message' => 'your request has been sent to the technical team.. pleas wait until the request processed.',
+    ]);
+  }
+
+
+  public function login(Request $request)
+  {
+
+    $request->validate([
+      'email' => 'required',
+      'password' => 'required'
+    ]);
+
+    $user = User::query()->where('email', $request['email'])->first();
+        //        ->where('password', $request['password'])
+
+    if ($user && Hash::check($request['password'], $user->password)) {
+        if ($user['status'] == 2) {
+          return response()->json([
+            'message' => 'You are panned from using this web application.'
+          ]);
+        }
+        else if ($user['status'] == 1) {
+          return response()->json([
+            'message' => 'Your request is still being processed.'
+          ]);
+        }
+
+        $user['token'] = $user->createToken('AccessToken')->plainTextToken;
+        return response()->json([
+          'message' => 'Welcome',
+          'token' => $user['token'],
+        ]);
+    }
+    
+    return response()->json([
+      'message' => 'your Email does not match with Password..Please try again'
+    ]);
+  }
+
+  public function logout()
+  {
+    Auth::user()->currentAccessToken()->delete();
+    return response()->json([
+      'message' => 'You logged out successfully'
+    ]);
+  }
+}
