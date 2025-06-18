@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->longText('description');
             $table->string('location');
+            $table->string('business_name');
             $table->foreignId('user_id')
             ->constrained('users')
             ->cascadeOnDelete()

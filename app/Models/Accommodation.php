@@ -11,9 +11,6 @@ class Accommodation extends Model
     protected $fillable = [
       'owner_id',
       'accommodation_type_id',
-      'price',
-      'offer_price',
-      'area'
     ];
 
     public function Owner(){

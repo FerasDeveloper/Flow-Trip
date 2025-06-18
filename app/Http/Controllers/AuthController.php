@@ -20,7 +20,7 @@ class AuthController extends Controller
       'email' => 'required|email|unique:users',
       'password' => 'required|min:8',
       'role_id' => 'required',
-      'phone_number' => 'required',
+      'phone_number' => 'required|unique:users',
     ]);
     $code = rand(111111, 999999);
 

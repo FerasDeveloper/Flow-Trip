@@ -14,6 +14,7 @@ class Auth_request extends Model
     'user_id',
     'owner_category_id',
     'country_id',
+    'business_name'
   ];
 
   public function User()
