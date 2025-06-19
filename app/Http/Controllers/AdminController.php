@@ -10,8 +10,12 @@ use App\Models\Air_line;
 use App\Models\Auth_request;
 use App\Models\Car_picture;
 use App\Models\Car_type;
+use App\Models\Country;
 use App\Models\Owner;
+use App\Models\Owner_category;
 use App\Models\Owner_service;
+use App\Models\Package;
+use App\Models\Package_element;
 use App\Models\Picture;
 use App\Models\Room;
 use App\Models\Service;
@@ -39,7 +43,9 @@ class AdminController extends Controller
       ];
     }
 
-    return response()->json($data);
+    return response()->json([
+      'data' => $data
+    ]);
   }
 
   public function show_request($id)
@@ -49,11 +55,13 @@ class AdminController extends Controller
     $user = User::query()->where('id', $request->user_id)->first();
     $data[] = [
       'request' => $request,
-      'user_name' => $user->name
+      'user_name' => $user->name,
+      'email' => $user->email,
+      'phone_number' => $user->phone_number,
     ];
-    return response()->json(
-      $data[0]
-    );
+    return response()->json([
+      'data' => $data[0]
+    ]);
   }
 
   public function edit_request(Request $request, $id)
@@ -189,11 +197,23 @@ class AdminController extends Controller
 
   public function get_all_owners()
   {
-
     $owners = Owner::query()->get();
-    return response()->json(
-      $owners
-    );
+    $data = [];
+
+    foreach ($owners as $owner) {
+      $category = Owner_category::query()->where('id', $owner->owner_category_id)->first();
+      $country = Country::query()->where('id', $owner->country_id)->first();
+      
+      $data[] = [
+        'owner' => $owner,
+        'category' => $category->name,
+        'country' => $country->name
+      ];
+    }
+
+    return response()->json([
+      'data' => $data
+    ]);
   }
 
   public function show_owner($id)
@@ -239,6 +259,14 @@ class AdminController extends Controller
     } else if ($category_id == 3) {
       $tourism = Tourism_company::query()->where('owner_id', $owner->id)->first();
       $data['details'] = $tourism;
+      
+      $packages = Package::query()->where('tourism_company_id', $tourism->id)->get();
+      
+      $packagesWithElements  = $packages->map(function ($package) {
+        $package['element'] = Package_element::query()->where('package_id', $package->id)->get();
+        return $package;
+      });
+      $data['packages'] = $packagesWithElements;
     } else if ($category_id == 4) {
       $vehicle_owner = Vehicle_owner::query()->where('owner_id', $owner->id)->first();
       $data['details'] = $vehicle_owner;
@@ -283,6 +311,7 @@ class AdminController extends Controller
       $selected_user->update([
         'status' => 2
       ]);
+      $selected_user->tokens()->delete();
       return response()->json([
         'message' => 'User blocked successfully'
       ]);
@@ -295,6 +324,7 @@ class AdminController extends Controller
     $owners = Owner::query()->where('owner_category_id', $request->id)->get();
 
     $data = [];
+    $ownerData = [];
     foreach ($owners as $owner) {
       $ownerData = [
         'owner' => $owner,
