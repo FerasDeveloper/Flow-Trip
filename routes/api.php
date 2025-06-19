@@ -6,12 +6,6 @@ use App\Http\Controllers\GeneralTaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
   Route::post('/CreateUser', [AuthController::class, 'user_Register']);
   Route::get('/ReSendEmail/{email}', [AuthController::class, 'resend_email']);
   Route::post('/Verification/{email}', [AuthController::class, 'verification']);
@@ -25,7 +19,7 @@ use Illuminate\Support\Facades\Route;
   Route::get('/GetAllAccommodationTypes', [GeneralTaskController::class, 'get_all_accommodation_types']);
   Route::get('/GetAllCarTypes', [GeneralTaskController::class, 'get_all_car_types']);
   Route::get('/GetAllPlaneTypes', [GeneralTaskController::class, 'get_all_plane_types']);
-
+  Route::get('/GetAllServices', [GeneralTaskController::class, 'get_all_services']);
 
   Route::middleware('auth:sanctum')->group(function () {
 

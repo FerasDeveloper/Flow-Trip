@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string("name");
             $table->string("type");
             $table->longText("discription");
+            $table->foreignId('package_id')
+            ->constrained('packages')
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
             $table->timestamps();
         });
     }
