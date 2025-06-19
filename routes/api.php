@@ -2,19 +2,11 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GeneralTaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -28,10 +20,18 @@ use Illuminate\Support\Facades\Route;
   Route::post('/CreateOwner/{email}', [AuthController::class, 'create_owner']);
   Route::post('/Login', [AuthController::class, 'login']);
 
+  Route::get('/GetAllOwnerCategories', [GeneralTaskController::class, 'get_all_owners_categories']);
+  Route::get('/GetAllCountries', [GeneralTaskController::class, 'get_all_countries']);
+  Route::get('/GetAllAccommodationTypes', [GeneralTaskController::class, 'get_all_accommodation_types']);
+  Route::get('/GetAllCarTypes', [GeneralTaskController::class, 'get_all_car_types']);
+  Route::get('/GetAllPlaneTypes', [GeneralTaskController::class, 'get_all_plane_types']);
+
+
   Route::middleware('auth:sanctum')->group(function () {
 
   Route::get('/Logout', [AuthController::class, 'logout']);
-  
+  Route::get('/ShowProfile', [GeneralTaskController::class, 'show_profile']);
+
   // Admin
     // Request
   Route::get('/GetAllRequests', [AdminController::class, 'get_all_requests']);
@@ -45,4 +45,5 @@ use Illuminate\Support\Facades\Route;
   Route::get('/ShowOwner/{id}', [AdminController::class, 'show_owner']);
   Route::get('/BlockOwner/{id}', [AdminController::class, 'block']);
   Route::post('/FilterByCategory', [AdminController::class, 'filter_by_category']);
+
 });
