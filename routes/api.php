@@ -39,5 +39,6 @@ use Illuminate\Support\Facades\Route;
   Route::get('/ShowOwner/{id}', [AdminController::class, 'show_owner']);
   Route::get('/BlockOwner/{id}', [AdminController::class, 'block']);
   Route::post('/FilterByCategory', [AdminController::class, 'filter_by_category']);
+  Route::post('/AdminSearch', [AdminController::class, 'admin_search']);
 
 });

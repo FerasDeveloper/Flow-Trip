@@ -203,11 +203,13 @@ class AdminController extends Controller
     foreach ($owners as $owner) {
       $category = Owner_category::query()->where('id', $owner->owner_category_id)->first();
       $country = Country::query()->where('id', $owner->country_id)->first();
-      
+      $user = User::query()->where('id', $owner->user_id)->first();
+
       $data[] = [
         'owner' => $owner,
         'category' => $category->name,
-        'country' => $country->name
+        'country' => $country->name,
+        'user' => $user
       ];
     }
 
@@ -259,9 +261,9 @@ class AdminController extends Controller
     } else if ($category_id == 3) {
       $tourism = Tourism_company::query()->where('owner_id', $owner->id)->first();
       $data['details'] = $tourism;
-      
+
       $packages = Package::query()->where('tourism_company_id', $tourism->id)->get();
-      
+
       $packagesWithElements  = $packages->map(function ($package) {
         $package['element'] = Package_element::query()->where('package_id', $package->id)->get();
         return $package;
@@ -318,48 +320,94 @@ class AdminController extends Controller
     }
   }
 
-  public function filter_by_category(Request $request)
+  public function admin_search(Request $request)
   {
-
-    $owners = Owner::query()->where('owner_category_id', $request->id)->get();
-
+    $countrySearch = $request->input('country');
+    $nameSearch = $request->input('name');
+    $categorySearch = $request->input('category_id');
     $data = [];
-    $ownerData = [];
+
+    // If no search criteria provided, return empty result
+    if (empty($countrySearch) && empty($nameSearch) && empty($categorySearch)) {
+        return response()->json(['message' => 'No Result']);
+    }
+
+    $query = Owner::query();
+
+    // Filter by country
+    if (!empty($countrySearch)) {
+        $countryIds = Country::where('name', 'LIKE', "%{$countrySearch}%")
+            ->pluck('id')
+            ->toArray();
+        $query->whereIn('country_id', $countryIds);
+    }
+
+    // Filter by user name
+    if (!empty($nameSearch)) {
+        $userIds = User::where('name', 'LIKE', "%{$nameSearch}%")
+            ->pluck('id')
+            ->toArray();
+        $query->whereIn('user_id', $userIds);
+    }
+
+    // Filter by category
+    if (!empty($categorySearch)) {
+        $query->where('owner_category_id', $categorySearch);
+    }
+
+    $owners = $query->latest()->get();
+    
     foreach ($owners as $owner) {
+      $category = Owner_category::query()->where('id', $owner->owner_category_id)->first();
+      $country = Country::query()->where('id', $owner->country_id)->first();
+      $user = User::query()->where('id', $owner->user_id)->first();
+
       $ownerData = [
         'owner' => $owner,
-        'user' => User::query()->where('id', $owner->user_id)->first()
+        'user' => $user,
+        'category' => $category->name,
+        'country' => $country->name
       ];
 
-      switch ($request->id) {
-        case '1':
+      // Add specific details based on category
+      switch ($owner->owner_category_id) {
+        case 1: // Accommodation
           $accommodation = Accommodation::query()->where('owner_id', $owner->id)->first();
-          $accommodation_type = Accommodation_type::query()->where('id', $accommodation->accommodation_type_id)->first();
-          $ownerData['details'] = [
-            'accommodation' => $accommodation,
-            'accommodation_type' => $accommodation_type->name
-          ];
+          if ($accommodation) {
+            $accommodation_type = Accommodation_type::query()->where('id', $accommodation->accommodation_type_id)->first();
+            $ownerData['details'] = [
+              'accommodation' => $accommodation,
+              'accommodation_type' => $accommodation_type ? $accommodation_type->name : null
+            ];
+          }
           break;
-        case '2':
+        case 2: // Air Line
           $air_line = Air_line::query()->where('owner_id', $owner->id)->first();
           $ownerData['details'] = $air_line;
           break;
-        case '3':
+        case 3: // Tourism Company
           $tourism = Tourism_company::query()->where('owner_id', $owner->id)->first();
           $ownerData['details'] = $tourism;
           break;
-        case '4':
+        case 4: // Vehicle Owner
           $vehicle_owner = Vehicle_owner::query()->where('owner_id', $owner->id)->first();
           $ownerData['details'] = $vehicle_owner;
           break;
-        case '5':
+        case 5: // Activity Owner
           $activity_owner = Activity_owner::query()->where('owner_id', $owner->id)->first();
           $ownerData['details'] = $activity_owner;
           break;
       }
+
       $data[] = $ownerData;
     }
 
-    return response()->json($data);
+    if ($owners->isNotEmpty()) {
+        return response()->json([
+          'data' => $data
+        ]);
+    } else {
+        return response()->json(['message' => 'No Result']);
+    }
   }
 }
