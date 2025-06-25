@@ -21,6 +21,7 @@ return new class extends Migration
             $table->double("total_price");
             $table->boolean("checked");
             $table->boolean('payment_by_points')->default(false);
+            $table->string('package_picture');
             $table->timestamps();
         });
     }

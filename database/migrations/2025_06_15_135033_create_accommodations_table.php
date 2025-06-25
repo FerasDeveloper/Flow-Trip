@@ -21,6 +21,7 @@ return new class extends Migration
             ->constrained('accommodation_types')
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
+            $table->string('accommodation_name')->nullable();
             $table->float('price')->nullable();
             $table->float('offer_price')->nullable();
             $table->float('area')->nullable();
