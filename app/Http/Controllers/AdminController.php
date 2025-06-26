@@ -224,7 +224,10 @@ class AdminController extends Controller
     $owner = Owner::query()->where('id', $id)->first();
     $data['owner'] = $owner;
     $owner['user'] = User::query()->where('id', $owner->user_id)->first();
-
+    $country = Country::query()->where('id', $owner->country_id)->select('name')->first();
+    $category = Owner_category::query()->where('id', $owner->owner_category_id)->select('name')->first();
+    $owner['country'] = $country->name;
+    $owner['category'] = $category->name;
     $category_id = $owner->owner_category_id;
     $data['pictures'] = Picture::query()->where('owner_id', $id)->get();
     $ffs = Owner_service::query()->where('owner_id', $id)->get();
@@ -269,8 +272,7 @@ class AdminController extends Controller
         return $package;
       });
       $data['packages'] = $packagesWithElements;
-    } else if ($category_id == 4) {
-      $vehicle_owner = Vehicle_owner::query()->where('owner_id', $owner->id)->first();
+    } else if ($category_id == 4) {      $vehicle_owner = Vehicle_owner::query()->where('owner_id', $owner->id)->first();
       $data['details'] = $vehicle_owner;
 
       $vehicles = Vehicle::query()->where('vehicle_owner_id', $vehicle_owner->id)->get();
@@ -285,7 +287,11 @@ class AdminController extends Controller
       $data['vehicles'] = $vehiclesWithPictures;
     } else if ($category_id == 5) {
       $activity_owner = Activity_owner::query()->where('owner_id', $owner->id)->first();
-      $data['details'] = $activity_owner;
+      $activity = Activity::query()->where('id', $activity_owner->activity_id)->select('name')->first();
+      $data['details'] = [
+        'activity_owner' => $activity_owner,
+        'activity' => $activity->name
+      ];
     }
 
     return response()->json($data);
@@ -410,4 +416,16 @@ class AdminController extends Controller
         return response()->json(['message' => 'No Result']);
     }
   }
+
+  public function show_room($id){
+
+    $room = Room::query()->where('id', $id)->first();
+    $pictures = Room_picture::query()->where('room_id', $id)->get();
+    return response()->json([
+      'room' => $room,
+      'pictures' => $pictures
+    ]);
+
+  }
+
 }
