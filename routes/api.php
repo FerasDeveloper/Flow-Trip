@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AirLineController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GeneralTaskController;
 use Illuminate\Http\Request;
@@ -33,6 +34,18 @@ use Illuminate\Support\Facades\Route;
   Route::post('/EditRequest/{id}', [AdminController::class, 'edit_request']);
   Route::get('/AcceptRequest/{id}', [AdminController::class, 'accept_request']);
   Route::get('/DeleteRequest/{id}', [AdminController::class, 'delete_request']);
+
+  Route::get('/getallpackage',[AdminController::class,'getAllPackages']);
+  Route::get('/getPackage/{id}',[AdminController::class,'getPackage']);
+  Route::get('/getalluser',[AdminController::class,'getAllUsers']);
+  Route::get('/createSubAdmin/{id}',[AdminController::class,'createSubAdmin']);
+  Route::get('/getAllSubAdmin',[AdminController::class,'getAllSubAdmin']);
+  Route::get('/removeSubAdmin/{id}',[AdminController::class,'removeSubAdmin']);
+  Route::get('/getAllActivity',[AdminController::class,'getAllActivity']);
+  Route::post('/addActivity',[AdminController::class,'addActivity']);
+  Route::delete('/deleteactivity/{id}',[AdminController::class,'deleteactivity']);
+  Route::get('/paybypoint/{id}',[AdminController::class,'paybypoint']);
+  Route::post('/addcatigory',[AdminController::class,'addcatigory']);
   
     // Owner
   Route::get('/GetAllOwners', [AdminController::class, 'get_all_owners']);
@@ -40,5 +53,15 @@ use Illuminate\Support\Facades\Route;
   Route::get('/BlockOwner/{id}', [AdminController::class, 'block']);
   Route::post('/AdminSearch', [AdminController::class, 'admin_search']);
   Route::get('/ShowRoom/{id}', [AdminController::class, 'show_room']);
+
+  // AirLine
+  Route::post('/AddPlane', [AirLineController::class, 'add_plane']);
+  Route::post('/EditPlane/{plane_id}', [AirLineController::class, 'edit_plane']);
+  Route::get('/GetAllPlanes', [AirLineController::class, 'get_all_planes']);
+  Route::get('/GetSinglePlane/{plane_id}', [AirLineController::class, 'get_single_plane']);
+  Route::get('/DeletePlane/{plane_id}', [AirLineController::class, 'delete_plane']);
+
+  Route::post('/AddFlight', [AirLineController::class, 'add_flight']);
+  Route::get('/GetFlightDetails/{flight_id}', [AirLineController::class, 'get_flight_details']);
 
 });
