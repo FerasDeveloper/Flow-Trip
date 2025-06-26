@@ -19,6 +19,7 @@ return new class extends Migration
             ->cascadeOnUpdate();
             $table->float('price');
             $table->integer('seat_number');
+            $table->boolean('reserved')->default(false);
             $table->timestamps();
         });
     }
