@@ -410,4 +410,220 @@ class AdminController extends Controller
         return response()->json(['message' => 'No Result']);
     }
   }
+
+
+  public function getAllPackages()
+{
+    $allpackages = Package::with('tourism_company')->get();
+
+    return response()->json([
+        "message" => 'success',
+        "data" => $allpackages,
+        "status" => 200
+    ]);
+}
+
+public function getPackage($id)
+{
+    $package = Package::with([
+        'package_element.package_element_picture',
+        'tourism_company' 
+    ])->find($id);
+
+    if (!$package) {
+        return response()->json([
+            'error' => 'not found'
+        ], 404);
+    }
+
+    return response()->json([
+        'message' => 'success',
+        'data' => $package,
+        'status' => 200
+    ]);
+}
+
+
+  public function paybypoint($id)
+  {
+    $package = Package::find($id);
+
+    if ($package) {
+      $package->payment_by_points = true;
+
+      $package->save();
+
+      return response()->json(['message' => 'Updated successfully']);
+    } else {
+      return response()->json(['message' => 'Package not found'], 404);
+    }
+  }
+
+  public function getAllUsers()
+  {
+    $users = User::query()->where('role_id', 3)->get();
+
+    if ($users->isEmpty()) {
+      return response()->json([
+        "message" => "there is no user",
+        "data" => [],
+        "status" => 404
+      ]);
+    }
+
+    return response()->json([
+      "message" => "success",
+      "data" => $users,
+      "status" => 200
+    ]);
+  }
+
+
+  public function createSubAdmin($id)
+  {
+    $user = User::find($id);
+
+    if (!$user) {
+      return response()->json([
+        "message" => "user not found",
+        "status" => 404
+      ]);
+    }
+
+    $user->role_id = 2;
+    $user->save();
+
+    return response()->json([
+      "message" => "Sub Admin create succes",
+      "data" => $user,
+      "status" => 200
+    ]);
+  }
+
+  public function getAllSubAdmin()
+  {
+    $subAdmins = User::where('role_id', 2)->get();
+
+    if ($subAdmins->isEmpty()) {
+      return response()->json([
+        "message" => "There are no Sub Admin users.",
+        "data" => [],
+        "status" => 404
+      ]);
+    }
+
+    return response()->json([
+      "message" => "Sub Admins data fetched successfully.",
+      "data" => $subAdmins,
+      "status" => 200
+    ]);
+  }
+
+  public function removeSubAdmin($id)
+  {
+    $user = User::find($id);
+
+    if (!$user) {
+      return response()->json([
+        "message" => "user not found",
+        "status" => 404
+      ]);
+    }
+
+    $user->role_id = 3;
+    $user->save();
+
+    return response()->json([
+      "message" => "remove succes",
+      "data" => $user,
+      "status" => 200
+    ]);
+  }
+
+  public function getAllActivity()
+  {
+    $activities = Activity::all();
+
+    if ($activities->isEmpty()) {
+      return response()->json([
+        "message" => "there is no activity",
+        "data" => [],
+        "status" => 404
+      ]);
+    }
+
+    return response()->json([
+      "message" => "succes",
+      "data" => $activities,
+      "status" => 200
+    ]);
+  }
+
+  public function addActivity(Request $request)
+  {
+    $request->validate([
+      'name' => 'required'
+    ]);
+
+    if (Activity::where('name', $request->name)->exists()) {
+      return response()->json([
+        'message' => 'This activity name is already taken, please choose another.',
+        'status' => 409
+      ]);
+    }
+
+    $activity = new Activity();
+    $activity->name = $request->name;
+    $activity->save();
+
+    return response()->json([
+      'message' => 'Activity added successfully.',
+      'data' => $activity,
+      'status' => 201
+    ]);
+  }
+
+  public function deleteactivity($id)
+  {
+    $activity = Activity::find($id);
+    if (!$activity) {
+      return response()->json([
+        'message' =>
+        'Activity not found',
+        'status' =>
+        404
+      ]);
+    }
+    $activity->delete();
+    return response()->json([
+      'message' =>
+      'Activity deleted successfully',
+      'status' =>
+      200
+    ]);
+  }
+
+
+public function addcatigory(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255|unique:owner_categories,name',
+    ], [
+        'name.required' => 'The category name is required.',
+        'name.string' => 'The category name must be a string.',
+        'name.max' => 'The category name may not be greater than 255 characters.',
+        'name.unique' => 'This category name already exists.',
+    ]);
+
+    $category = new Owner_category();
+    $category->name = $validated['name'];
+    $category->save();
+
+    return response()->json([
+        'message' => 'Category added successfully.',
+        'data' => $category,
+    ], 201);
+}
+
+
 }

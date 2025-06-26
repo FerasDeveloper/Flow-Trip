@@ -34,6 +34,18 @@ use Illuminate\Support\Facades\Route;
   Route::get('/AcceptRequest/{id}', [AdminController::class, 'accept_request']);
   Route::get('/DeleteRequest/{id}', [AdminController::class, 'delete_request']);
   
+  Route::get('/getallpackage',[AdminController::class,'getAllPackages']);
+  Route::get('/getPackage/{id}',[AdminController::class,'getPackage']);
+  Route::get('/getalluser',[AdminController::class,'getAllUsers']);
+  Route::get('/createSubAdmin/{id}',[AdminController::class,'createSubAdmin']);
+  Route::get('/getAllSubAdmin',[AdminController::class,'getAllSubAdmin']);
+  Route::get('/removeSubAdmin/{id}',[AdminController::class,'removeSubAdmin']);
+  Route::get('/getAllActivity',[AdminController::class,'getAllActivity']);
+  Route::post('/addActivity',[AdminController::class,'addActivity']);
+  Route::delete('/deleteactivity/{id}',[AdminController::class,'deleteactivity']);
+  Route::get('/paybypoint/{id}',[AdminController::class,'paybypoint']);
+  Route::post('/addcatigory',[AdminController::class,'addcatigory']);
+  
     // Owner
   Route::get('/GetAllOwners', [AdminController::class, 'get_all_owners']);
   Route::get('/ShowOwner/{id}', [AdminController::class, 'show_owner']);
