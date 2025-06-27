@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccommodationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AirLineController;
 use App\Http\Controllers\AuthController;
@@ -67,5 +68,10 @@ use Illuminate\Support\Facades\Route;
   Route::get('/GetFlightDetails/{flight_id}', [AirLineController::class, 'get_flight_details']);
   Route::get('/GetAllFlights', [AirLineController::class, 'get_all_flights']);
   Route::get('/DeleteFlight/{flight_id}', [AirLineController::class, 'delete_flight']);
+
+  // Accommodation
+  Route::get('/ShowAccommodationRecords', [AccommodationController::class, 'show_records']);
+  Route::post('/FilterNameAccommodation', [AccommodationController::class, 'filter_name_accommodation']);
+  Route::post('/AddRoom', [AccommodationController::class, 'add_room']);
 
 });
