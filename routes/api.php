@@ -62,6 +62,10 @@ use Illuminate\Support\Facades\Route;
   Route::get('/DeletePlane/{plane_id}', [AirLineController::class, 'delete_plane']);
 
   Route::post('/AddFlight', [AirLineController::class, 'add_flight']);
+  Route::post('/EditFlight/{flight_id}', [AirLineController::class, 'edit_flight']);
+  Route::post('/EditSeats', [AirLineController::class, 'edit_seats']);
   Route::get('/GetFlightDetails/{flight_id}', [AirLineController::class, 'get_flight_details']);
+  Route::get('/GetAllFlights', [AirLineController::class, 'get_all_flights']);
+  Route::get('/DeleteFlight/{flight_id}', [AirLineController::class, 'delete_flight']);
 
 });

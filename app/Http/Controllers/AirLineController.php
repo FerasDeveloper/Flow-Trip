@@ -237,19 +237,130 @@ class AirLineController extends Controller
   }
 
 
+  public function edit_flight(Request $request, $id)
+  {
+    $user = Auth::user();
+    
+    if ($user['role_id'] != 4) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+    if ($owner['owner_category_id'] != 2) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $air_line = Air_line::query()->where('owner_id', $owner->id)->first();
+
+    $request->validate([
+      'plane_id' => 'required',
+      'price' => 'required',
+      'flight_number' => 'required',
+      'starting_point_location' => 'required',
+      'landing_point_location' => 'required',
+      'starting_airport' => 'required',
+      'landing_airport' => 'required',
+      'start_time' => 'required',
+      'land_time' => 'required',
+      'estimated_time' => 'required',
+      'date' => 'required|date',
+    ]);
+
+    $flight = Flight::query()->where('id', $id)->first();
+    $offerPrice = $flight->offer_price;
+    if ($request->has('offer_price')) {
+      $offerPrice = $request['offer_price'];
+    }
+
+
+    $flight_update = Flight::query()->where('id', $id)->update([
+      'air_line_id' => $air_line->id,
+      'plane_id' => $request['plane_id'],
+      'price' => $request['price'],
+      'offer_price' => $offerPrice,
+      'flight_number' => $request['flight_number'],
+      'starting_point_location' => $request['starting_point_location'],
+      'landing_point_location' => $request['landing_point_location'],
+      'starting_airport' => $request['starting_airport'],
+      'landing_airport' => $request['landing_airport'],
+      'start_time' => $request['start_time'],
+      'land_time' => $request['land_time'],
+      'estimated_time' => $request['estimated_time'],
+      'date' => $request['date'],
+    ]);
+
+    return response()->json([
+      'message' => 'your flight updated successfully',
+    ]);
+  }
+
+
+  public function edit_seats(Request $request){
+    $request->validate([
+        'seat_ids' => 'required|array',
+        'new_price' => 'required|numeric|min:0'
+    ]);
+
+    $updated = Seat::whereIn('id', $request->seat_ids)
+                ->update(['price' => $request->new_price]);
+
+    return response()->json([
+        'message' => 'selected seats has been updated successfully',
+        'updated_rows' => $updated
+    ]);
+  }
+
+
+  public function get_all_flights()
+  {
+    $user = Auth::user();
+    
+    if ($user['role_id'] != 4) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+    if ($owner['owner_category_id'] != 2) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $air_line = Air_line::query()->where('owner_id', $owner->id)->first();
+    $flights = Flight::query()->where('air_line_id', $air_line->id)->latest()->get();
+
+    return response()->json([
+       'flights' => $flights,
+    ]);
+  }
+
+
   public function get_flight_details($id)
   {
     $user = Auth::user();
     
     $flight = Flight::query()->where('id', $id)->first();
-    $plane = Plane::query()->where('id', $flight->plane_id)->first();
+    //$plane = Plane::query()->where('id', $flight->plane_id)->first();
     $seats = Seat::query()->where('flight_id', $id)->get();
     
 
     return response()->json([
-       //'plane' => $plane,
        'flight' => $flight,
        'seats' => $seats
+    ]);
+  }
+
+
+  public function delete_flight($id)
+  {
+    $user = Auth::user();
+    
+    $flight = Flight::query()->where('id', $id)->delete();    
+
+    return response()->json([
+       'message' => 'your flight deleted successfully',
     ]);
   }
 
