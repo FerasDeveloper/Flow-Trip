@@ -224,7 +224,10 @@ class AdminController extends Controller
     $owner = Owner::query()->where('id', $id)->first();
     $data['owner'] = $owner;
     $owner['user'] = User::query()->where('id', $owner->user_id)->first();
-
+    $country = Country::query()->where('id', $owner->country_id)->select('name')->first();
+    $category = Owner_category::query()->where('id', $owner->owner_category_id)->select('name')->first();
+    $owner['country'] = $country->name;
+    $owner['category'] = $category->name;
     $category_id = $owner->owner_category_id;
     $data['pictures'] = Picture::query()->where('owner_id', $id)->get();
     $ffs = Owner_service::query()->where('owner_id', $id)->get();
@@ -285,7 +288,11 @@ class AdminController extends Controller
       $data['vehicles'] = $vehiclesWithPictures;
     } else if ($category_id == 5) {
       $activity_owner = Activity_owner::query()->where('owner_id', $owner->id)->first();
-      $data['details'] = $activity_owner;
+      $activity = Activity::query()->where('id', $activity_owner->activity_id)->select('name')->first();
+      $data['details'] = [
+        'activity_owner' => $activity_owner,
+        'activity' => $activity->name
+      ];
     }
 
     return response()->json($data);
@@ -329,34 +336,34 @@ class AdminController extends Controller
 
     // If no search criteria provided, return empty result
     if (empty($countrySearch) && empty($nameSearch) && empty($categorySearch)) {
-        return response()->json(['message' => 'No Result']);
+      return response()->json(['message' => 'No Result']);
     }
 
     $query = Owner::query();
 
     // Filter by country
     if (!empty($countrySearch)) {
-        $countryIds = Country::where('name', 'LIKE', "%{$countrySearch}%")
-            ->pluck('id')
-            ->toArray();
-        $query->whereIn('country_id', $countryIds);
+      $countryIds = Country::where('name', 'LIKE', "%{$countrySearch}%")
+        ->pluck('id')
+        ->toArray();
+      $query->whereIn('country_id', $countryIds);
     }
 
     // Filter by user name
     if (!empty($nameSearch)) {
-        $userIds = User::where('name', 'LIKE', "%{$nameSearch}%")
-            ->pluck('id')
-            ->toArray();
-        $query->whereIn('user_id', $userIds);
+      $userIds = User::where('name', 'LIKE', "%{$nameSearch}%")
+        ->pluck('id')
+        ->toArray();
+      $query->whereIn('user_id', $userIds);
     }
 
     // Filter by category
     if (!empty($categorySearch)) {
-        $query->where('owner_category_id', $categorySearch);
+      $query->where('owner_category_id', $categorySearch);
     }
 
     $owners = $query->latest()->get();
-    
+
     foreach ($owners as $owner) {
       $category = Owner_category::query()->where('id', $owner->owner_category_id)->first();
       $country = Country::query()->where('id', $owner->country_id)->first();
@@ -403,45 +410,56 @@ class AdminController extends Controller
     }
 
     if ($owners->isNotEmpty()) {
-        return response()->json([
-          'data' => $data
-        ]);
+      return response()->json([
+        'data' => $data
+      ]);
     } else {
-        return response()->json(['message' => 'No Result']);
+      return response()->json(['message' => 'No Result']);
     }
+  }
+
+  public function show_room($id)
+  {
+
+    $room = Room::query()->where('id', $id)->first();
+    $pictures = Room_picture::query()->where('room_id', $id)->get();
+    return response()->json([
+      'room' => $room,
+      'pictures' => $pictures
+    ]);
   }
 
 
   public function getAllPackages()
-{
+  {
     $allpackages = Package::with('tourism_company')->get();
 
     return response()->json([
-        "message" => 'success',
-        "data" => $allpackages,
-        "status" => 200
+      "message" => 'success',
+      "data" => $allpackages,
+      "status" => 200
     ]);
-}
+  }
 
-public function getPackage($id)
-{
+  public function getPackage($id)
+  {
     $package = Package::with([
-        'package_element.package_element_picture',
-        'tourism_company' 
+      'package_element.package_element_picture',
+      'tourism_company'
     ])->find($id);
 
     if (!$package) {
-        return response()->json([
-            'error' => 'not found'
-        ], 404);
+      return response()->json([
+        'error' => 'not found'
+      ], 404);
     }
 
     return response()->json([
-        'message' => 'success',
-        'data' => $package,
-        'status' => 200
+      'message' => 'success',
+      'data' => $package,
+      'status' => 200
     ]);
-}
+  }
 
 
   public function paybypoint($id)
@@ -604,15 +622,15 @@ public function getPackage($id)
   }
 
 
-public function addcatigory(Request $request)
-{
+  public function addcatigory(Request $request)
+  {
     $validated = $request->validate([
-        'name' => 'required|string|max:255|unique:owner_categories,name',
+      'name' => 'required|string|max:255|unique:owner_categories,name',
     ], [
-        'name.required' => 'The category name is required.',
-        'name.string' => 'The category name must be a string.',
-        'name.max' => 'The category name may not be greater than 255 characters.',
-        'name.unique' => 'This category name already exists.',
+      'name.required' => 'The category name is required.',
+      'name.string' => 'The category name must be a string.',
+      'name.max' => 'The category name may not be greater than 255 characters.',
+      'name.unique' => 'This category name already exists.',
     ]);
 
     $category = new Owner_category();
@@ -620,10 +638,8 @@ public function addcatigory(Request $request)
     $category->save();
 
     return response()->json([
-        'message' => 'Category added successfully.',
-        'data' => $category,
+      'message' => 'Category added successfully.',
+      'data' => $category,
     ], 201);
-}
-
-
+  }
 }
