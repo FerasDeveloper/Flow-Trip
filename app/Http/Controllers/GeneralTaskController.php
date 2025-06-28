@@ -159,4 +159,103 @@ class GeneralTaskController extends Controller
   }
 
 
+  public function add_picture(Request $request)
+  {
+    $user = Auth::user();
+    
+    if ($user['role_id'] != 4) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+
+    $request->validate([
+      'picture' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
+    $image = $request->file('picture');
+    $imageName = time() . '_' . $image->getClientOriginalName();
+    $image->storeAs('public/plane_shape_diagram', $imageName);
+    $publicPath = 'storage/plane_shape_diagram/' . $imageName;
+
+    $plane = Picture::query()->create([
+      'owner_id' => $owner->id,
+      'reference' => $publicPath,
+    ]);
+
+    return response()->json([
+      'message' => 'new picture added successfully',
+    ]);
+  }
+
+
+  public function delete_picture($id)
+  {
+    $user = Auth::user();
+    
+    if ($user['role_id'] != 4) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $picture = Picture::query()->where('id', $id)->delete();
+
+    return response()->json([
+      'message' => 'this picture deleted successfully',
+    ]);
+  }
+
+
+  public function add_service(Request $request)
+  {
+    $user = Auth::user();
+    
+    if ($user['role_id'] != 4) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+
+    $request->validate([
+      'service' => 'required',
+    ]);
+
+    $service = Service::firstOrCreate([
+        'name' => $request['service']
+    ]);
+
+    $owner_service = Owner_service::query()->create([
+      'service_id' => $service->id,
+      'owner_id' => $owner->id,
+    ]);
+
+    return response()->json([
+      'message' => 'new service added successfully',
+    ]);
+  }
+
+
+
+  public function delete_service($id)
+  {
+    $user = Auth::user();
+    
+    if ($user['role_id'] != 4) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+    $service = Service::query()->where('id', $id)->first();
+    $owner_service = Owner_service::query()->where('service_id', $service->id)
+                      ->where('owner_id', $owner->id)->delete();
+
+    return response()->json([
+      'message' => 'this service deleted successfully',
+    ]);
+  }
+  
+
+
 }

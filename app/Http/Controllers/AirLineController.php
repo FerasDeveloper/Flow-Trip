@@ -7,7 +7,9 @@ use App\Models\Flight;
 use App\Models\Owner;
 use App\Models\Plan_type;
 use App\Models\Plane;
+use App\Models\Rate;
 use App\Models\Seat;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -364,6 +366,54 @@ class AirLineController extends Controller
     ]);
   }
 
+
+  //-------[evaluations]-------//
+
+  public function get_evaluation()
+  {
+    $user = Auth::user();
+    
+    if ($user['role_id'] != 4) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+    $ratings = Rate::where('owner_id', $owner->id)->get();
+
+    if ($ratings->isEmpty()) {
+        return response()->json([
+            'message' => 'No ratings yet'
+        ]);
+    }
+
+    $data = [];
+    $sum = 0;
+    $count = 0;
+
+    foreach ($ratings as $rate) {
+        $user = User::query()->where('id', $rate->user_id)->first(); 
+
+          $data[] = [
+              'user' => $user,
+              'rate' => $rate->rating,
+          ];
+        
+        $sum += $rate->rating;
+        $count++;
+    }
+
+    $average = $sum / $count;
+    $floor_average = floor($average);
+
+    return response()->json([
+      'ratings' => $data,
+      'average_rating' => $average,
+      'floor_average' => $floor_average,
+    ]);
+  }
+
+  //-------[reservations]-------//
   
 
 }

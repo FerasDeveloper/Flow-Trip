@@ -18,7 +18,7 @@ return new class extends Migration
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
             $table->float('price');
-            $table->float('offer_price');
+            $table->float('offer_price')->default(0.00);
             $table->float('area');
             $table->integer('people_count');
             $table->longText('description');
