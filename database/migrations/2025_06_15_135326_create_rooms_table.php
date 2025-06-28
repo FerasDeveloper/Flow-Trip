@@ -22,6 +22,7 @@ return new class extends Migration
             $table->float('area');
             $table->integer('people_count');
             $table->longText('description');
+            $table->integer('room_number');
             $table->timestamps();
         });
     }

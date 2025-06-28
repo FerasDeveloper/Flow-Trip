@@ -22,6 +22,8 @@ return new class extends Migration
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
             $table->longText("car_discription");
+            $table->integer('people_count');
+            $table->string('name');
             $table->timestamps();
         });
     }

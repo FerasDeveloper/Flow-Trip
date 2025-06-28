@@ -158,7 +158,8 @@ class InfoSeeder extends Seeder
           'offer_price' => '40',
           'area' => '35',
           'people_count' => '2',
-          'description' => 'big room super delox for 2 people'
+          'description' => 'big room super delox for 2 people',
+          'room_number' => '1'
         ]);
         Room::query()->create([
           'accommodation_id' => '2',
@@ -166,17 +167,22 @@ class InfoSeeder extends Seeder
           'offer_price' => '34',
           'area' => '28',
           'people_count' => '1',
-          'description' => 'small room for single person'
+          'description' => 'small room for single person',
+          'room_number' => '2'
         ]);
 
         Vehicle::query()->create([
           'vehicle_owner_id' => '1',
           'car_type_id' => '1',
+          'name' => 'BMW 2019',
+          'people_count' => '5',
           'car_discription' => 'new car with much features related with high speed'
         ]);
         Vehicle::query()->create([
           'vehicle_owner_id' => '1',
           'car_type_id' => '2',
+          'name' => 'BMW 2021',
+          'people_count' => '7',
           'car_discription' => 'elecetrical car with different features'
         ]);
 

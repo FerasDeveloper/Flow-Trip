@@ -208,7 +208,7 @@ class AirLineController extends Controller
       'air_line_id' => $air_line->id,
       'plane_id' => $request['plane_id'],
       'price' => $request['price'],
-      'offer_price' => -1,
+      'offer_price' => 0,
       'flight_number' => $request['flight_number'],
       'starting_point_location' => $request['starting_point_location'],
       'landing_point_location' => $request['landing_point_location'],
@@ -363,5 +363,7 @@ class AirLineController extends Controller
        'message' => 'your flight deleted successfully',
     ]);
   }
+
+  
 
 }

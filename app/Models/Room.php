@@ -14,7 +14,8 @@ class Room extends Model
       'offer_price',
       'area',
       'people_count',
-      'description'
+      'description',
+      'room_number'
     ];
 
     public function Accommodation(){
