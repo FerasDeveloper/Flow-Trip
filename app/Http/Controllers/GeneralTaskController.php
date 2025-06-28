@@ -90,7 +90,11 @@ class GeneralTaskController extends Controller
     $data = [];
     $owner = Owner::query()->where('user_id', $id)->first();
     $data['owner'] = $owner;
-    $data['user'] = User::query()->where('id', $owner->user_id)->first();
+    $owner['user'] = User::query()->where('id', $owner->user_id)->first();
+    $country = Country::query()->where('id', $owner->country_id)->select('name')->first();
+    $category = Owner_category::query()->where('id', $owner->owner_category_id)->select('name')->first();
+    $owner['country'] = $country->name;
+    $owner['category'] = $category->name;
 
     $category_id = $owner->owner_category_id;
     $data['pictures'] = Picture::query()->where('owner_id', $owner->id)->get();
@@ -128,9 +132,9 @@ class GeneralTaskController extends Controller
     } else if ($category_id == 3) {
       $tourism = Tourism_company::query()->where('owner_id', $owner->id)->first();
       $data['details'] = $tourism;
-      
+
       $packages = Package::query()->where('tourism_company_id', $tourism->id)->get();
-      
+
       $packagesWithElements  = $packages->map(function ($package) {
         $package['element'] = Package_element::query()->where('package_id', $package->id)->get();
         return $package;
@@ -162,11 +166,11 @@ class GeneralTaskController extends Controller
   public function add_picture(Request $request)
   {
     $user = Auth::user();
-    
+
     if ($user['role_id'] != 4) {
-        return response()->json([
-          'message' => 'Authorization required'
-        ]);
+      return response()->json([
+        'message' => 'Authorization required'
+      ]);
     }
     $owner = Owner::query()->where('user_id', $user->id)->first();
 
@@ -192,11 +196,11 @@ class GeneralTaskController extends Controller
   public function delete_picture($id)
   {
     $user = Auth::user();
-    
+
     if ($user['role_id'] != 4) {
-        return response()->json([
-          'message' => 'Authorization required'
-        ]);
+      return response()->json([
+        'message' => 'Authorization required'
+      ]);
     }
     $picture = Picture::query()->where('id', $id)->delete();
 
@@ -209,11 +213,11 @@ class GeneralTaskController extends Controller
   public function add_service(Request $request)
   {
     $user = Auth::user();
-    
+
     if ($user['role_id'] != 4) {
-        return response()->json([
-          'message' => 'Authorization required'
-        ]);
+      return response()->json([
+        'message' => 'Authorization required'
+      ]);
     }
     $owner = Owner::query()->where('user_id', $user->id)->first();
 
@@ -222,7 +226,7 @@ class GeneralTaskController extends Controller
     ]);
 
     $service = Service::firstOrCreate([
-        'name' => $request['service']
+      'name' => $request['service']
     ]);
 
     $owner_service = Owner_service::query()->create([
@@ -240,22 +244,19 @@ class GeneralTaskController extends Controller
   public function delete_service($id)
   {
     $user = Auth::user();
-    
+
     if ($user['role_id'] != 4) {
-        return response()->json([
-          'message' => 'Authorization required'
-        ]);
+      return response()->json([
+        'message' => 'Authorization required'
+      ]);
     }
     $owner = Owner::query()->where('user_id', $user->id)->first();
     $service = Service::query()->where('id', $id)->first();
     $owner_service = Owner_service::query()->where('service_id', $service->id)
-                      ->where('owner_id', $owner->id)->delete();
+      ->where('owner_id', $owner->id)->delete();
 
     return response()->json([
       'message' => 'this service deleted successfully',
     ]);
   }
-  
-
-
 }
