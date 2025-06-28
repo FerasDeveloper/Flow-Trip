@@ -55,19 +55,27 @@ use Illuminate\Support\Facades\Route;
   Route::post('/AdminSearch', [AdminController::class, 'admin_search']);
 
   // AirLine
+  //1. planes
   Route::post('/AddPlane', [AirLineController::class, 'add_plane']);
   Route::post('/EditPlane/{plane_id}', [AirLineController::class, 'edit_plane']);
   Route::get('/GetAllPlanes', [AirLineController::class, 'get_all_planes']);
   Route::get('/GetSinglePlane/{plane_id}', [AirLineController::class, 'get_single_plane']);
   Route::get('/DeletePlane/{plane_id}', [AirLineController::class, 'delete_plane']);
 
+  //2. flights
   Route::post('/AddFlight', [AirLineController::class, 'add_flight']);
   Route::post('/EditFlight/{flight_id}', [AirLineController::class, 'edit_flight']);
   Route::post('/EditSeats', [AirLineController::class, 'edit_seats']);
   Route::get('/GetFlightDetails/{flight_id}', [AirLineController::class, 'get_flight_details']);
   Route::get('/GetAllFlights', [AirLineController::class, 'get_all_flights']);
   Route::get('/DeleteFlight/{flight_id}', [AirLineController::class, 'delete_flight']);
-
+  
+  //3. reservations
+  Route::get('/GetFlightReservations/{flight_id}', [AirLineController::class, 'get_flight_reservations']);
+  Route::get('/GetAllReservations', [AirLineController::class, 'get_all_reservations']);
+  Route::post('/SearchReservationsByName', [AirLineController::class, 'search_reservations_by_name']);  
+  
+  // General Tasks
   Route::get('/GetEvaluation', [AirLineController::class, 'get_evaluation']);
   Route::post('/AddPicture', [GeneralTaskController::class, 'add_picture']);
   Route::get('/DeletePicture/{picture_id}', [GeneralTaskController::class, 'delete_picture']);

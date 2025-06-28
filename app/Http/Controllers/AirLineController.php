@@ -10,6 +10,7 @@ use App\Models\Plane;
 use App\Models\Rate;
 use App\Models\Seat;
 use App\Models\User;
+use App\Models\User_flight;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -414,6 +415,112 @@ class AirLineController extends Controller
   }
 
   //-------[reservations]-------//
-  
+
+  public function get_flight_reservations($id)
+  {
+    $user = Auth::user();
+    
+    if ($user['role_id'] != 4) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+    if ($owner['owner_category_id'] != 2) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+
+    $flight = Flight::query()->where('id', $id)->first();
+    $reservations = User_flight::query()->where('flight_id', $flight->id)->latest()->get();
+
+    return response()->json([
+      'reservations' => $reservations
+    ]);
+  }
+
+
+  public function get_all_reservations()
+  {
+    $user = Auth::user();
+    
+    if ($user['role_id'] != 4) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+    if ($owner['owner_category_id'] != 2) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+
+    $air_line = Air_line::query()->where('owner_id', $owner->id)->first();
+    
+    $flight_ids = Flight::where('air_line_id', $air_line->id)->pluck('id');
+
+    $reservations = User_flight::whereIn('flight_id', $flight_ids)->latest()->get();
+
+    $data = [];
+
+    foreach ($reservations as $reservation) {
+        $flight = Flight::find($reservation->flight_id);
+
+        $data[] = [
+            'reservation' => $reservation,
+            'flight_details' => $flight,
+        ];
+    }
+
+    return response()->json([
+      'reservations' => $data
+    ]);
+  }
+
+
+  public function search_reservations_by_name(Request $request)
+  {
+    $user = Auth::user();
+    
+    if ($user['role_id'] != 4) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+    if ($owner['owner_category_id'] != 2) {
+        return response()->json([
+          'message' => 'Authorization required'
+        ]);
+    }
+
+    $request->validate([
+        'name' => 'required',
+    ]);
+
+    $air_line = Air_line::query()->where('owner_id', $owner->id)->first();
+    
+    $flight_ids = Flight::where('air_line_id', $air_line->id)->pluck('id');
+
+    $reservations = User_flight::whereIn('flight_id', $flight_ids)
+           ->where('traveler_name', $request['name'])->latest()->get();
+
+    $data = [];
+
+    foreach ($reservations as $reservation) {
+        $flight = Flight::find($reservation->flight_id);
+
+        $data[] = [
+            'reservation' => $reservation,
+            'flight_details' => $flight,
+        ];
+    }
+
+    return response()->json([
+      'reservations' => $data
+    ]);
+  }
 
 }
