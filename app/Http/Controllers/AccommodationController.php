@@ -157,7 +157,7 @@ class AccommodationController extends Controller
         $imagePath = $image->store('images', 'public');
         Room_picture::query()->create([
           'room_id' => $room->id,
-          'room_picture' => asset('storage/' . $imagePath)
+          'room_picture' => 'storage/' . $imagePath
         ]);
       }
     }
@@ -223,7 +223,7 @@ class AccommodationController extends Controller
         $imagePath = $image->store('images', 'public');
         Room_picture::query()->create([
           'room_id' => $id,
-          'room_picture' => asset('storage/' . $imagePath)
+          'room_picture' => 'storage/' . $imagePath
         ]);
       }
     }
