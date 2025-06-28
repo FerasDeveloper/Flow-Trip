@@ -53,7 +53,6 @@ use Illuminate\Support\Facades\Route;
   Route::get('/ShowOwner/{id}', [AdminController::class, 'show_owner']);
   Route::get('/BlockOwner/{id}', [AdminController::class, 'block']);
   Route::post('/AdminSearch', [AdminController::class, 'admin_search']);
-  Route::get('/ShowRoom/{id}', [AdminController::class, 'show_room']);
 
   // AirLine
   Route::post('/AddPlane', [AirLineController::class, 'add_plane']);
@@ -72,6 +71,10 @@ use Illuminate\Support\Facades\Route;
   // Accommodation
   Route::get('/ShowAccommodationRecords', [AccommodationController::class, 'show_records']);
   Route::post('/FilterNameAccommodation', [AccommodationController::class, 'filter_name_accommodation']);
+  Route::get('/ShowOffers', [AccommodationController::class, 'show_offers']);
+  Route::get('/ShowRoom/{id}', [AccommodationController::class, 'show_room']);
   Route::post('/AddRoom', [AccommodationController::class, 'add_room']);
+  Route::post('/EditRoom/{id}', [AccommodationController::class, 'edit_room']);
+  Route::get('/DeleteRoom/{id}', [AccommodationController::class, 'delete_room']);
 
 });

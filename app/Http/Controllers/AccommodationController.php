@@ -12,6 +12,9 @@ use App\Models\User_accommodation;
 use App\Models\User_room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
+use function PHPUnit\Framework\isEmpty;
 
 class AccommodationController extends Controller
 {
@@ -103,6 +106,26 @@ class AccommodationController extends Controller
     return response()->json($data);
   }
 
+  public function show_offers()
+  {
+    $user = Auth::user();
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+    $accommodation = Accommodation::query()->where('owner_id', $owner->id)->first();
+    $rooms = Room::query()->where('accommodation_id', $accommodation->id)->get();
+
+    $offers = [];
+    foreach ($rooms as $room) {
+      if ($room->offer_price >= 1) {
+        $offers[] = $room;
+      }
+    }
+
+    return response()->json([
+      'offers' => $offers
+    ]);
+  }
+
+
   public function add_room(Request $request)
   {
 
@@ -141,6 +164,109 @@ class AccommodationController extends Controller
 
     return response()->json([
       'message' => 'Room added successfully'
+    ]);
+  }
+
+  public function show_room($id)
+  {
+    $room = Room::query()->where('id', $id)->first();
+    $pictures = Room_picture::query()->where('room_id', $id)->get();
+    return response()->json([
+      'room' => $room,
+      'pictures' => $pictures
+    ]);
+  }
+
+  public function edit_room(Request $request, $id)
+  {
+
+    $request->validate([
+      'price' => 'required|numeric|min:1',
+      'area' => 'required|numeric|min:1',
+      'people_count' => 'required|integer|min:1',
+      'description' => 'required',
+    ], [
+      'price.min' => 'The price must be a positive value greater than zero.',
+      'area.min' => 'The area must be a positive value greater than zero.',
+      'people_count.min' => 'The number of people must be a positive value greater than zero.',
+    ]);
+
+    $room = Room::query()->where('id', $id)->first();
+
+    if ($request->offer_price != null) {
+      $room->update([
+        'price' => $request->price,
+        'area' => $request->area,
+        'people_count' => $request->people_count,
+        'description' => $request->description,
+        'offer_price' => $request->offer_price
+      ]);
+    } else {
+      $room->update([
+        'price' => $request->price,
+        'area' => $request->area,
+        'people_count' => $request->people_count,
+        'description' => $request->description,
+      ]);
+    }
+
+    if ($request->hasFile('images')) {
+      $oldImages = Room_picture::where('room_id', $id)->get();
+      foreach ($oldImages as $oldImage) {
+        $ted = $oldImage->room_picture;
+        $fileName = basename($ted);
+        Storage::disk('public')->delete("images/{$fileName}");
+        $oldImage->delete();
+      }
+
+      foreach ($request->file('images') as $image) {
+        $imagePath = $image->store('images', 'public');
+        Room_picture::query()->create([
+          'room_id' => $id,
+          'room_picture' => asset('storage/' . $imagePath)
+        ]);
+      }
+    }
+    return response()->json([
+      'message' => 'Room updated successfully'
+    ]);
+  }
+
+  public function delete_room($id)
+  {
+
+    $user = Auth::user();
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+    $accommodation = Accommodation::query()->where('owner_id', $owner->id)->first();
+    $room = Room::query()->where('id', $id)->first();
+
+    if (!$room) {
+      return response()->json([
+        'message' => 'Room not found'
+      ], 404);
+    }
+
+    if ($room->accommodation_id != $accommodation->id) {
+      return response()->json([
+        'message' => 'It is not your room'
+      ], 403);
+    }
+
+    // حذف الصور من التخزين وقاعدة البيانات
+    $pictures = Room_picture::query()->where('room_id', $room->id)->get();
+    if (!$pictures->isEmpty()) {
+      foreach ($pictures as $picture) {
+        $imageUrl = $picture->room_picture;
+        $fileName = basename(parse_url($imageUrl, PHP_URL_PATH));
+        Storage::disk('public')->delete("images/{$fileName}");
+        $picture->delete();
+      }
+    }
+
+    $room->delete();
+
+    return response()->json([
+      'message' => 'Room deleted successfully'
     ]);
   }
 }
