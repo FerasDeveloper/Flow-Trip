@@ -418,18 +418,6 @@ class AdminController extends Controller
     }
   }
 
-  public function show_room($id)
-  {
-
-    $room = Room::query()->where('id', $id)->first();
-    $pictures = Room_picture::query()->where('room_id', $id)->get();
-    return response()->json([
-      'room' => $room,
-      'pictures' => $pictures
-    ]);
-  }
-
-
   public function getAllPackages()
   {
     $allpackages = Package::with('tourism_company')->get();
