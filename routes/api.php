@@ -25,6 +25,10 @@ use Illuminate\Support\Facades\Route;
 
   Route::middleware('auth:sanctum')->group(function () {
 
+    // Owner Id
+    Route::get('/WhoAmI', [GeneralTaskController::class, 'who_am_i']);
+
+
   Route::get('/Logout', [AuthController::class, 'logout']);
   Route::get('/ShowProfile', [GeneralTaskController::class, 'show_profile']);
 
@@ -86,6 +90,8 @@ use Illuminate\Support\Facades\Route;
   Route::get('/ShowAccommodationRecords', [AccommodationController::class, 'show_records']);
   Route::post('/FilterNameAccommodation', [AccommodationController::class, 'filter_name_accommodation']);
   Route::get('/ShowOffers', [AccommodationController::class, 'show_offers']);
+  Route::get('/ShowAllRooms', [AccommodationController::class, 'show_all_rooms']);
+  Route::get('/ShowRoomRecords/{id}', [AccommodationController::class, 'show_room_records']);
   Route::get('/ShowRoom/{id}', [AccommodationController::class, 'show_room']);
   Route::post('/AddRoom', [AccommodationController::class, 'add_room']);
   Route::post('/EditRoom/{id}', [AccommodationController::class, 'edit_room']);

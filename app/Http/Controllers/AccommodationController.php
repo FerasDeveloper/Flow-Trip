@@ -32,9 +32,8 @@ class AccommodationController extends Controller
       $rooms = Room::query()->where('accommodation_id', $accommodation->id)->get();
 
       $roomsWithData = $rooms->map(function ($room) {
-        $room['pictures'] = Room_picture::query()->where('room_id', $room->id)->get();
-        $customersIds = User_room::query()->where('room_id', $room->id)->pluck('user_id')->toArray();
-        $room['customers'] = User::query()->whereIn('id', $customersIds)->get();
+        $customersCount = User_room::query()->where('room_id', $room->id)->count();
+        $room['count'] = $customersCount;
         return $room;
       });
       $data['rooms'] = $roomsWithData;
@@ -54,6 +53,22 @@ class AccommodationController extends Controller
 
     return response()->json(
       $data
+    );
+  }
+
+  public function show_room_records($id)
+  {
+
+    $room = Room::query()->where('id', $id)->first();
+
+    $customersIds = User_room::query()->where('room_id', $room->id)->get();
+    foreach($customersIds as $customersId){
+      $user = User::query()->where('id', $customersId->user_id)->first();
+      $customersId['user'] = $user;
+    }
+
+    return response()->json(
+      $customersIds
     );
   }
 
@@ -125,6 +140,19 @@ class AccommodationController extends Controller
     ]);
   }
 
+  public function show_all_rooms(){
+
+    $user = Auth::user();
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+    $accommodation = Accommodation::query()->where('owner_id', $owner->id)->first();
+    $rooms = Room::query()->where('accommodation_id', $accommodation->id)->get();
+
+    return response()->json([
+      'data' => $rooms
+    ]);
+
+  }
+
 
   public function add_room(Request $request)
   {
@@ -177,60 +205,149 @@ class AccommodationController extends Controller
     ]);
   }
 
-  public function edit_room(Request $request, $id)
-  {
+  // public function edit_room(Request $request, $id)
+  // {
 
+  //   $request->validate([
+  //     'price' => 'required|numeric|min:1',
+  //     'area' => 'required|numeric|min:1',
+  //     'people_count' => 'required|integer|min:1',
+  //     'description' => 'required',
+  //   ], [
+  //     'price.min' => 'The price must be a positive value greater than zero.',
+  //     'area.min' => 'The area must be a positive value greater than zero.',
+  //     'people_count.min' => 'The number of people must be a positive value greater than zero.',
+  //   ]);
+
+  //   $room = Room::query()->where('id', $id)->first();
+
+  //   if ($request->offer_price != null) {
+  //     $room->update([
+  //       'price' => $request->price,
+  //       'area' => $request->area,
+  //       'people_count' => $request->people_count,
+  //       'description' => $request->description,
+  //       'offer_price' => $request->offer_price
+  //     ]);
+  //   } else {
+  //     $room->update([
+  //       'price' => $request->price,
+  //       'area' => $request->area,
+  //       'people_count' => $request->people_count,
+  //       'description' => $request->description,
+  //       'offer_price' => 0.00
+  //     ]);
+  //   }
+
+  //   if ($request->hasFile('images')) {
+  //     $oldImages = Room_picture::where('room_id', $id)->get();
+  //     foreach ($oldImages as $oldImage) {
+  //       $ted = $oldImage->room_picture;
+  //       $fileName = basename($ted);
+  //       Storage::disk('public')->delete("images/{$fileName}");
+  //       $oldImage->delete();
+  //     }
+
+  //     foreach ($request->file('images') as $image) {
+  //       $imagePath = $image->store('images', 'public');
+  //       Room_picture::query()->create([
+  //         'room_id' => $id,
+  //         'room_picture' => 'storage/' . $imagePath
+  //       ]);
+  //     }
+  //   }
+  //   return response()->json([
+  //     'message' => 'Room updated successfully'
+  //   ]);
+  // }
+
+  public function edit_room(Request $request, $id)
+{
     $request->validate([
-      'price' => 'required|numeric|min:1',
-      'area' => 'required|numeric|min:1',
-      'people_count' => 'required|integer|min:1',
-      'description' => 'required',
+        'price' => 'required|numeric|min:1',
+        'area' => 'required|numeric|min:1',
+        'people_count' => 'required|integer|min:1',
+        'description' => 'required',
     ], [
-      'price.min' => 'The price must be a positive value greater than zero.',
-      'area.min' => 'The area must be a positive value greater than zero.',
-      'people_count.min' => 'The number of people must be a positive value greater than zero.',
+        'price.min' => 'The price must be a positive value greater than zero.',
+        'area.min' => 'The area must be a positive value greater than zero.',
+        'people_count.min' => 'The number of people must be a positive value greater than zero.',
     ]);
 
     $room = Room::query()->where('id', $id)->first();
 
-    if ($request->offer_price != null) {
-      $room->update([
-        'price' => $request->price,
-        'area' => $request->area,
-        'people_count' => $request->people_count,
-        'description' => $request->description,
-        'offer_price' => $request->offer_price
-      ]);
-    } else {
-      $room->update([
-        'price' => $request->price,
-        'area' => $request->area,
-        'people_count' => $request->people_count,
-        'description' => $request->description,
-      ]);
+    if (!$room) {
+        return response()->json([
+            'message' => 'Room not found'
+        ], 404);
     }
 
-    if ($request->hasFile('images')) {
-      $oldImages = Room_picture::where('room_id', $id)->get();
-      foreach ($oldImages as $oldImage) {
-        $ted = $oldImage->room_picture;
-        $fileName = basename($ted);
-        Storage::disk('public')->delete("images/{$fileName}");
-        $oldImage->delete();
-      }
-
-      foreach ($request->file('images') as $image) {
-        $imagePath = $image->store('images', 'public');
-        Room_picture::query()->create([
-          'room_id' => $id,
-          'room_picture' => 'storage/' . $imagePath
+    if ($request->offer_price != null && $request->offer_price != "") {
+        $room->update([
+            'price' => $request->price,
+            'area' => $request->area,
+            'people_count' => $request->people_count,
+            'description' => $request->description,
+            'offer_price' => $request->offer_price
         ]);
-      }
+    } else {
+        $room->update([
+            'price' => $request->price,
+            'area' => $request->area,
+            'people_count' => $request->people_count,
+            'description' => $request->description,
+            'offer_price' => 0.00
+        ]);
     }
+
+    $remainingPictureIds = [];
+    $deletedPictureIds = [];
+
+    if ($request->has('remaining_picture_ids')) {
+        $remainingPictureIds = json_decode($request->remaining_picture_ids, true);
+    }
+
+    if ($request->has('deleted_picture_ids')) {
+        $deletedPictureIds = json_decode($request->deleted_picture_ids, true);
+    }
+
+    // حذف الصور المحذوفة
+    if (!empty($deletedPictureIds)) {
+        $deletedImages = Room_picture::whereIn('id', $deletedPictureIds)->get();
+        foreach ($deletedImages as $deletedImage) {
+            $fileName = basename($deletedImage->room_picture);
+            Storage::disk('public')->delete("images/{$fileName}");
+            $deletedImage->delete();
+        }
+    }
+
+    // حذف الصور التي لم يتم إدراجها في remaining_picture_ids
+    $allOldImages = Room_picture::where('room_id', $id)->get();
+    foreach ($allOldImages as $oldImage) {
+        if (!in_array($oldImage->id, $remainingPictureIds)) {
+            $fileName = basename($oldImage->room_picture);
+            Storage::disk('public')->delete("images/{$fileName}");
+            $oldImage->delete();
+        }
+    }
+
+    // إضافة الصور الجديدة
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            $imagePath = $image->store('images', 'public');
+            Room_picture::query()->create([
+                'room_id' => $id,
+                'room_picture' => 'storage/' . $imagePath
+            ]);
+        }
+    }
+
     return response()->json([
-      'message' => 'Room updated successfully'
+        'message' => 'Room updated successfully',
+        'room' => $room->fresh(),
+        'pictures' => Room_picture::where('room_id', $id)->get()
     ]);
-  }
+}
 
   public function delete_room($id)
   {

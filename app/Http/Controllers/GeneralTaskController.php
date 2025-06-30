@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
 use App\Models\Accommodation_type;
+use App\Models\Activity;
 use App\Models\Activity_owner;
 use App\Models\Air_line;
 use App\Models\Car_picture;
@@ -28,6 +29,32 @@ use Illuminate\Support\Facades\Auth;
 
 class GeneralTaskController extends Controller
 {
+
+  public function who_am_i(){
+    
+    $user = Auth::user();
+    $owner = Owner::query()->where('user_id', $user->id)->first();
+    $data = [];
+    $role = Owner_category::query()->where('id',$owner->owner_category_id)->first();
+    $data['role'] = $role->name;
+
+    if($role->name == 'Accommodation'){
+      $accommodation = Accommodation::query()->where('owner_id', $owner->id)->first();
+      $type = Accommodation_type::query()->where('id', $accommodation->accommodation_type_id)->first();
+      $data['type'] = $type->name;
+    }
+    elseif($role->name == 'Activity Owner'){
+      $activity_owner = Activity_owner::query()->where('owner_id', $owner->id)->first();
+      $activity = Activity::query()->where('id', $activity_owner->activity_id)->first();
+      $data['type'] = $activity->name;
+    }
+
+    return response()->json([
+      'data' => $data
+    ]);
+
+  }
+
   public function get_all_owners_categories()
   {
     $owners_category = Owner_category::query()->get();
