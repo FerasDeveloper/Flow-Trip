@@ -1,0 +1,482 @@
+/* Modern Trip Summary Design with Enhanced Visual Appeal */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
+
+.summary-container {
+    /* max-width: 1200px; */
+    /* margin: 0 auto; */
+    padding: 30px 40px;
+    font-family: "Cairo", "Tajawal", sans-serif;
+    direction: rtl;
+    background: linear-gradient(135deg, #dfebf7 0%, #aac7d7 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.summary-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="%23ffffff" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.summary-container > * {
+    position: relative;
+    z-index: 2;
+}
+
+.title {
+    text-align: center;
+    color: #293541;
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(41, 53, 65, 0.1);
+    animation: fadeInDown 0.8s ease-out;
+    background: linear-gradient(135deg, #293541, #45576d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.title i {
+    margin-left: 15px;
+    color: #45576d;
+    animation: bounce 2s infinite;
+}
+
+.summary {
+    text-align: center;
+    font-size: 20px;
+    color: #45576d;
+    margin-bottom: 40px;
+    line-height: 1.8;
+    font-weight: 400;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+}
+
+.budget-box {
+    background: linear-gradient(135deg, #293541 0%, #45576d 50%, #778b96 100%);
+    color: white;
+    padding: 25px 30px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    font-weight: 600;
+    font-size: 18px;
+    box-shadow: 0 15px 35px rgba(41, 53, 65, 0.2);
+    position: relative;
+    overflow: hidden;
+    animation: slideInRight 0.8s ease-out 0.4s both;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.budget-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(45deg);
+    animation: shimmer 3s infinite;
+}
+
+.budget-box i {
+    margin-left: 12px;
+    font-size: 22px;
+    animation: pulse 2s infinite;
+}
+
+.day-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 25px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 20px 40px rgba(41, 53, 65, 0.1);
+    border: 1px solid rgba(170, 199, 215, 0.3);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.day-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, #293541, #45576d, #778b96);
+    border-radius: 0 25px 25px 0;
+}
+
+.day-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(41, 53, 65, 0.15);
+}
+
+.day-card h2 {
+    color: #293541;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #dfebf7;
+    position: relative;
+}
+
+.day-card h2::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, #293541, #45576d);
+    border-radius: 1px;
+}
+
+.session {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, #dfebf7, rgba(223, 235, 247, 0.5));
+    border-radius: 15px;
+    border-right: 4px solid #778b96;
+    transition: all 0.3s ease;
+}
+
+.session:hover {
+    background: linear-gradient(135deg, #aac7d7, rgba(170, 199, 215, 0.3));
+    transform: translateX(-5px);
+}
+
+.session h3 {
+    color: #45576d;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.session h3 i {
+    font-size: 20px;
+    color: #778b96;
+}
+
+.session ul {
+    padding-right: 25px;
+    list-style: none;
+}
+
+.session li {
+    margin-bottom: 12px;
+    color: #45576d;
+    font-weight: 400;
+    line-height: 1.6;
+    position: relative;
+    padding-right: 20px;
+    transition: all 0.3s ease;
+}
+
+.session li::before {
+    content: '✈';
+    position: absolute;
+    right: 0;
+    color: #778b96;
+    font-size: 14px;
+    top: 2px;
+}
+
+.session li:hover {
+    color: #293541;
+    transform: translateX(-3px);
+}
+
+.notes {
+    background: linear-gradient(135deg, #e8e8e8, rgba(232, 232, 232, 0.7));
+    padding: 20px;
+    border-radius: 15px;
+    color: #45576d;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    border-right: 4px solid #aac7d7;
+    margin-top: 20px;
+    position: relative;
+}
+
+.notes i {
+    margin-left: 8px;
+    color: #778b96;
+}
+
+.tips-box {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(223, 235, 247, 0.8));
+    padding: 35px;
+    border-radius: 25px;
+    margin-bottom: 40px;
+    box-shadow: 0 20px 40px rgba(41, 53, 65, 0.1);
+    border: 2px solid rgba(170, 199, 215, 0.3);
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+    position: relative;
+    overflow: hidden;
+}
+
+.tips-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #293541, #45576d, #778b96, #aac7d7);
+    border-radius: 25px 25px 0 0;
+}
+
+.tips-box h2 {
+    color: #293541;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tips-box h2 i {
+    color: #778b96;
+    font-size: 28px;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.tips-box ul {
+    padding-right: 0;
+    list-style: none;
+}
+
+.tips-box li {
+    margin-bottom: 15px;
+    color: #45576d;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    border-right: 4px solid #aac7d7;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.tips-box li:hover {
+    background: rgba(170, 199, 215, 0.2);
+    transform: translateX(-5px);
+    border-right-color: #778b96;
+}
+
+.tips-box li::before {
+    content: '💡';
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.loading {
+    text-align: center;
+    color: #45576d;
+    font-size: 20px;
+    font-weight: 600;
+    animation: pulse 1.5s infinite;
+    padding: 50px;
+}
+
+.error {
+    text-align: center;
+    color: #293541;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 25px;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: 500;
+    border: 2px solid rgba(255, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgba(255, 0, 0, 0.1);
+}
+
+.back-btn {
+    background: linear-gradient(135deg, #293541, #45576d);
+    color: white;
+    border: none;
+    padding: 18px 35px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    display: block;
+    margin: 40px auto;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 15px 35px rgba(41, 53, 65, 0.2);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease-out 0.8s both;
+}
+
+.back-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.back-btn:hover::before {
+    left: 100%;
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, #45576d, #778b96);
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(41, 53, 65, 0.3);
+}
+
+.back-btn:active {
+    transform: translateY(-1px);
+}
+
+.back-btn i {
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover i {
+    transform: translateX(-3px);
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px rgba(119, 139, 150, 0.5);
+    }
+    to {
+        text-shadow: 0 0 20px rgba(119, 139, 150, 0.8), 0 0 30px rgba(119, 139, 150, 0.6);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .summary-container {
+        padding: 20px 15px;
+    }
+    
+    .title {
+        font-size: 32px;
+    }
+    
+    .summary {
+        font-size: 18px;
+    }
+    
+    .day-card {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .day-card h2 {
+        font-size: 20px;
+    }
+    
+    .session {
+        padding: 15px;
+    }
+    
+    .tips-box {
+        padding: 25px;
+    }
+    
+    .back-btn {
+        padding: 15px 30px;
+        font-size: 14px;
+    }
+}

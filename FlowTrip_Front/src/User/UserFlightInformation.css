@@ -1,0 +1,112 @@
+.fd-btn {
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.fd-book-flight-btn {
+  background: linear-gradient(45deg, #4facfe, #00f2fe);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.fd-book-flight-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.fd-book-flight-btn:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.fd-book-flight-btn:disabled,
+.fd-next-btn:disabled {
+  background: #c0c0c0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.fd-next-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.fd-next-btn {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.fd-next-btn:hover {
+  background: linear-gradient(135deg, #0056b3, #004494);
+  transform: translateY(-2px);
+}
+
+.fd-seats-plane-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: nowrap; /* prevent wrapping on large/XL screens */
+}
+
+.fd-plane-image {
+  height: auto;       /* keep original height */
+  max-width: 100%;    /* shrink only if container is too narrow */
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+.fd-flight-field {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.fd-field-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.fd-field-value {
+  color: #555;
+}
+
+.fd-seat-box {
+  border-radius: 8px;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.seats-section {
+  margin-top: 20px;
+}
+.airline-name{
+cursor: pointer;
+}
+/* Medium and small screens: stack seats and plane below, allow shrinking */
+@media (max-width: 991px) {
+  .fd-seats-plane-row {
+    flex-direction: column;
+    align-items: center; /* center plane below seats */
+    flex-wrap: wrap;      /* allow stacking if needed */
+  }
+}

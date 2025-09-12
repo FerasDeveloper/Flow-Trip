@@ -1,0 +1,47 @@
+.skeleton {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f4f4f4 37%, #e0e0e0 63%);
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/* Average Box Skeleton */
+.skeleton-value {
+  width: 50px;
+  height: 28px;
+  margin: 0 auto 8px auto;
+}
+
+.skeleton-label {
+  width: 70px;
+  height: 14px;
+  margin: 0 auto;
+}
+
+/* Card Skeleton */
+.skeleton-name {
+  width: 120px;
+  height: 18px;
+  margin: 10px auto;
+}
+
+.skeleton-phone {
+  width: 100px;
+  height: 14px;
+  margin: 10px auto;
+}
+
+.skeleton-stars {
+  width: 90px;
+  height: 20px;
+  margin: 15px auto 0 auto;
+}

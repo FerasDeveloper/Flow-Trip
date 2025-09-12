@@ -1,0 +1,48 @@
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-profile {
+  width: 131px;
+  height: 51px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  background: linear-gradient(
+    to bottom right,
+    var(--color2) 0%,
+    rgba(69, 87, 109, 0) 30%
+  );
+  background-color: rgba(69, 87, 109, 0.2); /* color2 مع شفافية */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-profile:hover,
+.user-profile:focus {
+  background-color: rgba(69, 87, 109, 0.7); /* color2 مع شفافية */
+  box-shadow: 0 0 10px rgba(69, 87, 109, 0.5); /* color2 */
+  outline: none;
+}
+
+.user-profile-inner {
+  width: 127px;
+  height: 47px;
+  border-radius: 13px;
+  background-color: var(--color1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  color: var(--color6);
+  font-weight: 600;
+}
+
+.user-profile-inner svg {
+  width: 27px;
+  height: 27px;
+  fill: var(--color6);
+}

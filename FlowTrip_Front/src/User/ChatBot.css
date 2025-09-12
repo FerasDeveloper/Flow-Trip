@@ -1,0 +1,131 @@
+:root {
+    --color1: #293541;
+    --color2: #45576d;
+    --color3: #778b96;
+    --color4: #aac7d7;
+    --color5: #dfebf7;
+    --color6: #e8e8e8;
+    --color7: #ffffff94;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .chat-container {
+    width: 100%;
+    height: 100vh;
+    background: var(--color5);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chat-header {
+    background: var(--color1);
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .chat-box {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .welcome-bg {
+    background-image: url("https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif");
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .chat-message {
+    max-width: 70%;
+    padding: 8px 12px;
+    margin: 5px 0;
+    border-radius: 8px;
+    font-size: 14px;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .chat-message.bot {
+    align-self: flex-start;
+    background: var(--color4);
+    color: var(--color1);
+  }
+  
+  .chat-message.user {
+    align-self: flex-end;
+    background: var(--color2);
+    color: white;
+  }
+  
+  .chat-input {
+    display: flex;
+    padding: 10px;
+    background: var(--color6);
+    gap: 5px;
+  }
+  
+  .chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--color3);
+    border-radius: 20px;
+    outline: none;
+  }
+  
+  .chat-input button {
+    background: var(--color1);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .chat-input button:hover {
+    background: var(--color2);
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .typing {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  
+  .typing span {
+    width: 6px;
+    height: 6px;
+    background: var(--color1);
+    border-radius: 50%;
+    animation: blink 1.4s infinite both;
+  }
+  
+  .typing span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  .typing span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+  
+  @keyframes blink {
+    0% { opacity: 0.2; }
+    20% { opacity: 1; }
+    100% { opacity: 0.2; }
+  }

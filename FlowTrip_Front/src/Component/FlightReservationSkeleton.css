@@ -1,0 +1,38 @@
+.skeleton {
+  background-color: #e2e2e2;
+  border-radius: 4px;
+  display: inline-block;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-title {
+  border-radius: 6px;
+}
+
+.skeleton-text {
+  border-radius: 4px;
+}
+
+.skeleton-input {
+  border-radius: 6px;
+}
+
+.skeleton-button {
+  border-radius: 6px;
+}
+
+.skeleton-icon {
+  border-radius: 50%;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}

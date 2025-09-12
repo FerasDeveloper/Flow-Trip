@@ -1,0 +1,132 @@
+.activity-page {
+  padding: 20px;
+  background-color: var(--color5);
+  min-height: 100vh;
+  /* width: 100vw; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.activity-header {
+  position: sticky;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 20px;
+  z-index: 10;
+  background-color: var(--color5);
+  padding-top: 10px;
+}
+
+.addbuttoncomponent {
+  margin-bottom: 10px;
+}
+
+.activity-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px 20px;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.activity-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.activity-modal-content {
+  background-color: var(--color5);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--color1);
+}
+
+.activity-modal-content input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid var(--color3);
+  font-size: 16px;
+}
+
+.activity-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.activity-animated-btn {
+  flex: 1;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: var(--color2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.activity-animated-btn:hover {
+  background-color: var(--color1);
+  transform: scale(1.05);
+}
+
+.activity-animated-btn:active {
+  transform: scale(0.95);
+}
+
+.activity-animated-btn.activity-cancel {
+  background-color: rgb(203, 72, 72);
+}
+
+.activity-animated-btn.activity-cancel:hover {
+  background-color: rgb(172, 43, 43);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .activity-row {
+    justify-content: center;
+  }
+
+  .activity-page {
+    margin-top: 60px;
+  }
+}

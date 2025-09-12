@@ -1,0 +1,90 @@
+/* src/pages/Notifications.css */
+/* Container panel (like the screenshot, no navbar/sidebar) */
+.notify-wrap{
+  max-width: 860px;
+  margin: 36px auto;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 10px 40px rgba(16,24,40,0.06);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+}
+
+/* Header row: title + unread badge on right */
+.notify-head{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom: 22px;
+}
+.notify-title{
+  font-size: 26px; line-height:1.2; font-weight: 700; color:#0f172a; margin:0;
+}
+.notify-badge{
+  min-width: 36px; height: 36px; border-radius: 999px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight: 700; font-size: 14px; color: #5b21b6;
+  background: #f3e8ff; border: 1px solid #e9d5ff;
+  box-shadow: inset 0 0 0 2px #f5f3ff;
+}
+
+/* Section headings */
+.notify-section{ margin-top: 18px; }
+.notify-section-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 8px 2px; margin-bottom: 8px;
+  border-bottom: 1px solid #eef2f7;
+}
+.notify-section-head h2{
+  margin:0; font-size: 13px; letter-spacing:.08em; text-transform: uppercase;
+  color:#64748b; font-weight:700;
+}
+
+/* Lists */
+.notify-list{ display:flex; flex-direction:column; gap:10px; }
+.notify-empty{
+  font-size:14px; color:#94a3b8; background:#f8fafc; border:1px dashed #e2e8f0;
+  padding:14px 16px; border-radius:14px;
+}
+
+/* Cards */
+.notify-card{
+  display:flex; gap:14px; align-items:flex-start;
+  background:#f9fafb; border:1px solid #eef2f7; border-radius:16px;
+  padding:14px 16px; transition: background .2s, transform .08s;
+}
+.notify-card:hover{ background:#f3f4f6; transform: translateY(-1px); }
+
+/* Left icon (purple for new, muted for old) */
+.notify-icon{
+  flex:0 0 36px; height:36px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg,#7c3aed,#6d28d9);
+  color:#fff; box-shadow: 0 6px 12px rgba(124,58,237,.25);
+}
+.notify-icon svg{ fill:currentColor; }
+
+/* Old/muted icon */
+.notify-icon.is-muted{
+  background:#eef2ff; color:#6366f1; box-shadow:none;
+}
+
+/* New card accent (left border like screenshot) */
+.notify-card.is-new{
+  border-left: 4px solid #7c3aed;
+  background: #faf5ff;
+}
+
+/* Right content */
+.notify-content{ flex:1; min-width:0; }
+.notify-text{
+  font-size:15px; font-weight:600; color:#0b1220; line-height:1.4; margin-bottom:4px;
+}
+.notify-time{
+  font-size:12.5px; color:#6b7280;
+}
+
+/* Responsive */
+@media (max-width: 520px){
+  .notify-wrap{ margin:16px; padding:18px; border-radius:18px; }
+  .notify-title{ font-size:22px; }
+  .notify-badge{ min-width:30px; height:30px; font-size:13px; }
+}

@@ -1,0 +1,115 @@
+.plan {
+    padding: 2rem;
+    background:white;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #9da5be;
+    margin-bottom: 2rem;
+    user-select: none;
+  }
+  
+  .empty-message {
+    text-align: center;
+    color: #ffffff;
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+  
+  /* شبكة الصفين */
+  .planes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .plane-card {
+    position: relative;
+    display: flex;           /* خلي البطاقة فلكس أفقي */
+    width: 100%;
+    height: 300px;
+    border-radius: 1rem;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .plane-card:hover {
+    box-shadow: 0 15px 35px rgba(131, 132, 138, 0.3);
+  }
+  
+  .plane-image {
+    width: 50%;             
+    height: 100%;
+    object-fit: cover;
+    display: block;
+   
+  }
+  
+  
+  .overlay {
+    position: relative;          
+    width: 50%;                  
+    height: 100%;
+    background-color: rgba(30, 64, 175, 0.85);
+  background: var(--color5);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.5rem;
+    text-align: left;
+    border-radius: 0 1rem 1rem 0; /* تدوير زوايا اليمين فقط */
+    transition: opacity 0.3s ease;
+    user-select: none;
+    box-sizing: border-box;
+  }
+  
+  .plane-card:hover .overlay {
+    opacity: 1;
+  }
+  
+  /* باقي التنسيقات كما هي */
+  .plane-type {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  }
+  
+  .plane-info {
+    font-size: 1.25rem;
+    margin-bottom: 0.3rem;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+  
+  .plane-status {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+  
+  .plane-status.active {
+    color: #34d399;
+  }
+  
+  .plane-status.inactive {
+    color: #f87171;
+  }
+  .RightPare {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    min-height: 100vh;
+    background-color: var(--color5); /* أو أي لون خلفية للمحتوى */
+  }
+  

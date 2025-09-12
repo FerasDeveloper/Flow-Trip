@@ -1,0 +1,46 @@
+/* نفس ستايل الكارد العادي */
+.skeleton-card {
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(41, 53, 65, 0.1);
+    border: 1px solid var(--color4);
+    background-color: white;
+    cursor: default;
+    flex-direction: column !important;
+    align-items: start !important;
+  }
+  
+  /* الـ shimmer effect */
+  .skeleton {
+    background: linear-gradient(90deg, var(--color6) 25%, var(--color4) 50%, var(--color6) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .skeleton-title {
+    width: 60%;
+    height: 24px;
+  }
+  
+  .skeleton-subtitle {
+    width: 40%;
+    height: 18px;
+  }
+  
+  .skeleton-text {
+    width: 90%;
+    height: 14px;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  

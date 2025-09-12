@@ -1,0 +1,112 @@
+.vehicle-skeleton-card {
+  display: flex;
+  flex-direction: row-reverse;
+  background: var(--color7);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 600px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  height: 200px;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color2) 25%, var(--color3) 50%, var(--color2) 75%);
+  background-size: 400% 100%;
+  animation: loading 3.5s infinite;
+  border-radius: 8px;
+}
+
+.skeleton-image {
+  width: 300px !important;
+  height: 222px !important;
+  flex-shrink: 0;
+  border-radius: 12px;
+}
+
+.skeleton-info {
+  flex: 2;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+}
+
+.skeleton-title {
+  height: 20px;
+  width: 60%;
+}
+
+.skeleton-line {
+  height: 14px;
+  width: 90%;
+}
+
+.skeleton-line.short {
+  width: 50%;
+}
+
+@keyframes loading {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ====== موبايل ====== */
+@media (max-width: 768px) {
+  .vehicle-skeleton-card {
+    width: 100%;
+    max-width: 100%;
+    flex-direction: row-reverse; /* الصورة والمعلومات جنب بعض */
+    align-items: center;
+  }
+
+  .skeleton-image {
+    width: 50% !important;
+    height: auto;
+    min-height: 135px; /* يضمن شكل ثابت */
+    border-radius: 0;
+  }
+
+  .skeleton-info {
+    width: 50% !important;
+    padding: 0.5rem !important;
+    gap: 8px;
+  }
+
+  .skeleton-title {
+    height: 16px;
+    width: 70%;
+  }
+
+  .skeleton-line {
+    height: 12px;
+  }
+}
+
+/* ====== تابلت ====== */
+@media (min-width: 769px) and (max-width: 991px) {
+  .vehicle-skeleton-card {
+    flex: 1 1 calc(50% - 1rem);
+    max-width: calc(50% - 1rem);
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+
+  .skeleton-image {
+    width: 50%;
+    height: auto;
+    border-radius: 0;
+  }
+
+  .skeleton-info {
+    width: 50%;
+    padding: 0.75rem;
+  }
+}
+
+/* موبايل صغير جداً */
+@media (max-width: 480px) {
+  .skeleton-image {
+    max-height: 170px !important;
+  }
+}

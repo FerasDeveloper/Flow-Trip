@@ -1,0 +1,80 @@
+:root {
+    --color1: #293541;
+    --color2: #45576d;
+    --color3: #778b96;
+    --color4: #aac7d7;
+    --color5: #dfebf7;
+    --color6: #e8e8e8;
+    --color7: #ffffff94;
+  }
+  
+  .flight-container {
+    background: var(--color5);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px var(--color3);
+    max-width: 550px;
+    margin: 50px auto;
+    text-align: center;
+  }
+  
+  .titleFlightSearch {
+    color: var(--color1);
+    margin-bottom: 25px;
+  }
+  
+  .inputs-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+  
+  .input-field {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--color3);
+    border-radius: 10px;
+    outline: none;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  
+  .input-field:focus {
+    border-color: var(--color1);
+    box-shadow: 0 0 5px var(--color2);
+  }
+  
+  .swap-btn {
+    background: var(--color2);
+    color: var(--color7);
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .swap-btn:hover {
+    background: var(--color1);
+  }
+  
+  .search-btn {
+    margin-top: 10px;
+    padding: 12px;
+    width: 100%;
+    background: var(--color1);
+    color: var(--color7);
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .search-btn:hover {
+    background: var(--color2);
+  }
+  

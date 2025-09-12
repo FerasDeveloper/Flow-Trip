@@ -1,0 +1,246 @@
+.add-room-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background:var(--color5);
+  padding: 20px;
+}
+
+.add-room-container .form {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 20px;
+}
+
+.add-room-container .form span{
+  padding-top: 7px;
+  text-align: center;
+}
+
+.add-room-container .form form{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.add-room-container .form-container .form .input{
+  border-radius: 0;
+}
+
+.add-room-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background:var(--color5);
+  padding: 20px 5px;
+}
+
+.add-room-container .add-room-form-container {
+  max-width: 700px;
+  width: 100%;
+  background-color: #001925;
+  padding: 30px;
+  clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);
+}
+
+.add-room-container .add-room-heading {
+  display: block;
+  color:var(--color6);
+  font-size: calc(1rem + 1vw);
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.add-room-container .add-room-form-container .add-room-form .add-room-input {
+  font-size: calc(.65rem + .6vw);
+  color: var(--color4);
+  width: 100%;
+  background-color: #002733;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+  border-left: 1px solid transparent;
+}
+
+.add-room-container .add-room-form-container .add-room-form .add-room-input:focus {
+  border-left: 5px solid var(--color4);
+}
+
+.add-room-container .add-room-form-container .add-room-form .add-room-textarea {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  outline: none;
+  background-color: #013747;
+  color: var(--color4);
+  font-weight: bold;
+  resize: none;
+  max-height: 150px;
+  margin-bottom: 20px;
+  border-left: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.add-room-container .add-room-form-container .add-room-form .add-room-textarea:focus {
+  border-left: 5px solid var(--color4);
+}
+
+.add-room-container .add-room-image-upload-section {
+  margin-bottom: 20px;
+}
+
+.add-room-container .add-room-image-upload-label {
+  display: inline-block;
+  color: var(--color4);
+  background-color: #002733;
+  padding: 10px 15px;
+  border: 2px dashed var(--color4);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.add-room-container .add-room-image-upload-label:hover {
+  background-color: #013747;
+  border-color: var(--color4);
+  color: var(--color4);
+}
+
+.add-room-container .add-room-image-input {
+  display: none;
+}
+
+.add-room-container .add-room-selected-images {
+  margin-top: 15px;
+}
+
+.add-room-container .add-room-selected-images p {
+  color: #87a4b6;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.add-room-container .add-room-image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.add-room-container .add-room-image-preview-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #002733;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--color4);
+}
+
+.add-room-container .add-room-preview-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.add-room-container .add-room-image-name {
+  color: var(--color4);
+  font-size: 0.8rem;
+  text-align: center;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.add-room-container .add-room-error-message {
+  background-color: #ff4444;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.add-room-container .add-room-form-container .add-room-form .add-room-button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.add-room-container .add-room-form-container .add-room-form .add-room-button-container .add-room-send-button {
+  flex-basis: 70%;
+  background: var(--color4);
+  padding: 10px;
+  color: #001925;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.add-room-container .add-room-form-container .add-room-form .add-room-button-container .add-room-send-button:hover:not(:disabled) {
+  background: transparent;
+  border: 1px solid var(--color4);
+  color: var(--color4);
+}
+
+.add-room-container .add-room-form-container .add-room-form .add-room-button-container .add-room-send-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.add-room-container .add-room-form-container .add-room-form .add-room-button-container .add-room-reset-button-container {
+  filter: drop-shadow(1px 1px 0px var(--color4));
+  flex-basis: 30%;
+}
+
+.add-room-container .add-room-form-container .add-room-form .add-room-button-container .add-room-reset-button-container .add-room-reset-button {
+  position: relative;
+  text-align: center;
+  padding: 10px;
+  color: var(--color4);
+  font-weight: bold;
+  background: #001925;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.add-room-container .add-room-form-container .add-room-form .add-room-button-container .add-room-reset-button-container .add-room-reset-button:hover {
+  background: var(--color4);
+  color: #001925;
+}
+
+@media (max-width: 768px) {
+  .add-room-container .add-room-form-container {
+    padding: 20px;
+  }
+  
+  .add-room-container .add-room-form-container .add-room-form .add-room-button-container {
+    flex-direction: column;
+  }
+  
+  .add-room-container .add-room-form-container .add-room-form .add-room-button-container .add-room-send-button,
+  .add-room-container .add-room-form-container .add-room-form .add-room-button-container .add-room-reset-button-container {
+    flex-basis: 100%;
+  }
+  
+  .add-room-container .add-room-image-preview {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,107 @@
+.CategoryCard-cards {
+  perspective: 500px;
+}
+
+.CategoryCard-card {
+  width: 200px;
+  height: 250px;
+  background: var(--color1); 
+  border: 2px solid var(--color3); 
+  border-radius: 4px;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.5s;
+}
+
+.CategoryCard-card:hover {
+  transform: translateZ(10px) rotateX(20deg) rotateY(20deg);
+}
+
+.CategoryCard-card_title {
+  color: var(--color5); 
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  transition: transform 0.5s;
+  font: 700 1.5rem monospace;
+  text-shadow:
+    -1px -1px 0 var(--color2),
+     1px -1px 0 var(--color2),
+    -1px  1px 0 var(--color2),
+     1px  1px 0 var(--color2);
+}
+
+.CategoryCard-card:hover .CategoryCard-card_title {
+  transform: translateZ(50px);
+.advice-container {
+  font-family: "Manrope", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 320px;
+  background-color: hsl(217, 19%, 24%);
+  border-radius: 10px;
+  padding: 30px 16px 0 16px;
+  transition: 0.2s linear;
+}
+.advice-container:hover {
+  transform: scale(1.05);
+}
+
+.paragraph {
+  font-size: 17px;
+  background-image: linear-gradient(to right, hsl(150, 100%, 66%), #C031B5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.advice-details {
+  color: hsl(193, 38%, 86%);
+  font-size: 20px;
+  font-weight: 500;
+  margin: 30px 0;
+  line-height: 25px;
+  text-wrap: balance;
+  letter-spacing: 1px;
+}
+
+/* زر الحذف الجديد */
+.bin-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  border-radius: 15px;
+  background-color: rgb(255, 95, 95);
+  cursor: pointer;
+  border: 3px solid rgb(255, 201, 201);
+  transition-duration: 0.3s;
+  margin-top: 20px;
+  margin-bottom: -25px;
+}
+.bin-bottom {
+  width: 15px;
+}
+.bin-top {
+  width: 17px;
+  transform-origin: right;
+  transition-duration: 0.3s;
+}
+.bin-button:hover .bin-top {
+  transform: rotate(45deg);
+}
+.bin-button:hover {
+  background-color: rgb(255, 0, 0);
+}
+.bin-button:active {
+  transform: scale(0.9);
+}
+}

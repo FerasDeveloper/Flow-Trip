@@ -1,0 +1,62 @@
+.delete-noselect {
+  width: 150px;
+  height: 60px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: #e62222;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  transition: 200ms;
+}
+
+.delete-noselect .delete-text,
+.delete-noselect .delete-icon {
+  transition: 200ms;
+}
+
+.delete-noselect .delete-text {
+  transform: translateX(35px);
+  color: white;
+  font-weight: bold;
+}
+
+.delete-noselect .delete-icon {
+  position: absolute;
+  border-left: 1px solid #c41b1b;
+  transform: translateX(110px);
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-noselect svg {
+  width: 15px;
+  fill: #eee;
+}
+
+.delete-noselect:hover {
+  background: #ff3636;
+}
+
+.delete-noselect:hover .delete-text {
+  color: transparent;
+}
+
+.delete-noselect:hover .delete-icon {
+  width: 150px;
+  border-left: none;
+  transform: translateX(0);
+}
+
+.delete-noselect:focus {
+  outline: none;
+}
+
+.delete-noselect:active .delete-icon svg {
+  transform: scale(0.8);
+}

@@ -1,0 +1,102 @@
+.evaluation-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: inherit;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.loading, .error {
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+/* Average Box */
+.average-box {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  font-weight: bold;
+}
+
+.average-item {
+  text-align: center;
+}
+
+.average-item-value {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.average-item-label {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Cards Grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Evaluation Card */
+.evaluation-card {
+  background: linear-gradient(145deg, #ffffff, #e6f0ff); /* خلفية متدرجة */
+  border: none;
+  border-radius: 15px;
+  padding: 20px;
+  height: 200px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.evaluation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* User Info */
+.user-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.user-phone {
+  color: #555;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+/* Stars */
+.user-stars {
+  font-size: 22px;
+  margin-top: 12px;
+  display: inline-block;
+}
+
+/* Full stars color */
+.user-stars span {
+  color: #ffb400; /* لون ذهبي احترافي */
+}
+
+/* Empty stars */
+.user-stars span[style*="color: #ccc"] {
+  color: #dcdcdc; /* لون رمادي فاتح */
+}

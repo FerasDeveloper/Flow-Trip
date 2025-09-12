@@ -1,0 +1,254 @@
+:root {
+  --primary: #1e88e5;
+  --danger: #e53935;
+  --success: #43a047;
+  --background: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #333;
+}
+
+.plan-details-container {
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  min-height: 100vh;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plan-card {
+  display: flex;
+  background: var(--card-bg);
+  border-radius: 20px;
+  overflow: hidden;
+  max-width: 1000px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.image-section {
+  flex: 1;
+  background: #f1f1f1;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInDown 0.8s ease;
+}
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.image-section img {
+  max-width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.info-section {
+  flex: 1;
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  text-align: center;  
+  animation: fadeInUp 0.8s ease;
+}
+
+.info-section h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: var(--primary);
+}
+
+.info-section p {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  color: white;
+  font-size: 14px;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.status-badge.available-for-now {
+  background-color: var(--success);
+}
+
+.status-badge.not-available {
+  background-color: var(--danger);
+}
+
+.action-buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+}
+
+.edit-btn, .delete-btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 16px;
+  color: white;
+}
+
+.edit-btn {
+  background-color: var(--primary);
+}
+
+.edit-btn:hover {
+  background-color: #1565c0;
+}
+
+.delete-btn {
+  background-color: var(--danger);
+}
+
+.delete-btn:hover {
+  background-color: #b71c1c;
+}
+
+.loading-screen,
+.error-message {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #666;
+  text-align: center;
+  padding-top: 150px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-box {
+  background-color: white;
+  padding: 25px 30px;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.modal-box.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.confirm-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+/* Responsive styles */
+@media (max-width: 992px) {
+  .plan-card {
+    flex-direction: column;
+    max-width: 90%;
+  }
+
+  .image-section, .info-section {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .info-section h2 {
+    font-size: 28px;
+  }
+
+  .info-section p {
+    font-size: 16px;
+  }
+
+  .edit-btn, .delete-btn {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .plan-details-container {
+    padding: 40px 10px;
+  }
+
+  .info-section h2 {
+    font-size: 24px;
+  }
+
+  .info-section p {
+    font-size: 15px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .edit-btn, .delete-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .modal-box {
+    width: 95%;
+    padding: 20px;
+  }
+}

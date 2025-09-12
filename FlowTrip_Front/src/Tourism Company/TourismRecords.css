@@ -1,0 +1,184 @@
+.tourism-records-container {
+  /* min-height: 100vh; */
+  /* height: 100vh; */
+  width: 100vw;
+  /* background: #e8e8e8; color6 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tourism-records-card {
+  /* background: #e8e8e8; color6 */
+  min-width: 100%;
+  /* height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  margin-top:40px ;
+}
+
+.tourism-records-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #293541; /* color1 */
+  margin-bottom: 2.5rem;
+  letter-spacing: 1px;
+}
+
+.tourism-records-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.records-btn {
+  padding: 0.4rem 1.2rem;
+  border: 1.5px solid #aac7d7;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 500;
+  background: #fff;
+  color: #293541; 
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, border 0.18s;
+  outline: none;
+  box-shadow: none;
+  min-width: 70px;
+}
+
+.records-btn:hover, .records-btn:focus {
+  background: #aac7d7; 
+  color: #293541;
+  border-color: #778b96; 
+}
+
+.records-btn.active {
+  background: #293541;
+  color: #fff;
+  border-color: #293541;
+}
+
+.records-btn.new, .records-btn.old, .records-btn.latest {
+  background: #fff;
+  color: #293541;
+  border: 1.5px solid #aac7d7;
+}
+
+.glass-radio-group-records {
+  --bg: rgba(41, 53, 65, 0.9);
+  --text: #ffffff;
+
+  display: flex;
+  position: relative;
+  background: var(--bg);
+  border-radius: 1rem;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 1px 1px 4px rgba(255, 255, 255, 0.2),
+    inset -1px -1px 6px rgba(0, 0, 0, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  /* overflow: hidden; */
+  width: fit-content;
+}
+
+.glass-radio-group-records input {
+  display: none;
+}
+
+.glass-radio-group-records label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  font-size: 14px;
+  padding: 0.8rem 1.6rem;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease-in-out;
+}
+
+.glass-radio-group-records label:hover {
+  color: #f0f0f0;
+}
+
+.glass-radio-group-records input:checked + label {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.glass-glider-records {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc(100% / 3);
+  border-radius: 1rem;
+  z-index: 1;
+  transition:
+    transform 0.5s cubic-bezier(0.37, 1.95, 0.66, 0.56),
+    background 0.4s ease-in-out,
+    box-shadow 0.4s ease-in-out;
+}
+
+
+#glass-records-new:checked ~ .glass-glider-records {
+  transform: translateX(0%);
+  background: linear-gradient(135deg, #00d4aa, #00b894);
+  box-shadow:
+    0 0 18px rgba(0, 212, 170, 0.6),
+    0 0 10px rgba(255, 255, 255, 0.4) inset;
+}
+
+#glass-records-old:checked ~ .glass-glider-records {
+  transform: translateX(100%);
+  background: linear-gradient(135deg, #8b7355, #6c5b7b);
+  box-shadow:
+    0 0 18px rgba(139, 115, 85, 0.6),
+    0 0 10px rgba(255, 255, 255, 0.4) inset;
+}
+
+#glass-records-latest:checked ~ .glass-glider-records {
+  transform: translateX(200%);
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  box-shadow:
+    0 0 18px rgba(255, 107, 107, 0.6),
+    0 0 10px rgba(255, 255, 255, 0.4) inset;
+} 
+
+
+
+@media only screen and (max-width: 600px) {
+  .tourism-records-container{
+    margin-top: 60px;
+  }
+  .glass-radio-group-records{
+    transform: scale(.9);
+  }
+  .tourism-records-title{
+    font-size: 6vw;
+  }
+  .recordsGrid{
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+
+@media only screen and (min-width: 601px) and (max-width: 768px) {
+  .tourism-records-container{
+    margin-top: 60px;
+  }
+}
+

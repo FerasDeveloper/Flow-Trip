@@ -1,0 +1,38 @@
+.view-selector {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.view-selector button {
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: 
+    background-color 0.2s ease, 
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.view-selector button:hover:not(:disabled) {
+  background-color: #e0e0e0;
+  border-color: #bbb;
+}
+
+.view-selector button:disabled {
+  background-color: #ddd;
+  border-color: #aaa;
+  color: #777;
+  cursor: default;
+}
+
+.view-selector button.active {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}

@@ -1,0 +1,244 @@
+/* Container */
+.accommodation-filter-details-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--color5);
+  padding: 48px 0;
+  gap: 32px;
+  cursor: default;
+}
+
+/* Card */
+.accommodation-filter-details-card {
+  background: var(--color7);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13);
+  padding: 38px 32px 28px 32px;
+  min-width: 320px;
+  max-width: 420px;
+  width: 100%;
+  direction: rtl;
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.3s;
+  animation: accommodationFilterFadeInUp 0.8s cubic-bezier(0.39, 0.575, 0.56, 1);
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+@keyframes accommodationFilterFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.date-container {
+  border-radius: 16px;
+  padding: 16px;
+  color: var(--color7);
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color5);
+  z-index: 999;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+/* Title */
+.accommodation-filter-details-title {
+  font-size: calc(1rem + 1vw);
+  font-weight: bold;
+  color: var(--color2);
+  margin-bottom: 22px;
+  text-align: center;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.accommodation-filter-details-title::after {
+  content: "";
+  display: block;
+  margin: 10px auto 0 auto;
+  width: 48px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color2), var(--color4));
+}
+
+/* Input box */
+.accommodation-filter-details-inputbox {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.accommodation-filter-details-inputbox input {
+  position: relative;
+  width: 100%;
+  padding: 20px 10px 10px;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: var(--color2);
+  font-size: calc(0.6rem + 0.6vw);
+  letter-spacing: 0.05em;
+  transition: 0.5s;
+  z-index: 10;
+  direction: ltr;
+}
+
+.accommodation-filter-details-inputbox span {
+  position: absolute;
+  left: 0;
+  padding: 20px 10px 10px;
+  font-size: 1em;
+  color: var(--color4);
+  letter-spacing: 0.05em;
+  transition: 0.5s;
+  pointer-events: none;
+}
+
+.accommodation-filter-details-inputbox input:not(:placeholder-shown) ~ span,
+.accommodation-filter-details-inputbox input:focus ~ span,
+.accommodation-filter-details-inputbox textarea:not(:placeholder-shown) ~ span,
+.accommodation-filter-details-inputbox textarea:focus ~ span {
+  color: var(--color4);
+  transform: translateX(-10px) translateY(-34px);
+  font-size: 0.75em;
+}
+
+.accommodation-filter-details-inputbox i {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color4);
+  border-radius: 4px;
+  transition: 0.5s;
+  pointer-events: none;
+  z-index: 9;
+}
+
+.accommodation-filter-details-inputbox input:not(:placeholder-shown) ~ i,
+.accommodation-filter-details-inputbox input:focus ~ i,
+.accommodation-filter-details-inputbox textarea:not(:placeholder-shown) ~ i,
+.accommodation-filter-details-inputbox textarea:focus ~ i {
+  height: 44px;
+}
+
+/* Number input - remove default spinners */
+.accommodation-filter-details-inputbox
+  input[type="number"]::-webkit-outer-spin-button,
+.accommodation-filter-details-inputbox
+  input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.accommodation-filter-details-inputbox input[type="number"] {
+  appearance: textfield; /* standard */
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .accommodation-filter-details-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .accommodation-filter-details-card {
+    max-width: 98vw;
+    min-width: 0;
+  }
+}
+
+/* Results grid */
+.accommodation-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.result-section-title {
+  grid-column: 1 / -1;
+  margin: 8px 0 4px;
+  color: var(--color2);
+}
+
+/* Card styles */
+.acc-card {
+  background: var(--color7);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.acc-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+.acc-card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+.acc-card-body {
+  padding: 12px 14px 14px;
+  text-align: left;
+}
+.acc-card-title {
+  font-weight: 700;
+  color: var(--color2);
+  margin: 0 0 8px;
+}
+.acc-card-meta {
+  color: #6b7280; /* gray-500 */
+  font-size: 0.92rem;
+}
+.acc-price {
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.acc-price-old {
+  padding-right: 6px;
+  text-decoration: line-through;
+  color: #9ca3af; /* gray-400 */
+}
+.acc-price-new {
+  color: var(--color1);
+  font-weight: 800;
+}
+
+@media (max-width: 768.9px) {
+  .accommodation-filter-details-container {
+    padding: 60px 0 0 0 !important;
+  }
+  .date-container {
+    margin: auto 0;
+  }
+  .activity-filter-container {
+    padding: 75px 0 0 0 !important;
+  }
+}
+
+@media (max-width: 649.9px) {
+  .rdrMonthsHorizontal {
+    flex-direction: column;
+  }
+  .rdrMonth {
+    width: 100%;
+  }
+}

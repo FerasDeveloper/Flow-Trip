@@ -1,0 +1,726 @@
+/* Modern Booking Records Interface - Enhanced Design */
+.show-records-container {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--color5);
+  padding: 1.5rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.show-records-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>'); */
+  pointer-events: none;
+}
+
+/* Header Section */
+.show-records-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  background: var(--color7);
+  padding: calc(0.6rem + 0.4vw) calc(0.7rem + 0.7vw);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px var(--color4);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--color6);
+  position: relative;
+  overflow: hidden;
+}
+
+.show-records-header-left {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.show-records-header-section::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+.show-records-main-title {
+  font-size: calc(1rem + 1.5vw);
+  font-weight: 800;
+  background: linear-gradient(
+    135deg,
+    var(--color2),
+    var(--color4),
+    var(--color4)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.stats-card {
+  background: linear-gradient(
+    135deg,
+    var(--color2),
+    var(--color3),
+    var(--color4)
+  );
+  padding: calc(0.4rem + 0.8vw) calc(0.6rem + 1vw);
+  border-radius: 15px;
+  color: var(--color5);
+  box-shadow: 0 10px 25px var(--color4);
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: animate-slide 2s infinite;
+}
+
+@keyframes animate-slide {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.stat-item {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-number {
+  display: block;
+  font-size: calc(1.2rem + 1.5vw);
+  font-weight: 800;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 2px 4px var(--color3);
+}
+
+.stat-label {
+  font-size: calc(0.5rem + 0.7vw);
+  opacity: 0.95;
+  font-weight: 500;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: var(--color7);
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--color4);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 16px var(--color4);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error State */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: var(--color7);
+  text-align: center;
+}
+
+.error-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: var(--color7);
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.empty-state h3 {
+  color: var(--color3);
+  font-size: calc(1rem + 1vw);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Records Grid - Horizontal Layout */
+.records-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.2rem;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Record Card - Compact Horizontal */
+.record-card {
+  background: var(--color7);
+  border-radius: 18px;
+  padding: 1.5rem;
+  /* box-shadow: 0 15px 35px var(--color4); */
+  backdrop-filter: blur(20px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid var(--color5);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Clickable Card */
+.clickable-card {
+  cursor: pointer;
+}
+
+.clickable-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px var(--color4);
+}
+
+.clickable-card:active {
+  transform: translateY(-4px) scale(1.01);
+}
+
+.record-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    135deg,
+    var(--color3),
+    var(--color4),
+    var(--color4)
+  );
+}
+
+.record-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px var(--color3);
+}
+
+/* Card Header - Horizontal Layout */
+.show-records-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--color6);
+  position: relative;
+}
+
+.show-records-user-avatar {
+  width: calc(2rem + 1.5vw);
+  height: calc(2rem + 1.5vw);
+  background: linear-gradient(
+    135deg,
+    var(--color3),
+    var(--color3),
+    var(--color4)
+  );
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color5);
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-right: 1rem;
+  box-shadow: 0 6px 15px var(--color6);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.show-records-user-avatar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: shimmer 2s infinite;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.record-user-name {
+  font-size: calc(.65rem + 1vw);
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 0.3rem 0;
+  background: linear-gradient(
+    135deg,
+    var(--color2),
+    var(--color4),
+    var(--color4)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-email {
+  color: var(--color3);
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.booking-id {
+  background: linear-gradient(
+    135deg,
+    var(--color2),
+    var(--color3),
+    var(--color4)
+  );
+  color: var(--color5);
+  padding: 0.4rem 0.8rem;
+  border-radius: 15px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  box-shadow: 0 3px 10px var(--color4);
+  flex-shrink: 0;
+}
+
+/* Card Content - Horizontal Layout */
+.show-records-card-content {
+  flex: 1;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+  gap: calc(0.4rem + 0.5vw);
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 0.8rem;
+  background: var(--color5);
+  border-radius: 10px;
+  border-left: 3px solid var(--color4);
+  flex: 1;
+  min-width: 120px;
+}
+
+/* Phone number takes full width */
+.info-row:last-child .info-item {
+  flex: 1;
+  min-width: 100%;
+}
+
+.info-label {
+  font-size: calc(0.5rem + 0.1vw);
+  color: var(--color3);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.info-value {
+  font-size: 0.7rem;
+  color: var(--color2);
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.date-value {
+  color: var(--color2);
+  font-weight: 800;
+}
+
+.description-text {
+  line-height: 1.4;
+  word-wrap: break-word;
+  white-space: normal;
+  max-height: 60px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  width: fit-content;
+}
+
+/* Card Footer - Horizontal Layout */
+.show-records-card-footer {
+  display: flex;
+  gap: 0.8rem;
+  padding-top: 1rem;
+  border-top: 2px solid #f0f0f0;
+  margin-top: auto;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.action-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.action-btn:hover::before {
+  left: 100%;
+}
+
+.action-btn.primary {
+  background: linear-gradient(
+    135deg,
+    var(--color2),
+    var(--color3),
+    var(--color4)
+  );
+  color: var(--color5);
+  box-shadow: 0 3px 10px var(--color4);
+}
+
+.action-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px var(--color4);
+}
+
+.action-btn.secondary {
+  background: transparent;
+  color: var(--color2);
+  border: 2px solid var(--color2);
+}
+
+.action-btn.secondary:hover {
+  background: var(--color2);
+  color: var(--color5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px var(--color4);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .records-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .show-records-container {
+    padding: 1rem;
+  }
+
+  .show-records-header-section {
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .show-records-header-left {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .records-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .record-card {
+    padding: 1.2rem;
+  }
+
+  .show-records-card-footer {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .record-card {
+    padding: 1rem;
+  }
+
+  .show-records-card-header {
+    gap: 0.8rem;
+  }
+
+  .show-records-user-avatar {
+    margin-right: 0;
+  }
+
+  .booking-id {
+    align-self: center;
+  }
+}
+
+/* Search Component CSS */
+.search-section {
+  display: flex;
+  top: 2rem;
+  position: fixed;
+  z-index: 100;
+}
+
+/* From Uiverse.io by boryanakrasteva */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+}
+
+.input {
+  border-style: none;
+  height: 50px;
+  width: 50px;
+  padding: 10px;
+  outline: none;
+  border-radius: 50%;
+  transition: 0.5s ease-in-out;
+  background-color: var(--color3);
+  /* box-shadow: 0px 0px 3px #f3f3f3; */
+  padding-right: 40px;
+  color: var(--color1);
+}
+
+.input::placeholder,
+.input {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 17px;
+}
+
+.input::placeholder {
+  color: var(--color3);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0px;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  outline: none;
+  border-style: none;
+  border-radius: 50%;
+  pointer-events: painted;
+  background-color: transparent;
+  transition: 0.2s linear;
+}
+
+.icon svg path {
+  stroke: var(--color5);
+}
+
+.input:focus ~ .icon svg path,
+.icon:focus svg path,
+.has-content .icon svg path {
+  stroke: var(--color4);
+}
+
+.icon:focus ~ .input,
+.input:focus {
+  box-shadow: none;
+  width: 250px;
+  border-radius: 0px;
+  background-color: transparent;
+  border-bottom: 3px solid var(--color4);
+  transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
+}
+
+.input:focus ~ .icon {
+  right: -50px;
+  transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
+}
+
+.icon:focus {
+  right: -50px;
+  transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
+}
+
+.has-content .icon {
+  right: -50px;
+  transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
+}
+
+/* --- */
+
+@media (max-width: 769.9px) {
+  .show-records-container {
+    margin-top: 60px;
+  }
+}
+
+@media (max-width: 371.9px) {
+  .stats-card {
+    padding: calc(0.3rem + 0.5vw) calc(0.4rem + 0.7vw);
+  }
+  .stat-number {
+    font-size: calc(0.9rem + 1vw);
+    margin: 0;
+  }
+  .stat-label {
+    font-size: calc(0.4rem + 0.7vw);
+  }
+}
+
+@media (max-width:320px){
+  .show-records-main-title{
+    font-size: calc(.8rem + 1vw);
+  }
+}

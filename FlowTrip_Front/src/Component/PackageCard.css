@@ -1,0 +1,93 @@
+.packageComponentCard {
+  width: 195px;
+  height: 270px;
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: flex-end;
+  transition: transform 0.3s ease;
+}
+
+.packageComponentCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0); /* شفاف */
+  transition: background-color 0.4s ease;
+  z-index: 0;
+}
+
+.packageComponentCard:hover::before {
+  background-color: rgba(0, 0, 0, 0.4); /* تعتيم عند الهوفر */
+}
+
+.packageComponentCard:hover {
+  transform: scale(1.02);
+}
+
+.packageComponentOverlay {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 80%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  opacity: 0; /* مخفية افتراضياً */
+  transition: opacity 0.4s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.packageComponentCard:hover .packageComponentOverlay {
+  opacity: 1; /* تظهر عند الهوفر */
+}
+
+.packageComponentTitle {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.packageComponentDescription {
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 0;
+  opacity: 0.85;
+}
+
+.packageComponentPrice {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: auto;
+  align-self: flex-end;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+.packageComponentLink {
+  text-decoration: none;
+}
+.price-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  margin-top: auto;
+}
+
+.packageComponentPrice.points {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--color4); 
+}
+
+@media (max-width: 768px) {
+  .packageComponentCard{
+    width: 313px;
+    height: 432px;
+  }
+}

@@ -1,0 +1,149 @@
+.show-records-skeleton-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid #e5e7eb;
+  animation: cardFadeIn 0.6s ease-out;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.show-records-skeleton-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.show-records-skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.show-records-skeleton-user-info {
+  flex: 1;
+}
+
+.show-records-skeleton-name {
+  width: 120px;
+  height: 16px;
+  background: #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.show-records-skeleton-email {
+  width: 160px;
+  height: 12px;
+  background: #f3f4f6;
+  border-radius: 6px;
+}
+
+.show-records-skeleton-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.show-records-skeleton-row {
+  display: flex;
+  gap: 20px;
+}
+
+.show-records-skeleton-info-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.show-records-skeleton-label {
+  width: 80px;
+  height: 12px;
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.show-records-skeleton-value {
+  width: 100%;
+  height: 14px;
+  background: #e5e7eb;
+  border-radius: 6px;
+}
+
+.show-records-skeleton-value.long {
+  width: 100%;
+}
+
+.show-records-skeleton-footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.show-records-skeleton-button {
+  width: 100%;
+  height: 32px;
+  background: #e5e7eb;
+  border-radius: 6px;
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  height: 100%;
+  width: 150px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .show-records-skeleton-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .show-records-skeleton-card {
+    padding: 16px;
+  }
+}

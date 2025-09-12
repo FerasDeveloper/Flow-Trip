@@ -1,0 +1,221 @@
+.add-flight-container {
+  background-image: url("../Assets/addFlight.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+.custom-dropdown {
+  position: relative;
+  padding: 0;
+  width: 300px;
+  user-select: none;
+  z-index: 999;
+}
+
+.custom-dropdown-toggle {
+  height: 38px;
+  position: relative;
+  background-color: rgb(255, 255, 255, 0.7) !important ;
+  padding: 10px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+}
+.dropdown-arrow {
+  position: absolute;
+  right: 10px;
+}
+.custom-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 2px solid var(--color4);
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  z-index: 1112;
+  max-height: 200px;
+  overflow-y: auto;
+  display: block;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.custom-dropdown-item {
+  padding: 5px;
+  height: 35px;
+  text-align: center;
+  justify-content: center;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  background: linear-gradient(
+    to right,
+    var(--color3) 0%,
+    var(--color4) 50%,
+    var(--color5) 100%
+  );
+  background-color: rgb(255, 255, 255);
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  background-position: left center;
+  transition: background-size 1s ease;
+  z-index: 999
+}
+
+.custom-dropdown-item:hover {
+  background-size: 100% 100%;
+}
+.custom-dropdown-item.selected {
+  background-size: 100% 100% !important;
+  color: white; /* optional for contrast */
+  font-weight: bold; /* optional */
+}
+.custom-input-group {
+  transition: box-shadow 0.3s ease;
+  
+}
+
+.custom-input-group:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-input-group .input-group-text {
+  border-right: 1px solid #ced4da;
+}
+.custom-input-group input[type="number"]::-webkit-inner-spin-button,
+.custom-input-group input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.form-control:hover,
+.form-control:focus {
+  background-color: var(--color5) !important;
+}
+.custom-input-group:hover .input-group-text,
+.input-group:focus-within .input-group-text {
+  background-color: var(--color5) !important;
+}
+.custom-input,
+.custom-span {
+  background-color: rgb(255, 255, 255, 0.7) !important;
+}
+.custom-input-wrapper {
+  position: relative;
+}
+.custom-label {
+  position: absolute;
+  color: #393e48;
+  display: block;
+  margin-left: 20px;
+  margin-top: 5px;
+  transition: 0.2s ease;
+  z-index: 1;
+  background-color: transparent;
+  pointer-events: none;
+}
+.custom-date-label {
+  position: absolute;
+  color: #111112;
+  left: 20px;
+  margin-top: 5px;
+  transition: 0.2s ease;
+  transform: translate(-3px, -18px) scale(0.8);
+  background: transparent;
+  z-index: 1111;
+}
+.custom-input-wrapper:focus-within .custom-label,
+.custom-input-wrapper input:valid ~ .custom-label,
+.has-text {
+  transform: translate(-30px, -18px) scale(0.8);
+  background: transparent;
+  z-index: 10;
+}
+
+.text-danger {
+  color: red;
+  font-size: 0.875rem;
+}
+.is-invalid {
+  border-color: red !important;
+}
+
+@media (max-width: 575.98px) {
+  .custom-dropdown,
+  .custom-label {
+    max-width: 300px;
+    width: 100%;
+  }
+  .custom-label,
+  .custom-dropdown-toggle {
+    font-size: 10px;
+  }
+  .custom-label {
+    margin-left: 35px;
+    margin-top: 10px;
+  }
+  .text-danger {
+    font-size: 10px;
+    max-width: 300px;
+    padding: 0 10px;
+  }
+  .custom-date-label {
+    max-width: 300px;
+    width: 100%;
+    left: 20px;
+  }
+}
+@media (min-width: 575.98px) {
+  .custom-dropdown,
+  .custom-label {
+    width: 300px;
+  }
+  .custom-date-label {
+    left: 70px;
+  }
+}
+
+@media (min-width: 768px) {
+  .custom-dropdown,
+  .custom-label {
+    width: 276px;
+  }
+  .custom-date-label {
+    left: 20px;
+  }
+}
+
+/* Large screens: ≥992px */
+@media (min-width: 992px) {
+  .custom-dropdown,
+  .custom-label {
+    width: 256px;
+  }
+  .custom-date-label {
+    left: 20px;
+  }
+}
+@media (min-width: 1200px) {
+  .custom-dropdown,
+  .custom-label {
+    width: 300px;
+  }
+  .custom-date-label {
+    left: 30px;
+  }
+}
+/* Extra large screens: ≥1400px */
+@media (min-width: 1400px) {
+  .custom-dropdown,
+  .custom-label {
+    width: 300px;
+  }
+  .custom-date-label {
+    left: 60px;
+  }
+}

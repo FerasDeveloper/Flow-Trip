@@ -1,0 +1,131 @@
+.edit-plane-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 25px;
+  background: linear-gradient(to top left, #ffffff, #f2f6fc);
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(30, 136, 229, 0.2);
+  direction: rtl;
+  text-align: right;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
+}
+
+.edit-plane-title {
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: #0d47a1;
+  text-align: center;
+  font-weight: bold;
+}
+
+.image-container {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.image-container img {
+  cursor: pointer;
+  max-width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.image-container img:hover {
+  transform: scale(1.02);
+}
+
+.image-text {
+  font-size: 15px;
+  color: #666;
+  margin-top: 10px;
+}
+
+.input-style {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 10px;
+  border: 1px solid #cfd8dc;
+  font-size: 16px;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease;
+}
+
+.input-style:focus {
+  outline: none;
+  border-color: #1e88e5;
+  background-color: #fff;
+}
+
+.error-text {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.submit-button {
+  background: linear-gradient(to right, #42a5f5, #1e88e5);
+  color: white;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 17px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s;
+  box-shadow: 0 5px 15px rgba(66, 165, 245, 0.4);
+  display: block;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.submit-button:disabled {
+  background: #90a4ae;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: linear-gradient(to right, #1565c0, #0d47a1);
+}
+
+@media (max-width: 768px) {
+  .edit-plane-container {
+    margin: 20px 15px;
+    padding: 20px;
+  }
+
+  .edit-plane-title {
+    font-size: 24px;
+  }
+
+  .input-style {
+    font-size: 15px;
+  }
+
+  .submit-button {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-plane-title {
+    font-size: 22px;
+  }
+
+  .input-style {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .submit-button {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .image-text {
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,83 @@
+.addbuttoncomponent {
+  position: relative;
+  min-width: 150px;
+  height: 40px;
+  padding-right: 40px; 
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color2); 
+  background-color:var(--color2); 
+  transition: all 0.3s;
+  padding-left: 16px;
+}
+
+.addbuttoncomponent__text {
+  color: var(--color5); 
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.3s;
+  z-index: 1;
+}
+
+.addbuttoncomponent__icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 40px;
+  background-color:var(--color1); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.addbuttoncomponent__svg {
+  width: 24px;
+  stroke: var(--color5); 
+}
+
+.addbuttoncomponent:hover {
+  background: var(--color1); 
+}
+
+.addbuttoncomponent:hover .addbuttoncomponent__text {
+  color: transparent;
+}
+
+.addbuttoncomponent:hover .addbuttoncomponent__icon {
+  width: 100%;
+  right: 0;
+}
+
+.addbuttoncomponent:active .addbuttoncomponent__icon {
+  background-color: var(--color3); 
+}
+
+.addbuttoncomponent:active {
+  border: 1px solid var(--color3); 
+}
+
+
+@media (max-width: 768px) {
+  .addbuttoncomponent {
+    min-width: 100px; 
+    height: 32px;
+    padding-left: 12px;
+    padding-right: 36px;
+  }
+
+  .addbuttoncomponent__text {
+    font-size: calc(.5rem + .8vw); 
+  }
+
+  .addbuttoncomponent__icon {
+    width: 25%;
+  }
+
+  .addbuttoncomponent__svg {
+    width: 12px;
+    height: 12px;
+  }
+}

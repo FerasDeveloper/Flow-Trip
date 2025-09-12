@@ -1,0 +1,82 @@
+.createcar-form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--color6);
+  padding: 20px;
+}
+
+.createcar-vehicle-form {
+  width: 100%;
+  max-width: 600px;
+  background-color: var(--color5);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  direction: ltr;
+}
+
+.createcar-form-title {
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: var(--color1);
+  text-align: center;
+}
+
+.createcar-vehicle-form label {
+  display: block;
+  font-weight: bold;
+  margin: 20px 0 10px;
+  color: var(--color2);
+}
+
+.createcar-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.createcar-input-wrapper input,
+.createcar-input-wrapper textarea,
+.createcar-input-wrapper select {
+  width: 100%;
+  padding: 10px 10px 10px 40px;
+  border: 1px solid var(--color4);
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  background-color: white;
+  transition: border 0.3s ease;
+}
+
+.createcar-input-wrapper input:focus,
+.createcar-input-wrapper textarea:focus,
+.createcar-input-wrapper select:focus {
+  border-color: var(--color2);
+}
+
+.createcar-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--color3);
+  font-size: 16px;
+}
+
+.createcar-submit-button {
+  margin-top: 25px;
+  background-color: var(--color1);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.createcar-submit-button:hover {
+  background-color: var(--color2);
+}

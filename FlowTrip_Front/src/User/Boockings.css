@@ -1,0 +1,109 @@
+/* خلفية الصفحة */
+.bookings-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f7fa, #ede7f6);
+  padding: 2rem;
+  font-family: "Cairo", sans-serif;
+}
+
+/* العنوان الرئيسي */
+.bookings-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.bookings-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right, #42a5f5, #ab47bc);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+/* شبكة البطاقات */
+.bookings-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .bookings-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .bookings-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* البطاقة */
+.booking-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+.booking-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* رأس البطاقة */
+.booking-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.booking-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #34495e;
+}
+
+/* النصوص */
+.booking-info {
+  color: #555;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.booking-info strong {
+  color: #222;
+}
+
+/* صورة الباكيج */
+.booking-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 1rem;
+  margin-top: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* أيقونات الإقلاع والهبوط */
+.flight-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #444;
+  margin-bottom: 0.4rem;
+}
+
+.flight-detail svg {
+  font-size: 1.2rem;
+}

@@ -1,0 +1,163 @@
+/* Container */
+.add-plane-container {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background: #ffffff;
+  padding: 30px 25px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Modal Title */
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #111827;
+}
+
+/* Form */
+.modal-content form {
+  display: flex;
+    width: 100%;
+  flex-direction: column;
+}
+
+/* Labels */
+.modal-content label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+/* Inputs + Select */
+.modal-content input,
+.modal-content select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+  margin-bottom: 15px;
+  background-color: #f9fafb;
+  transition: border 0.3s;
+}
+
+.modal-content input:focus,
+.modal-content select:focus {
+  border-color: #3b82f6;
+  outline: none;
+  background-color: white;
+}
+
+/* File input */
+.modal-content input[type="file"] {
+  padding: 5px;
+  background-color: transparent;
+}
+
+/* Error message */
+.error {
+  color: #dc2626;
+  background: #fee2e2;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Buttons container */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Buttons */
+.animated-btn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.animated-btn:disabled {
+  
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.animated-btn:not(.cancel) {
+  background-color: #2563eb;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.animated-btn.cancel:hover {
+  background-color: #dc2626;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.animated-btn {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.animated-btn.cancel {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 25px 18px;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+  }
+}

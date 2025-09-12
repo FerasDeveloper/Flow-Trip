@@ -1,0 +1,88 @@
+.skeletonContainer {
+    padding: 20px;
+  }
+  
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color8) 25%,
+      var(--color7) 37%,
+      var(--color8) 63%
+    );
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+    border-radius: 8px;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -400px 0;
+    }
+    100% {
+      background-position: 400px 0;
+    }
+  }
+  
+  /* Slider skeleton */
+  .skeletonSlider {
+    height: 300px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  
+  /* Box (info / elements) */
+  .skeletonBox {
+    background: var(--color5);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  /* Texts */
+  .skeletonTitle {
+    height: 28px;
+    width: 60%;
+    margin-bottom: 12px;
+  }
+  
+  .skeletonSubtitle {
+    height: 22px;
+    width: 40%;
+    margin-bottom: 16px;
+  }
+  
+  .skeletonText {
+    height: 16px;
+    width: 90%;
+    margin-bottom: 10px;
+  }
+  
+  .skeletonText.short {
+    width: 50%;
+  }
+  
+  /* Grid for elements */
+  .skeletonGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  
+  .skeletonCard {
+    height: 260px;
+    border-radius: 12px;
+  }
+  
+  /* Footer button */
+  .skeletonFooter {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+  }
+  
+  .skeletonButton {
+    height: 50px;
+    width: 200px;
+    border-radius: 30px;
+  }
+  

@@ -1,0 +1,97 @@
+.seats-container {
+  background: var(--color5);
+  min-height: 100vh; 
+  width: 100%;
+}
+.seat {
+  width: 40px;
+  height: 40px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  user-select: none;
+}
+
+.seat:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+
+.seat.selected {
+  background-color: var(--color2);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+.confirm-button { 
+  background-color: var(--color3);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.confirm-button:hover{
+  background-color: #62737c;
+}
+.confirm-button:active{
+    transform: scale(0.97);
+}
+.update-price-button {
+  max-width: 200px;
+  background-color: var(--color2);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.update-price-button:hover:not(:disabled) {
+  background-color: #1e2b38;
+}
+
+.update-price-button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.update-price-button:disabled {
+  background-color: #a8c3e5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.seat-price {
+  font-size: 14px;
+  color: #444;
+}
+.done-div{
+  display: flex;
+  justify-content: end;
+  
+}
+.price-input::-webkit-outer-spin-button,
+.price-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.price-input {
+  width: 200px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

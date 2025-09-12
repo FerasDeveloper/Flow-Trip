@@ -1,0 +1,127 @@
+.flights-container {
+  padding: 20px;
+  background: #f5f7fa;
+  min-height: 100vh;
+  font-family: "Cairo", sans-serif;
+}
+
+.flights-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #1a237e;
+  margin-bottom: 15px;
+}
+
+/* شريط الفلترة */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-bar button {
+  padding: 8px 16px;
+  border: 1px solid #2196f3;
+  background: white;
+  color: #2196f3;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.filter-bar button:hover {
+  background: #e3f2fd;
+}
+
+.filter-bar .active {
+  background: #2196f3;
+  color: white;
+}
+
+.loading,
+.no-results {
+  font-size: 18px;
+  text-align: center;
+  padding: 20px;
+  color: #555;
+}
+
+.flight-card,
+.roundtrip-card {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.flight-card:hover,
+.roundtrip-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.flight-header,
+.trip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.airline {
+  font-weight: bold;
+  color: #0d47a1;
+}
+
+.price-tag {
+  background: #ff9800;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.flight-route {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+.arrow {
+  color: #2196f3;
+  font-weight: bold;
+}
+
+.flight-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.trip-segment {
+  background: #fafafa;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.trip-segment h4 {
+  margin-bottom: 5px;
+  color: #0d47a1;
+  font-size: 15px;
+}
+
+.total-price {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #2e7d32;
+}

@@ -1,0 +1,60 @@
+.request-card {
+  background: linear-gradient(135deg, var(--color4), var(--color5));
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(170, 199, 215, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 227px;
+}
+
+.request-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 30px rgba(170, 199, 215, 0.9);
+}
+.request-card:focus {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  background: var(--color4);
+  outline: none;
+}
+
+.business-name {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color1);
+  margin: 0 0 8px;
+}
+
+.owner-category {
+  font-size: 16px;
+  color: var(--color2);
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+
+.description {
+  font-size: 15px;
+  color: var(--color3);
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .request-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .business-name {
+    font-size: 18px;
+  }
+
+  .owner-category {
+    font-size: 14px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+}

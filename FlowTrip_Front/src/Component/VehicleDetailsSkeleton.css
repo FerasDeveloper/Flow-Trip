@@ -1,0 +1,67 @@
+.details-skeleton-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .skeleton {
+    background: linear-gradient(90deg, var(--color2) 25%, var(--color3) 50%, var(--color2) 75%);
+    background-size: 400% 100%;
+    animation: loading 3.5s infinite;
+    border-radius: 8px;
+  }
+  
+  .details-header-skeleton .skeleton-title {
+    width: 50%;
+    height: 28px;
+    margin-bottom: 8px;
+  }
+  
+  .details-header-skeleton .skeleton-subtitle {
+    width: 30%;
+    height: 20px;
+  }
+  
+  .carousel-skeleton {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .skeleton-image {
+    width: 200px;
+    height: 140px;
+    border-radius: 12px;
+  }
+  
+  .details-info-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .details-info-skeleton .skeleton-line {
+    width: 80%;
+    height: 16px;
+  }
+  
+  .details-info-skeleton .skeleton-line.short {
+    width: 50%;
+  }
+  
+  .action-buttons-skeleton {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .action-buttons-skeleton .skeleton-button {
+    width: 120px;
+    height: 36px;
+    border-radius: 6px;
+  }
+  
+  @keyframes loading {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  

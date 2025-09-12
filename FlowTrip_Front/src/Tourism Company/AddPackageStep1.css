@@ -1,0 +1,105 @@
+.add-package-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  min-height: 100vh;
+}
+
+
+
+.add-package-step1-container {
+    max-width: 420px;
+    /* margin: 40px auto; */
+    background: var(--color4);
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 0 24px 0 #29354133;
+    color: var(--color1);
+    transition: .3s linear;
+}
+
+.add-package-step1-title {
+    color: var(--color2);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.add-package-step1-form label {
+    font-weight: bold;
+    color: var(--color2);
+}
+
+.add-package-step1-dropzone {
+    border: 2px dashed var(--color3);
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+    margin-bottom: 18px;
+    background: var(--color5);
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.add-package-step1-dropzone.drag-active {
+    border-color: var(--color2);
+    background: var(--color6);
+}
+
+.add-package-step1-image-preview {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.add-package-step1-textarea,
+.add-package-step1-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--color3);
+    font-size: 16px;
+    background: var(--color6);
+    color: var(--color1);
+    margin-bottom: 18px;
+}
+
+.add-package-step1-checkbox-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.add-package-step1-checkbox {
+    margin-right: 8px;
+}
+
+.add-package-step1-button {
+    background: var(--color2);
+    color: white;
+    padding: 12px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+}
+
+.add-package-step1-button:disabled {
+    background: var(--color2);
+    color: var(--color7);
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+    border: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .add-package-step1-container {
+        width: 343px;
+    }
+}

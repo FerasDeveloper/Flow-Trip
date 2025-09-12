@@ -1,0 +1,76 @@
+  .skeletonCard {
+    width: 240px;
+    height: 300px;
+    border-radius: 18px;
+    background: var(--color1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .skeletonImage {
+    flex: 1;
+    background: linear-gradient(
+      90deg,
+      var(--color2) 25%,
+      var(--color3) 50%,
+      var(--color4) 75%
+    );
+    background-size: 400% 100%;
+    animation: loading 3.5s infinite;
+  }
+  
+  .skeletonContent {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .skeletonLine {
+    height: 12px;
+    border-radius: 6px;
+    background: linear-gradient(
+      90deg,
+      var(--color2) 25%,
+      var(--color3) 50%,
+      var(--color4) 75%
+    );
+    background-size: 400% 100%;
+    animation: loading 3.5s infinite;
+  }
+  
+  .skeletonLine.short {
+    width: 70%;
+  }
+  
+  .skeletonFooter {
+    margin-top: auto;
+    display: flex;
+    gap: 8px;
+  }
+  
+  .skeletonBadge {
+    flex: 1;
+    height: 20px;
+    border-radius: 8px;
+    background: linear-gradient(
+      90deg,
+      var(--color2) 25%,
+      var(--color3) 50%,
+      var(--color4) 75%
+    );
+    background-size: 400% 100%;
+    animation: loading 3.5s infinite;
+  }
+  
+  /* shimmer effect */
+  @keyframes loading {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  
