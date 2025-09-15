@@ -29,6 +29,7 @@
   margin: 0;
   font-size: 28px;
   color: var(--color1);
+  cursor: pointer;
 }
 
 .description {

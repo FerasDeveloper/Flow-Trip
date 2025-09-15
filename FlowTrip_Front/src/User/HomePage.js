@@ -5,25 +5,46 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
   // <<<<<<< HEAD
-  FaBars, FaTimes, FaUser, FaMoon, FaGlobe, FaPhone, FaHome, FaSuitcase, FaCar, FaHiking, FaRobot, FaBrain, FaInfoCircle, FaEnvelope,
+  FaBars,
+  FaTimes,
+  FaUser,
+  FaMoon,
+  FaGlobe,
+  FaPhone,
+  FaHome,
+  FaSuitcase,
+  FaCar,
+  FaHiking,
+  FaRobot,
+  FaBrain,
+  FaInfoCircle,
+  FaEnvelope,
 } from "react-icons/fa";
 import PackageCard from "../Component/PackageCard";
 import Loader from "../Component/Loader";
 import loadingImage from "../Assets/Loading_icon.gif";
 import chatbotGif from "../Assets/chatbot1.gif";
 import ChatBot from "./ChatBot";
-// =======
-//   FaBars, FaTimes, FaUser, FaMoon, FaGlobe, FaPhone, FaHome, FaSuitcase, FaCar, FaHiking,
-// } from "react-icons/fa";
+
 import PackageCardSkeleton from "../Component/PackageCardSkeleton";
 import ActivityCardSkeleton from "../Component/ActivityCardSkeleton";
 import AccommodationCardSkeleton from "../Component/AccommodationCardSkeleton";
-// >>>>>>> 9344e3a299f530d174fcffbc7bfe1b09f3f8e2a5
 import "./HomePage.css";
-import { TOKEN, baseURL, LOGOUT } from "../Api/Api";
+import {
+  TOKEN,
+  baseURL,
+  LOGOUT,
+  USERID,
+  GET_NEW_NOTIFICATIONS_COUNT,
+} from "../Api/Api";
+
 import Cookies from "js-cookie";
+import axios from "axios";
+import echo from "../echo";
 
 export default function Homepage() {
+  const [unreadCount, setUnreadCount] = useState(0);
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isChatBotOpen, setIsChatBotOpen] = useState(false);
   const [packages, setPackages] = useState([]);
@@ -36,12 +57,25 @@ export default function Homepage() {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
-
+  const token = Cookies.get("token") || localStorage.getItem("token");
   const navigate = useNavigate();
   const closeSidebar = () => setIsSidebarOpen(false);
   const closeChatBot = () => setIsChatBotOpen(false);
-  const role = Cookies.get("role");
-
+  const role = Cookies.get("role") || localStorage.getItem("role");
+  const getActivityImg = (picture) => normalizeImageUrl(picture, "images");
+  const normalizeImageUrl = (picture, folder) => {
+    if (!picture || picture === "null" || picture === "undefined") return null;
+    const p = String(picture).replace(/\\/g, "/").trim();
+    if (/^https?:\/\//i.test(p)) return p;
+    if (p.includes("storage/")) {
+      const fileName = p.split("/").pop();
+      return `http://127.0.0.1:8000/storage/${folder}/${fileName}`;
+    }
+    const fileName = p.split("/").pop();
+    return `http://127.0.0.1:8000/storage/${folder}/${fileName}`;
+  };
+  const FALLBACK_IMG =
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80";
   const handleLogout = async () => {
     const token = Cookies.get("token") || localStorage.getItem("token");
     try {
@@ -79,7 +113,27 @@ export default function Homepage() {
     }
     setShowLogoutConfirm(false);
   };
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const authSuccess = urlParams.get("auth_success");
+    const token = urlParams.get("token");
+    const name = urlParams.get("name");
+    const email = urlParams.get("email");
+    const id = urlParams.get("id");
+    const role_id = urlParams.get("role_id");
 
+    if (authSuccess === "true" && token) {
+      // Save in localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("user_name", decodeURIComponent(name || ""));
+      localStorage.setItem("user_email", decodeURIComponent(email || ""));
+      localStorage.setItem("user_id", id);
+      localStorage.setItem("role", role_id);
+
+      // Clear query params from URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
   useEffect(() => {
     const fetchAccommodations = async () => {
       try {
@@ -125,7 +179,31 @@ export default function Homepage() {
     fetchPackages();
     fetchActivities();
   }, []);
+  const newNotifications = async () => {
+    const res = await axios.get(`${baseURL}/${GET_NEW_NOTIFICATIONS_COUNT}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setUnreadCount(res.data.count);
+  };
+  useEffect(() => {
+    if (token) {
+      newNotifications();
+    }
+  }, [newNotifications]);
 
+  const userId = USERID;
+  useEffect(() => {
+    if (!userId) return;
+
+    const channel = echo.private(`user.${userId}`);
+    channel.listen(".notification.sent", () => {
+      newNotifications();
+    });
+
+    return () => {
+      echo.leave(`user.${userId}`);
+    };
+  }, [userId]);
   const handlePackageClick = (id) => navigate(`/package-details/${id}`);
 
   function ShowMore({ to = "/", label = "Show more" }) {
@@ -175,11 +253,11 @@ export default function Homepage() {
     if (!picture) return null;
     if (picture.includes("storage\\")) {
       const fileName = picture.split("\\").pop();
-      return `http://127.0.0.1:8000/storage/images/${fileName}`;
+      return `http://127.0.0.1:8000/storage/packages/${fileName}`;
     }
     if (picture.includes("storage/")) {
       const fileName = picture.split("/").pop();
-      return `http://127.0.0.1:8000/storage/images/${fileName}`;
+      return `http://127.0.0.1:8000/storage/packages/${fileName}`;
     }
     return picture;
   };
@@ -192,7 +270,9 @@ export default function Homepage() {
     setIsActivityModalOpen(false);
     setSelectedActivity(null);
   };
-
+  const handleNotificationClick = () => {
+    navigate("/notifications");
+  };
   const buildWhatsAppLink = (phone, activityName, loc) => {
     if (!phone) return null;
     const digits = String(phone).replace(/\D/g, "");
@@ -219,6 +299,18 @@ export default function Homepage() {
       <nav className="navbar">
         <h2 className="logo">Flow Trip</h2>
         <div className="navbar-icons">
+          {token && (
+            <div
+              onClick={handleNotificationClick}
+              className="notification-icon"
+              title="Notifications"
+            >
+              <i className="fas fa-bell"></i>
+              {unreadCount > 0 && (
+                <span className="notification-badge">{unreadCount}</span>
+              )}
+            </div>
+          )}
           <div
             className="chatbot-icon"
             onClick={() => setIsChatBotOpen(true)}
@@ -228,7 +320,7 @@ export default function Homepage() {
           </div>
 
           {/* Conditional Register/Logout Button */}
-          {TOKEN ? (
+          {token ? (
             <div
               className="auth-btn logout-btn"
               onClick={() => setShowLogoutConfirm(true)}
@@ -248,7 +340,11 @@ export default function Homepage() {
             </div>
           )}
 
-          <div className="menu-icon" onClick={() => setIsSidebarOpen(true)} title="Settings">
+          <div
+            className="menu-icon"
+            onClick={() => setIsSidebarOpen(true)}
+            title="Settings"
+          >
             <FaBars />
           </div>
         </div>
@@ -311,7 +407,9 @@ export default function Homepage() {
                 </li>
               )}
               {role === "Vehicle Owner" && (
-                <li onClick={() => navigate("/VehiclyOwner/dashboard/vehiclys")}>
+                <li
+                  onClick={() => navigate("/VehiclyOwner/dashboard/vehiclys")}
+                >
                   <i className="fas fa-suitcase"></i>
                   <p>Dashboard</p>
                 </li>
@@ -328,7 +426,7 @@ export default function Homepage() {
                 role !== "Tourism Company" &&
                 role !== "admin" &&
                 role !== "Airlines Company" &&
-                role !== "ActivityOwner" && 
+                role !== "ActivityOwner" &&
                 role !== "Vehicle Owner" && (
                   <li onClick={() => navigate("/Accommodation/dashboard")}>
                     <i className="fas fa-home"></i>
@@ -337,11 +435,11 @@ export default function Homepage() {
                 )}
             </>
           )}
-          <li onClick={() =>navigate('/boocking')}>
+          <li onClick={() => navigate("/boocking")}>
             <i class="fa-solid fa-suitcase-rolling"></i>
             <p>my boocking</p>
           </li>
-          <li onClick={() => navigate('/about-us')}>
+          <li onClick={() => navigate("/about-us")}>
             <i className="fas fa-info-circle"></i>
             <p>About Us</p>
           </li>
@@ -432,17 +530,36 @@ export default function Homepage() {
               className={`activity-card ${
                 index < 2 ? "large-card" : "small-card"
               }`}
-              onClick={() => openActivityModal(act)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) =>
-                e.key === "Enter" ? openActivityModal(act) : null
-              }
+              onClick={() => {
+                console.log("Clicked activity:", {
+                  name: act.activity_name,
+                  owner_id: act.owner_id,
+                  id: act.id,
+                });
+                if (!act.owner_id) {
+                  console.warn("No owner_id; skip navigation.", act);
+                  return;
+                }
+                navigate(`/activity_profile/${act.owner_id}`, {
+                  state: { readOnly: true, ownerId: act.owner_id },
+                });
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  navigate(`/activity_profile/${act.owner_id}`, {
+                    state: { readOnly: true, ownerId: act.owner_id },
+                  });
+                }
+              }}
+              title="View owner profile"
             >
               <img
-                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
+                src={getActivityImg(act.picture) || FALLBACK_IMG}
                 alt={act.activity_name}
                 className="activity-img"
+                onError={(e) => {
+                  e.currentTarget.src = FALLBACK_IMG;
+                }}
               />
               <div className="activity-overlay">
                 <h3>{act.activity_name}</h3>
@@ -502,18 +619,20 @@ export default function Homepage() {
                     {acc.type_name || acc.accommodation_name || "Accommodation"}
                   </h3>
                   <p>{acc.owner_location || acc.location}</p>
-                  <p>
-                    {hasOffer ? (
-                      <>
-                        <span className="old-price">${acc.price}</span>{" "}
-                        <span className="new-price">${acc.offer_price}</span>
-                      </>
-                    ) : acc?.price ? (
-                      <span>${acc.price}</span>
-                    ) : (
-                      <span>Price not available</span>
-                    )}
-                  </p>
+                  {acc.type_name !== "Hotel" && (
+                    <p>
+                      {hasOffer ? (
+                        <>
+                          <span className="old-price">${acc.price}</span>{" "}
+                          <span className="new-price">${acc.offer_price}</span>
+                        </>
+                      ) : acc?.price ? (
+                        <span>${acc.price}</span>
+                      ) : (
+                        <span>Price not available</span>
+                      )}
+                    </p>
+                  )}
                 </div>
               </div>
             );
@@ -524,71 +643,6 @@ export default function Homepage() {
       <div className="show-more-row">
         <ShowMore to="/accommodation-filter" label="Show more" />
       </div>
-
-      {/* Modal */}
-      {isActivityModalOpen && selectedActivity && (
-        <div className="modal-overlay" onClick={closeActivityModal}>
-          <div
-            className="modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="actModalTitle"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-header">
-              <h3 id="actModalTitle">Do you want to book this activity?</h3>
-              <button
-                className="modal-close"
-                onClick={closeActivityModal}
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="modal-body">
-              <p className="modal-title">{selectedActivity.activity_name}</p>
-              <p className="modal-row">
-                <strong>Owner:</strong> {selectedActivity.owner_name || "—"}
-              </p>
-              <p className="modal-row">
-                <strong>Phone:</strong>{" "}
-                {selectedActivity.phone_number ? (
-                  <a href={`tel:${selectedActivity.phone_number}`}>
-                    {selectedActivity.phone_number}
-                  </a>
-                ) : (
-                  "—"
-                )}
-              </p>
-            </div>
-
-            <div className="modal-actions">
-              {selectedActivity.phone_number ? (
-                <a
-                  className="btn btn-whatsapp"
-                  href={buildWhatsAppLink(
-                    selectedActivity.phone_number,
-                    selectedActivity.activity_name,
-                    selectedActivity.location
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Contact on WhatsApp
-                </a>
-              ) : (
-                <button className="btn btn-disabled" disabled>
-                  WhatsApp unavailable
-                </button>
-              )}
-              <button className="btn btn-danger" onClick={closeActivityModal}>
-                <FaTimes style={{ marginRight: 6 }} /> Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Logout Confirmation Popup */}
       {showLogoutConfirm && (

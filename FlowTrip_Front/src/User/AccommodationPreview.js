@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,6 +9,7 @@ import fallbackImage from "../Assets/AccommodationImagejpg.jpg";
 import BackButton from "../Component/BackButton";
 import Booking from "../Component/Booking";
 import Loader from "../Component/Loader";
+
 
 export default function AccommodationPreview() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ export default function AccommodationPreview() {
 
   const handlePayment = async (paymentData) => {
     try {
-      const paymentPayload = {
+      const paymentPayload = {  
         stripeToken: paymentData.stripeToken,
         amount: accommodation.price,
         traveler_name: paymentData.bookingData.travelerName,
@@ -58,21 +59,24 @@ export default function AccommodationPreview() {
         start_date: paymentData.bookingData.checkInDate,
         end_date: paymentData.bookingData.checkOutDate,
       };
-console.log(paymentPayload);
-      const apiEndpoint =
-        type === "room"
-          ? `${baseURL}/BookRoom/${id}`
-          : `${baseURL}/BookAccommodation/${id}`;
+      
+      const apiEndpoint = type === 'room' 
+        ? `${baseURL}/BookRoom/${id}`
+        : `${baseURL}/BookAccommodation/${id}`;
+      
+        setLoading(true);
 
-      setLoading(true);
-
-      const response = await axios.post(apiEndpoint, paymentPayload, {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(response.data);
+      const response = await axios.post(
+        apiEndpoint,
+        paymentPayload,
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.data); 
       if (response.data.success) {
         toast.success("Booking done successfully!");
         setShowBookingForm(false);
@@ -82,7 +86,8 @@ console.log(paymentPayload);
     } catch (error) {
       console.error("Payment error:", error);
       toast.error("Payment failed. Please check your details and try again.");
-    } finally {
+    }
+    finally{
       setLoading(false);
     }
   };
@@ -101,9 +106,7 @@ console.log(paymentPayload);
     );
   }
 
-  return loading ? (
-    <Loader />
-  ) : (
+  return loading ? <Loader/> : (
     <div className="acc-preview-accommodation-preview">
       <ToastContainer />
 
@@ -341,26 +344,24 @@ console.log(paymentPayload);
           </div>
         </div>
 
-        {TOKEN && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              cursor: "pointer",
-            }}
-            onClick={handleBooking}
-          >
-            <div className="acc-preview-booking-container-button">
-              <div className="acc-preview-hover acc-preview-bt-1"></div>
-              <div className="acc-preview-hover acc-preview-bt-2"></div>
-              <div className="acc-preview-hover acc-preview-bt-3"></div>
-              <div className="acc-preview-hover acc-preview-bt-4"></div>
-              <div className="acc-preview-hover acc-preview-bt-5"></div>
-              <div className="acc-preview-hover acc-preview-bt-6"></div>
-              <button className="acc-preview-bookButton"></button>
-            </div>
+        {TOKEN && <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            cursor: "pointer",
+          }}
+          onClick={handleBooking}
+        >
+          <div className="acc-preview-booking-container-button">
+            <div className="acc-preview-hover acc-preview-bt-1"></div>
+            <div className="acc-preview-hover acc-preview-bt-2"></div>
+            <div className="acc-preview-hover acc-preview-bt-3"></div>
+            <div className="acc-preview-hover acc-preview-bt-4"></div>
+            <div className="acc-preview-hover acc-preview-bt-5"></div>
+            <div className="acc-preview-hover acc-preview-bt-6"></div>
+            <button className="acc-preview-bookButton"></button>
           </div>
-        )}
+        </div>}
       </div>
 
       {showBookingForm && (

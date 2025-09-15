@@ -18,6 +18,135 @@ html {
   width: 100%;
 }
 
+.owner-user-action-btn {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background:#5de2a3;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.06s ease, opacity 0.2s ease;
+}
+.red-butto{
+  background: #ff6b6b !important;
+}
+
+.owner-user-action-btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.owner-user-action-btn:disabled {
+  background: #c7c7c7;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+@keyframes modalFadeIn {
+  from { opacity: 0 } to { opacity: 1 }
+}
+
+.modele {
+  width: min(560px, 96%);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+  overflow: hidden;
+  animation: modalSlideUp 0.2s ease-out;
+   display: block !important;
+  position: relative !important;
+   height: auto;
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(12px); opacity: 0 }
+  to   { transform: translateY(0); opacity: 1 }
+}
+
+.modele-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #f3f6fb, #eaf2f8);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.modele-header h3 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.modele-close {
+  border: none;
+  background: #eef2f7;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #334155;
+}
+.modele-close:hover { background: #e2e8f0; }
+
+.modele-body {
+  padding: 16px 18px 4px;
+}
+.modele-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.modele-row {
+  margin: 6px 0;
+  color: #475569;
+  font-size: 14px;
+}
+.modele-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center; /* بالنص */
+  padding: 12px 18px 16px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+.red-butto{
+  background: #ff6b6b !important;
+}
+.modele-actions button {
+    flex: 1 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease
+    ;}
+.modele .btn.btn-danger {
+  background: #ef4444;        /* أحمر أساسي */
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+  border: none;
+}
+.modele .btn.btn-danger:hover {
+  background: #dc2626;        /* أغمق عند الهوفر */
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.45);
+}
+.modele-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  animation: modalFadeIn 0.15s ease-in;
+}
 .owner-details-card {
   background: var(--color7);
   border-radius: 22px;

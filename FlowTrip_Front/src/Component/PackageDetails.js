@@ -43,18 +43,15 @@ const PackageDetails = () => {
   const [editLoading, setEditLoading] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [rating, setRating] = useState(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
-
+  const[ownerId,setOwnerId]= useState(null);
   const fallbackImage =
     "https://images.unsplash.com/photo-1504674900247-0877df9cc836";
   const navigate = useNavigate();
 
   const token = Cookies.get("token") || localStorage.getItem("token");
-  console.log("token");
-  console.log(token);
-
+  const userRole = Cookies.get("role") || localStorage.getItem("role");
   useEffect(() => {
     const fetchPackage = async () => {
       try {
@@ -71,8 +68,9 @@ const PackageDetails = () => {
             res.data.data.package_picture ||
             "https://images.unsplash.com/photo-1504674900247-0877df9cc836"
           );
-          console.log(res.data);
         }
+        setOwnerId(res.data.data.tourism_company.owner_id)
+        console.log(res)
       } catch (err) {
         console.error("Error fetching package details:", err);
       } finally {
@@ -221,7 +219,14 @@ const PackageDetails = () => {
     toast.success("Booking completed successfully!", { position: "top-right" });
   };
 
-
+const handleTourismCompanyClick=()=>{
+  if (userRole==="user") {
+    navigate(`/owner_profile/${ownerId}`);
+  }else if (userRole === "Tourism Company") {
+    navigate(`/TourismCompany/dashboard/profile`);
+  }
+    
+}
 
   if (loading) return <PackageDetailsLoader />;
   if (!packageData) return <p>Package not found</p>;
@@ -244,7 +249,6 @@ const PackageDetails = () => {
   };
 
   // const userType = localStorage.getItem("user_type");
-  const userRole =  Cookies.get("role") || localStorage.getItem("role");
 
   // Check if current user is the owner of this tourism company package
   const isPackageOwner = packageData &&
@@ -286,7 +290,7 @@ const PackageDetails = () => {
       </Slider>
 
       <div className="packageInfo">
-        <h1 className="companyName">
+        <h1 onClick={handleTourismCompanyClick} className="companyName">
           {packageData.tourism_company.company_name}
         </h1>
         <p className="description">{packageData.discription}</p>

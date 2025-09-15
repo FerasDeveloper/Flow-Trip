@@ -8,16 +8,10 @@ import Button from "./AddButton";
 import ConfirmDialog from "./ConfirmDialog";
 import CloseButton from "../Component/CloseButton";
 import EditButton from "./EditButton";
-import {
-  baseURL,
-  SHOW_PROFILE,
-  SHOW_OWNER,
-  BLOCK_OWNER,
-  TOKEN,
-} from "../Api/Api";
-import { style } from "framer-motion/client";
-
-export default function OwnerDetailsComponent({ id, token, isAdmin }) {
+import RateOwnerCard from "../Component/RateOwnerCard";
+import { ToastContainer, toast } from "react-toastify";
+import Cookies from "js-cookie";
+  export default function OwnerDetailsComponent({ id, isAdmin, readOnly,isActivity }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -37,9 +31,61 @@ export default function OwnerDetailsComponent({ id, token, isAdmin }) {
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedCountryId, setSelectedCountryId] = useState("");
+  const [isBookModalOpen, setIsBookModalOpen] = useState(false);
+  const [rating, setRating] = useState(null);
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+    return null;
+  };
+  let TOKEN = getCookie("token");
+
+  if (!TOKEN) {
+    TOKEN = localStorage.getItem("token");
+  }
 
   const authToken = TOKEN;
+  const buildWhatsAppLink = (phone, title, loc) => {
+  if (!phone) return null;
+  const digits = String(phone).replace(/\D/g, "");
+  if (!digits) return null;
+  const msg = `Hello, I'm interested in booking${title ? ` "${title}"` : ""}${loc ? ` in ${loc}` : ""}. Is it available?`;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(msg)}`;
+};
+  const handleRatingChange = async (e) => {
+    const selectedRating = e?.target?.value ?? e;
+    setRating(selectedRating);
 
+    const tk = Cookies.get("token")||
+    localStorage.getItem("token")||
+    authToken;
+    if (!tk) {
+      navigate("/not-registered");
+      return;
+    }
+
+    try {
+      await axios.post(
+        "http://127.0.0.1:8000/api/rate-owner",
+        {
+          owner_id: data?.owner?.id,
+          rating: selectedRating,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${tk}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      toast.success("Thanks for rating!", { position: "top-right" });
+    } catch (err) {
+      console.error("Error submitting rating:", err);
+      toast.error("Failed to submit rating.", { position: "top-right" });
+    }
+  };
   const fetchData = async () => {
     setLoading(true);
     setError(null);
@@ -56,6 +102,7 @@ export default function OwnerDetailsComponent({ id, token, isAdmin }) {
           Authorization: `Bearer ${authToken}`,
         },
       });
+      console.log(res);
       setData(res.data);
       setSelectedCountry(res.data.owner.country);
       setSelectedCountryId(res.data.owner.countryId);
@@ -179,7 +226,7 @@ export default function OwnerDetailsComponent({ id, token, isAdmin }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({ services: servicesToSend }),
       });
@@ -201,7 +248,7 @@ export default function OwnerDetailsComponent({ id, token, isAdmin }) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       });
       fetchData();
@@ -382,7 +429,7 @@ export default function OwnerDetailsComponent({ id, token, isAdmin }) {
                 Owner Name:
               </span>
               <span className="owner-details-value">
-                {details.activity_owner.owner_name || "-"}
+                {details.owner_name || "-"}
               </span>
             </div>
             <div className="owner-details-section">
@@ -401,7 +448,7 @@ export default function OwnerDetailsComponent({ id, token, isAdmin }) {
     }
   }
 
-  if (isEditing) {
+  if (isEditing && !readOnly) {
     return (
       <div className="owner-edit-container">
         <div className="owner-edit-header">
@@ -595,7 +642,8 @@ export default function OwnerDetailsComponent({ id, token, isAdmin }) {
       }`}
       style={{ position: "relative" }}
     >
-      {!isAdmin && (
+      <ToastContainer position="top-right" autoClose={2000} />
+      {!isAdmin && !readOnly && (
         <div
           onClick={() => setIsEditing(true)}
           style={{
@@ -681,13 +729,81 @@ export default function OwnerDetailsComponent({ id, token, isAdmin }) {
           </div>
         </div>
       </div>
+      {!isAdmin && isActivity && readOnly && (
+        <div className="user-info-actions">
+          <button
+            className="owner-user-action-btn"
+            disabled={!user?.email}
+            onClick={() => setIsBookModalOpen(true)}
+          >
+            Book Now
+          </button>
+        </div>
+      )}
+      {isBookModalOpen && (
+        <div
+          className="modele-overlay"
+          onClick={() => setIsBookModalOpen(false)}
+        >
+          <div
+            className="modele"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="bookOwnerModalTitle"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modele-header">
+              <h3 id="bookOwnerModalTitle">
+                Do you want to book with this owner?
+              </h3>
+              <button
+                className="modele-close"
+                aria-label="Close"
+                onClick={() => setIsBookModalOpen(false)}
+              ></button>
+            </div>
 
+            <div className="modele-actions">
+              {user?.phone_number ? (
+                <a
+                  className="btn btn-whatsapp"
+                  href={buildWhatsAppLink(
+                    user.phone_number,
+                    owner?.category,
+                    owner?.location
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Contact on WhatsApp
+                </a>
+              ) : (
+                <button className="btn btn-disabled" disabled>
+                  WhatsApp unavailable
+                </button>
+              )}
+              <button
+                className="red-butto"
+                onClick={() => setIsBookModalOpen(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="more-info-section">
+        {!isAdmin && readOnly && (
+          <div className="owner-details-card" style={{ marginBottom: 20 }}>
+            <h2 className="owner-details-title">Rate this Owner</h2>
+            <RateOwnerCard onChange={handleRatingChange} />
+          </div>
+        )}
         <div
           className="owner-services-section"
           style={{ position: "relative" }}
         >
-          {!isAdmin && (
+          {!isAdmin && !readOnly && (
             <Button
               text="Add Service"
               style={{ position: "absolute", top: 0, left: 0, zIndex: 2 }}

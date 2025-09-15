@@ -24,7 +24,6 @@ export default function GetEvaluation() {
   const token = TOKEN;
 
   useEffect(() => {
-
     fetch(`${baseURL}/GetEvaluation`, {
       method: "GET",
       headers: {
@@ -59,7 +58,9 @@ export default function GetEvaluation() {
 
     for (let i = 0; i < fullStars; i++) {
       stars.push(
-        <span key={`full-${i}`} style={{ color: "#FFD700", fontSize: "22px" }}>★</span>
+        <span key={`full-${i}`} style={{ color: "#FFD700", fontSize: "22px" }}>
+          ★
+        </span>
       );
     }
 
@@ -79,13 +80,20 @@ export default function GetEvaluation() {
       );
     } else if (remainder >= 0.7) {
       stars.push(
-        <span key="extra-full" style={{ color: "#FFD700", fontSize: "22px" }}>★</span>
+        <span key="extra-full" style={{ color: "#FFD700", fontSize: "22px" }}>
+          ★
+        </span>
       );
     }
 
     while (stars.length < 5) {
       stars.push(
-        <span key={`empty-${stars.length}`} style={{ color: "#ccc", fontSize: "22px" }}>★</span>
+        <span
+          key={`empty-${stars.length}`}
+          style={{ color: "#ccc", fontSize: "22px" }}
+        >
+          ★
+        </span>
       );
     }
 
@@ -98,7 +106,9 @@ export default function GetEvaluation() {
 
       <div className="average-box">
         <div className="average-item">
-          <div className="average-item-value">{data?.average_rating ?? "-"}</div>
+          <div className="average-item-value">
+            {data?.average_rating ?? "-"}
+          </div>
           <div className="average-item-label">Average Rating</div>
         </div>
         <div className="average-item">

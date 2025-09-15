@@ -22,6 +22,7 @@ export default function RoomDetails() {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const navigate = useNavigate();
+
   const token = TOKEN;
 
   useEffect(() => {

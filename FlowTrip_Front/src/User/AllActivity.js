@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FaTimes } from "react-icons/fa";
 import ActivityCardSkeleton from "../Component/ActivityCardSkeleton";
+import { useNavigate } from "react-router-dom";
 
 import "./HomePage.css";
 import "./AllActivity.css";
@@ -12,27 +12,37 @@ export default function AllAcyivit() {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
+  const navigate = useNavigate();
 
   const [activityName, setActivityName] = useState("");
   const [place, setPlace] = useState("");
   const [country, setCountry] = useState("");
 
-  const [selectedActivity, setSelectedActivity] = useState(null);
-  const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
+  
+const FALLBACK_IMG =
+  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80";
 
-  const getImageUrl = (picture) => {
-    if (!picture)
-      return "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80";
-    if (picture.includes("storage\\")) {
-      const fileName = picture.split("\\").pop();
-      return `http://127.0.0.1:8000/storage/images/${fileName}`;
-    }
-    if (picture.includes("storage/")) {
-      const fileName = picture.split("/").pop();
-      return `http://127.0.0.1:8000/storage/images/${fileName}`;
-    }
-    return picture;
-  };
+const getImageUrl = (picture) => {
+  // 1) حالات null/undefined/""/"null"/"undefined"
+  if (!picture || picture === "null" || picture === "undefined") return FALLBACK_IMG;
+
+  // 2) توحيد السلاشات
+  const p = String(picture).replace(/\\/g, "/").trim();
+
+  // 3) إذا الرابط كامل http/https رجّعو كما هو
+  if (/^https?:\/\//i.test(p)) return p;
+
+  // 4) إذا إجا مثل "storage/images/file.jpg" أو "/storage/images/file.jpg"
+  //    خليه يشير للسيرفر تبعك
+  if (p.includes("storage/")) {
+    const fileName = p.split("/").pop();
+    return `http://127.0.0.1:8000/storage/images/${fileName}`;
+  }
+
+  // 5) أي شي غير هيك: جرّب اعتباره اسم ملف موجود بمجلد التخزين
+  const fileName = p.split("/").pop();
+  return `http://127.0.0.1:8000/storage/images/${fileName}`;
+};
 
   const applyClientFilter = (arr) => {
     const an = activityName.trim().toLowerCase();
@@ -107,14 +117,7 @@ export default function AllAcyivit() {
     fetchAll();
   };
 
-  const openActivityModal = (act) => {
-    setSelectedActivity(act);
-    setIsActivityModalOpen(true);
-  };
-  const closeActivityModal = () => {
-    setIsActivityModalOpen(false);
-    setSelectedActivity(null);
-  };
+  
 
   const buildWhatsAppLink = (phone, aName, loc) => {
     if (!phone) return null;
@@ -182,92 +185,56 @@ export default function AllAcyivit() {
       )}
 
       <div className="activities-grid all">
-        {loading ? (
-          Array.from({ length: SKELETON_COUNT }).map((_, i) => (
-            <ActivityCardSkeleton key={`act-skel-${i}`} />
-          ))
-        ) : activities.length === 0 ? (
-          <div style={{ gridColumn: "1 / -1", textAlign: "center", color: "#475569" }}>
-            No activities found.
-          </div>
-        ) : (
-          activities.map((act, idx) => (
-            <div
-              key={act.id ?? `${act.activity_name}-${idx}`}
-              className="activity-card"
-              onClick={() => openActivityModal(act)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => (e.key === "Enter" ? openActivityModal(act) : null)}
-            >
-              <img
-                src={getImageUrl(act.picture)}
-                alt={act.activity_name}
-                className="activity-img"
-              />
-              <div className="activity-overlay">
-                <h3>{act.activity_name}</h3>
-                <p>{act.owner_name || act.email || ""}</p>
-                <p>
-                  {act.location}
-                  {act.country_name ? `, ${act.country_name}` : ""}
-                </p>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-
-      {/* Modal */}
-      {isActivityModalOpen && selectedActivity && (
-        <div className="modal-overlay" onClick={closeActivityModal}>
-          <div
-            className="modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="actModalTitle"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-header">
-              <h3 id="actModalTitle">Do you want to book this activity?</h3>
-              <button className="modal-close" onClick={closeActivityModal} aria-label="Close">×</button>
-            </div>
-
-            <div className="modal-body">
-              <p className="modal-title">{selectedActivity.activity_name}</p>
-              <p className="modal-row"><strong>Owner:</strong> {selectedActivity.owner_name || "—"}</p>
-              <p className="modal-row">
-                <strong>Phone:</strong>{" "}
-                {selectedActivity.phone_number ? (
-                  <a href={`tel:${selectedActivity.phone_number}`}>{selectedActivity.phone_number}</a>
-                ) : "—"}
-              </p>
-            </div>
-
-            <div className="modal-actions">
-              {selectedActivity.phone_number ? (
-                <a
-                  className="btn btn-whatsapp"
-                  href={buildWhatsAppLink(
-                    selectedActivity.phone_number,
-                    selectedActivity.activity_name,
-                    selectedActivity.location
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Contact on WhatsApp
-                </a>
-              ) : (
-                <button className="btn btn-disabled" disabled>WhatsApp unavailable</button>
-              )}
-              <button className="btn btn-danger" onClick={closeActivityModal}>
-                <FaTimes aria-hidden="true" /> Close
-              </button>
-            </div>
-          </div>
+  {loading ? (
+    Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+      <ActivityCardSkeleton key={`act-skel-${i}`} />
+    ))
+  ) : activities.length === 0 ? (
+    <div style={{ gridColumn: "1 / -1", textAlign: "center", color: "#475569" }}>
+      No activities found.
+    </div>
+  ) : (
+    activities.map((act, idx) => (
+      <div
+        key={act.id ?? `${act.activity_name}-${idx}`}
+        className="activity-card"
+        onClick={() =>
+          navigate(`/owner_profile/${act.owner_id}`, {
+            state: { readOnly: true, ownerId: act.owner_id },
+          })
+        }
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            navigate(`/owner_profile/${act.owner_id}`, {
+              state: { readOnly: true, ownerId: act.owner_id },
+            });
+          }
+        }}
+        title="View owner profile"
+      >
+        <img
+          src={getImageUrl(act.picture)}
+          alt={act.activity_name}
+          className="activity-img"
+          onError={(e) => { e.currentTarget.src = FALLBACK_IMG; }}
+        />
+        <div className="activity-overlay">
+          <h3>{act.activity_name}</h3>
+          <p>{act.owner_name || act.email || ""}</p>
+          <p>
+            {act.location}
+            {act.country_name ? `, ${act.country_name}` : ""}
+          </p>
         </div>
-      )}
+      </div>
+    ))
+  )}
+</div>
+
+
+     
     </div>
   );
 }

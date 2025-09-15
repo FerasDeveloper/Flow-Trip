@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import axios from "axios";
 import ShowRecordsContainer from "../Component/ShowRecordsContainer";
 import {
   baseURL,
-  WHO_AMI,
   SHOW_ACCOMMODATION_RECORDS,
   SHOW_ROOM_RECORDS,
   FILTER_NAME_ACCOMMODATIOM,
@@ -21,7 +21,7 @@ export default function ShowRecords() {
   const [searchQuery, setSearchQuery] = useState("");
   const [originalRecords, setOriginalRecords] = useState([]);
   const [originalRoomRecords, setOriginalRoomRecords] = useState([]);
-  const role = localStorage.getItem('role');
+  const role = localStorage.getItem('role') || Cookies.get('role') || '';
 
   useEffect(() => {
     const checkUserType = async () => {
@@ -188,6 +188,7 @@ export default function ShowRecords() {
       handleSearch={handleSearch}
       advanced={false}
       customTitle="Booking Archieve"
+      isrecords={true}
     />
   );
 }

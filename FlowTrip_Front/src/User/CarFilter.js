@@ -2,18 +2,19 @@ import React, { useEffect, useState } from "react";
 import "./CarFilter.css";
 import { FaWhatsapp } from "react-icons/fa";
 import CarCardSkeleton from "../Component/CarCardSkeleton"; // ⬅️ استيراد السكيليتون
+import { useNavigate } from "react-router-dom";
 
 const API_SEARCH = "http://127.0.0.1:8000/api/searchVehicles";
 const API_ALL = "http://127.0.0.1:8000/api/getAllVehicles";
 
 export default function CarFilter() {
+  const navigate=useNavigate();
   const [location, setLocation] = useState("");
   const [vehicleName, setVehicleName] = useState("");
   const [peopleCount, setPeopleCount] = useState("");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
-
   const extractCity = (loc) => {
     if (!loc) return null;
     const parts = String(loc).split(",").map((s) => s.trim()).filter(Boolean);
@@ -106,7 +107,9 @@ export default function CarFilter() {
       setLoading(false);
     }
   };
-
+const handleVehicleClick =(owner_id)=>{
+  navigate(`/owner_profile/${owner_id}`)
+}
   const buildWhatsAppLink = (phone, title, loc) => {
     if (!phone) return null;
     const digits = String(phone).replace(/\D/g, "");
@@ -224,7 +227,7 @@ export default function CarFilter() {
                         : null;
 
                     return (
-                      <div key={item.id ?? `${title}-${owner}-${phone}`} className="cf-card no-img">
+                      <div onClick={()=>handleVehicleClick(item.owner_id)} key={item.id ?? `${title}-${owner}-${phone}`} className="cf-card no-img">
                         <div className="cf-card-body">
                           <div className="cf-card-head">
                             <h3 className="cf-card-title">{title}</h3>

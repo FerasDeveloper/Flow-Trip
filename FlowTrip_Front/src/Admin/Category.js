@@ -54,6 +54,7 @@ const Category = () => {
     }
 
     axios
+
       .post(`${baseURL}/${ADD_CATIGORY}`, {
         name: newCategoryName,
       },{
@@ -70,7 +71,7 @@ const Category = () => {
       })
       .catch((error) => {
         toast.error(`Error:${error.message}`);
-        console.log(error.message)
+        console.log(error.message);
       });
   };
 
@@ -104,6 +105,7 @@ const Category = () => {
       ) :(
       <div className="category-row">
         {categories.map((cat) => (
+
           <CategoryCard
             title={cat.text}
             key={cat.id}
@@ -129,7 +131,10 @@ const Category = () => {
               <button className="animated-btn" onClick={handleAddCategory}>
                 Add
               </button>
-              <button className="animated-btn cancel" onClick={() => setShowModal(false)}>
+              <button
+                className="animated-btn cancel"
+                onClick={() => setShowModal(false)}
+              >
                 cansle
               </button>
               <button

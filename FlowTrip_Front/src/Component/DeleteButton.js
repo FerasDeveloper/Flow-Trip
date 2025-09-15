@@ -2,9 +2,9 @@
 import React from "react";
 import "./DeleteButton.css";
 
-const DeleteButton = () => {
+const DeleteButton = ({onClick}) => {
   return (
-    <button className="delete-noselect">
+    <button className="delete-noselect" onClick={onClick}>
       <span className="delete-text">Delete</span>
       <span className="delete-icon">
         <svg

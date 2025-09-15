@@ -1,30 +1,52 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-const PaymentButton = ({ onPayment, formData, cardData, checkInDate, checkOutDate, accommodation }) => {
-  
+const PaymentButton = ({
+  onPayment,
+  formData,
+  cardData,
+  checkInDate,
+  checkOutDate,
+  accommodation,
+  type,
+}) => {
   const handlePaymentClick = () => {
     if (onPayment) {
-      if (!cardData || !cardData.cardNumber || !cardData.cvv || !cardData.expiry) {
-        alert('Please fill in all card details');
+      if (
+        !cardData ||
+        !cardData.cardNumber ||
+        !cardData.cvv ||
+        !cardData.expiry
+      ) {
+        alert("Please fill in all card details");
         return;
       }
-      
+
       const paymentData = {
-        stripeToken: 'tok_visa',
+        stripeToken: "tok_visa",
         amount: accommodation?.price || 100,
         bookingData: {
           ...formData,
-          checkInDate: checkInDate ? checkInDate.toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
-          checkOutDate: checkOutDate ? checkOutDate.toISOString().split('T')[0] : new Date(Date.now() + 86400000).toISOString().split('T')[0]
+          checkInDate: checkInDate
+            ? checkInDate.toISOString().split("T")[0]
+            : new Date().toISOString().split("T")[0],
+          checkOutDate: checkOutDate
+            ? checkOutDate.toISOString().split("T")[0]
+            : new Date(Date.now() + 86400000).toISOString().split("T")[0],
         },
         cardInfo: {
-          lastFour: cardData.cardNumber.replace(/\s/g, '').slice(-4),
-          holderName: cardData.holderName
+          lastFour: cardData.cardNumber.replace(/\s/g, "").slice(-4),
+          holderName: cardData.holderName,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
-      onPayment(paymentData);
+      const paymentData2 = {
+        stripeToken: "tok_visa",
+        ...formData,
+      };
+      type === "room" || type === "other"
+        ? onPayment(paymentData)
+        : onPayment(paymentData2);
     }
   };
   return (
@@ -69,7 +91,7 @@ const StyledWrapper = styled.div`
   }
 
   .pay-btn-container:hover {
-    transform: scale(0.8,0.7);
+    transform: scale(0.8, 0.7);
   }
 
   .pay-btn-container:hover .pay-btn-left-side {

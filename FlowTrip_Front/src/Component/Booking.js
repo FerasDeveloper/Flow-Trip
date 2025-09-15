@@ -1,20 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Calendar } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
-import { toast } from "react-toastify";
 import PaymentCard from "./PaymentCard";
 import SaveButton from "./SaveButton";
 import PaymentButton from "./PaymentButton";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const Booking = ({ type, accommodation, onClose, onPayment }) => {
+const Booking = ({
+  type,
+  accommodation,
+  flight,
+  price,
+  onClose,
+  onPayment,
+  outboundSeats,
+  returnSeats,
+  passenger_count,
+  isTwoWay,
+}) => {
   const location = useLocation();
   const bookingData = location.state || {};
+  const [travelerData, setTravelerData] = useState(
+    Array.from({ length: passenger_count }, () => ({
+      traveler_name: "",
+      national_number: "",
+    }))
+  );
 
-  // Check if it's a package booking from props or location state
   const isPackageBooking = type === "package" || bookingData.type === "package";
   const packageData = accommodation || bookingData.packageData;
   const paymentMethod =
@@ -46,6 +62,33 @@ const Booking = ({ type, accommodation, onClose, onPayment }) => {
       ...prev,
       [name]: value,
     }));
+  };
+  const handleTravelerChange = (index, field, value) => {
+    const updated = [...travelerData];
+    updated[index][field] = value;
+    setTravelerData(updated);
+  };
+  const handlePaymentClick = () => {
+    let passengers;
+    if (isTwoWay) {
+      passengers = travelerData.map((t, index) => ({
+        traveler_name: t.traveler_name,
+        national_number: String(t.national_number),
+        seat_number_outbound: String(outboundSeats[index]),
+        seat_number_return: returnSeats?.[index]
+          ? String(returnSeats[index])
+          : "",
+      }));
+    } else {
+      passengers = travelerData.map((t, index) => ({
+        traveler_name: t.traveler_name,
+        national_number: String(t.national_number),
+        seat_number_outbound: String(outboundSeats[index]),
+      }));
+    }
+    return {
+      passengers,
+    };
   };
 
   const handlePackageBooking = async () => {
@@ -125,7 +168,6 @@ const Booking = ({ type, accommodation, onClose, onPayment }) => {
       setIsSubmitting(false);
     }
   };
-
   const renderRoomFields = () => (
     <>
       <div className="booking-section">
@@ -289,6 +331,39 @@ const Booking = ({ type, accommodation, onClose, onPayment }) => {
       </div>
     </>
   );
+  const renderAirlineFields = () => (
+    <div className="booking-section">
+      <h3>Booking Details</h3>
+      {travelerData.map((t, index) => (
+        <div className="booking-form-row" key={index}>
+          <div className="booking-form-group">
+            <label>Traveler {index + 1} Name</label>
+            <input
+              type="text"
+              value={t.traveler_name}
+              onChange={(e) =>
+                handleTravelerChange(index, "traveler_name", e.target.value)
+              }
+              placeholder="Enter Traveler Name"
+              required
+            />
+          </div>
+          <div className="booking-form-group">
+            <label>Traveler {index + 1} National ID</label>
+            <input
+              type="number"
+              value={t.national_number}
+              onChange={(e) =>
+                handleTravelerChange(index, "national_number", e.target.value)
+              }
+              placeholder="Enter National ID"
+              required
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 
   const renderPackageFields = () => (
     <>
@@ -348,7 +423,9 @@ const Booking = ({ type, accommodation, onClose, onPayment }) => {
               ? "Package"
               : type === "room"
               ? "Room"
-              : "Accommodation"}
+              : type === "other"
+              ? "Accommodation"
+              : "Flight"}
           </h2>
           <button className="booking-close-btn" onClick={onClose}>
             ×
@@ -382,7 +459,7 @@ const Booking = ({ type, accommodation, onClose, onPayment }) => {
               </p>
               <p className="booking-description">{packageData?.discription}</p>
             </div>
-          ) : (
+          ) : type === "room" || type === "other" ? (
             <div className="booking-accommodation-info">
               <h3>
                 {accommodation?.hotel_name || accommodation?.accommodation_name}
@@ -407,18 +484,12 @@ const Booking = ({ type, accommodation, onClose, onPayment }) => {
                 {type === "room" ? " / Night" : " / Day"}
               </p>
             </div>
-          )}
-
-          {isPackageBooking
-            ? renderPackageFields()
-            : type === "room"
-            ? renderRoomFields()
-            : renderAccommodationFields()}
-
-          {paymentMethod !== "points" && (
-            <div className="booking-section">
-              <h3>Payment Information</h3>
-              <PaymentCard cardData={cardData} setCardData={setCardData} />
+          ) : (
+            <div className="booking-accommodation-info">
+              <h3>{flight.flight_number}</h3>
+              <p className="booking-price">
+                💰 <span>{price}$</span>
+              </p>
             </div>
           )}
 
@@ -432,39 +503,48 @@ const Booking = ({ type, accommodation, onClose, onPayment }) => {
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="booking-date-modal-header">
-                  <h3>
-                    {currentDateType === "checkIn"
-                      ? "Select Check-in Date"
-                      : "Select Check-out Date"}
-                  </h3>
+                  <h3>Select Date</h3>
                   <button
                     className="booking-close-button"
                     onClick={() => setShowDateModal(false)}
-                    aria-label="Close"
-                    title="Close"
                   >
                     ×
                   </button>
                 </div>
-                <div style={{ padding: 24 }}>
-                  <Calendar
-                    date={tempDate}
-                    onChange={(date) => setTempDate(date)}
-                  />
-                </div>
+                <Calendar
+                  date={tempDate}
+                  onChange={(date) => setTempDate(date)}
+                />
                 <div className="booking-date-modal-footer">
-                  <SaveButton
+                  <button
                     onClick={() => {
-                      if (currentDateType === "checkIn") {
+                      if (currentDateType === "checkIn")
                         setCheckInDate(tempDate);
-                      } else {
+                      else if (currentDateType === "checkOut")
                         setCheckOutDate(tempDate);
-                      }
                       setShowDateModal(false);
                     }}
-                  />
+                    className="booking-submit-btn"
+                  >
+                    Save
+                  </button>
                 </div>
               </div>
+            </div>
+          )}
+
+          {isPackageBooking
+            ? renderPackageFields()
+            : type === "room"
+            ? renderRoomFields()
+            : type === "other"
+            ? renderAccommodationFields()
+            : renderAirlineFields()}
+
+          {paymentMethod !== "points" && (
+            <div className="booking-section">
+              <h3>Payment Information</h3>
+              <PaymentCard cardData={cardData} setCardData={setCardData} />
             </div>
           )}
 
@@ -501,11 +581,16 @@ const Booking = ({ type, accommodation, onClose, onPayment }) => {
           ) : (
             <PaymentButton
               onPayment={onPayment}
-              formData={formData}
+              formData={
+                type === "room" || type === "other" || isPackageBooking
+                  ? formData
+                  : handlePaymentClick()
+              }
               cardData={cardData}
               checkInDate={checkInDate}
               checkOutDate={checkOutDate}
               accommodation={accommodation}
+              type={type}
             />
           )}
         </form>

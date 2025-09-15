@@ -39,7 +39,6 @@ const PackagesTourism = () => {
         );
         if (res.data && res.data.data) {
           setPackages(res.data.data);
-          console.log(res.data.data);
         }
       } catch (err) {
         console.error("Error fetching packages:", err);

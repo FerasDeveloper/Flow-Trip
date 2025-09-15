@@ -4,5 +4,5 @@ import OwnerDetailsComponent from "../Component/OwnerDetailsComponent";
 export default function Profile() {
   const token = TOKEN
   
-  return <OwnerDetailsComponent token={token} isAdmin={false} />;
-}
+  return <OwnerDetailsComponent isAdmin={false} readOnly={false} />;
+} 

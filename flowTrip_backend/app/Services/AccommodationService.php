@@ -263,7 +263,10 @@ class AccommodationService
         $customersCount = User_room::query()->where('room_id', $room->id)->count();
         $room['count'] = $customersCount;
         return $room;
-      });
+      })->filter(function ($room) {
+        return $room['count'] > 0;
+      })->values();
+
       $data['rooms'] = $roomsWithData;
 
       return $data;
@@ -343,7 +346,9 @@ class AccommodationService
           ->count();
 
         return $room;
-      });
+      })->filter(function ($room) {
+        return $room['count'] > 0;
+      })->values();;
 
       $sortedRooms = $roomsWithLatestBooking->sortBy('latest_booking')->values();
       $data['rooms'] = $sortedRooms;
@@ -413,7 +418,9 @@ class AccommodationService
           ->count();
 
         return $room;
-      });
+      })->filter(function ($room) {
+        return $room['count'] > 0;
+      })->values();;
 
       $sortedRooms = $roomsWithNewestBooking
         ->sortByDesc('newest_booking')
@@ -477,7 +484,9 @@ class AccommodationService
       $roomsWithPopularBooking = $rooms->map(function ($room) {
         $room['count'] = User_room::query()->where('room_id', $room->id)->count();
         return $room;
-      });
+      })->filter(function ($room) {
+        return $room['count'] > 0;
+      })->values();;
 
       $sortedRooms = $roomsWithPopularBooking->sortByDesc('count')->values();
       $data['rooms'] = $sortedRooms;

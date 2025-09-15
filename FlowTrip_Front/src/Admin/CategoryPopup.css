@@ -17,14 +17,20 @@
   border-radius: 12px;
   width: 90%;
   max-width: 500px;
+  max-height: 80vh; /* prevents popup from exceeding screen */
+  overflow-y: auto; /* allows internal scrolling if needed */
 }
 
 .category-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column; /* stack vertically */
   gap: 12px;
   margin-top: 15px;
+  max-height: 300px; /* adjust height for scroll */
+  overflow-y: auto;  /* scroll only inside the list */
+  padding-right: 8px; /* prevent scrollbar overlap */
 }
+
 
 .popup-category-card {
   background: var(--color6);

@@ -29,30 +29,14 @@ export default function Packages() {
 
   useEffect(() => {
     const fetchPackages = async () => {
-      // if (!token) {
-      //   console.error("No token found in localStorage");
-      //   setLoading(false);
-      //   return;
-      // }
-
       try {
         const res = await axios.get(`${baseURL}/${GET_ALL_PACKAGE}`, {
-          // headers: {
-          //   'Content-Type': 'application/json',
-          //   'Authorization': `Bearer ${token}`
-          // }
         });
-        console.log(res);
         if (res.data && res.data.data) {
           setPackages(res.data.data);
         }
       } catch (err) {
         console.error("Error fetching packages:", err);
-
-        // Handle unauthorized error (token expired or invalid)
-        if (err.response && err.response.status === 401) {
-          console.error("Token is invalid or expired");
-        }
       } finally {
         setLoading(false);
       }

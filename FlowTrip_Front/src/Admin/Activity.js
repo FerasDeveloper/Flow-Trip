@@ -87,8 +87,7 @@ const Activity = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       )
@@ -166,7 +165,10 @@ const Activity = () => {
               onChange={(e) => setNewActivityName(e.target.value)}
             />
             <div className="activity-modal-buttons">
-              <button className="activity-animated-btn" onClick={handleAddActivity}>
+              <button
+                className="activity-animated-btn"
+                onClick={handleAddActivity}
+              >
                 Add
               </button>
               <button

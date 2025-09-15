@@ -247,7 +247,9 @@
   white-space:nowrap;
 }
 
-
+.cf-card{
+  cursor: pointer;
+}
 
 /* Responsive */
 @media (max-width: 1080px) {

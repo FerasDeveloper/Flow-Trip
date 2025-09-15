@@ -156,6 +156,7 @@ export default function Advanced() {
       view={view}
       setView={setView}
       advanced={true}
+      isrecords={true}
     />
   );
 }

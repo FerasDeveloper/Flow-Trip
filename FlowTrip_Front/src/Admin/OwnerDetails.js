@@ -7,5 +7,5 @@ export default function OwnerDetails() {
   const { id } = useParams();
   const token =  TOKEN;
   
-  return <OwnerDetailsComponent id={id} token={token} isAdmin={true} />;
+  return <OwnerDetailsComponent id={id} isAdmin={true} readOnly={false}/>;
 }

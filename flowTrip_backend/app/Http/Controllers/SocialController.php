@@ -66,7 +66,7 @@ class SocialController extends Controller
         $find_user['token'] = $find_user->createToken('AccessToken')->plainTextToken;
 
         // Redirect to frontend with user data as URL parameters
-        $redirectUrl = 'http://localhost:3000/auth?' . http_build_query([
+        $redirectUrl = 'http://localhost:3000/?' . http_build_query([
           'auth_success' => 'true',
           'token' => $find_user['token'],
           'name' => urlencode($find_user->name),

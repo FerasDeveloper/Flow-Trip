@@ -68,7 +68,7 @@ class AdminService
 
   public function show_owner($id)
   {
-    $this->ensureAdmin();
+    // $this->ensureAdmin();
     $owner = Owner::query()->where('id', $id)->first();
     if ($owner == null) {
       return ['message' => 'Something went wrong'];

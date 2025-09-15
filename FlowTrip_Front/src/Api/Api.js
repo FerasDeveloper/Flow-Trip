@@ -9,9 +9,11 @@ export const SHOW_PROFILE = "ShowProfile";
 export const SHOW_ALL_ROOMS = "ShowAllRooms";
 export const SHOW_ROOM_RECORDS = "ShowRoomRecords";
 export const SHOW_ACCOMMODATION_RECORDS = "ShowAccommodationRecords";
+
 export const FILTER_NAME_ACCOMMODATIOM = "FilterNameAccommodation";
 
 // ================== Auth ==================
+
 export const WHO_AMI = "WhoAmI";
 export const LOGOUT = "logout";
 export const LOGIN = "Login";
@@ -24,6 +26,7 @@ export const RESENDEMAIL = "ReSendEmail";
 export const ADD_CATIGORY = "addcatigory";
 export const ADD_ACTIVITY = "addActivity";
 export const CREATE_SUBADMIN = "createSubAdmin";
+
 export const SHOW_ROOM = "ShowRoom";
 export const GET_ALL_UESER = "getalluser";
 export const GET_ALL_OWNERS = "GetAllOwners";
@@ -38,6 +41,7 @@ export const EDIT_REQUEST = "EditRequest";
 export const DELETE_ROOM = "DeleteRoom";
 export const REMOVE_SUBADMIN = "removeSubAdmin";
 export const DELETE_ACTIVITY = "deleteactivity";
+
 export const FILTER_USERS = "filterusers";
 export const FILTER_SUBADMINS = "filterSubAdmins";
 export const ADMIN_SEARCH = "AdminSearch";
@@ -45,12 +49,35 @@ export const PAYBYPOINT = "paybypoint";
 
 // ================== Airplane ==================
 export const ADD_PLANE = "AddPlane";
+
 export const GET_ALL_PLANES = "GetAllPlanes";
+
+
 export const GET_SINGLE_PLANE = "GetSinglePlane";
 export const EDIT_PLANE = "EditPlane";
 export const DELETE_PLANE = "DeletePlane";
 
-// ================== Vehicle Owner / Others ==================
+export const GET_ALL_FlIGHTS = "GetAllFlights";
+
+export const ADD_FLIGHT = "AddFlight";
+
+export const GET_FLIGHT_DETAILS = "GetFlightDetails";
+
+export const EDIT_FLIGHT = "EditFlight";
+
+export const EDIT_SEATS = "EditSeats";
+
+export const DELETE_FLIGHT = "DeleteFlight";
+
+export const GetAllReservations = "GetAllReservations";
+
+export const SearchReservationsByName = "SearchReservationsByName";
+
+export const GetFlightReservations = "GetFlightReservations";
+
+
+//vehiclyowner api
+
 export const GET_ALL_PICTURE = "getAllPicture";
 export const GET_ALL_CAR_TYPES = "GetAllCarTypes";
 export const GET_ALL_VICLYFORUSER = "getAllViclyForuser";
@@ -67,12 +94,16 @@ export const ACCEPT_REQUEST = "AcceptRequest";
 export const DELETE_REQUEST = "DeleteRequest";
 export const DELETE_VEHICLY = "deleteVehicly";
 export const DELETE_PICTURE_CAR = "deletePictureCar";
+
+// user
+export const Book_Flight = "book_flight";
+
 export const EDIT_VEHICLE = "editVehicle";
 
 // ================== User ==================
 export const FILTER_ACCOMMODATION = "FilterAccommodation";
 export const GET_ALL_ACCOMMODATION = "getAllAccommodation";
-
+export const GET_NEW_NOTIFICATIONS_COUNT="GetNewNotificationsCount"
 // ================== Tourism company ==================
 export const BASETOURISM = "tourism";
 export const DELETE_PACKAGE = "deletePackage";
@@ -103,7 +134,7 @@ const getCookie = (name) => {
 let TOKEN = getCookie("token");
 
 if (!TOKEN) {
-
+  
   TOKEN = localStorage.getItem("token");
 }
 
@@ -128,6 +159,14 @@ if (!ROLE) {
 }
 
 export { ROLE };
+
+let USERID=getCookie("user_id")
+
+if (!USERID) {
+  ROLE = localStorage.getItem("user_id");
+}
+
+export { USERID };
 // =======
 // export const TOKEN = localStorage.getItem("token");
 // >>>>>>> 8f6c837c3ba972d6555ab9b4fc3df5ae422b7eca

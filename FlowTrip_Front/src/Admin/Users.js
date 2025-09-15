@@ -14,6 +14,7 @@ export default function Users() {
   const [search, setSearch] = useState("");
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
+
   const token = TOKEN;
 
   useEffect(() => {

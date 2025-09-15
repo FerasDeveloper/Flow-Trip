@@ -28,7 +28,8 @@ const ShowRecordsContainer = ({
   btnn,
   view,
   setView,
-  advanced
+  advanced,
+  isrecords,
 }) => {
   const navigate = useNavigate();
   const [selectedMonth, setSelectedMonth] = useState(null);
@@ -47,17 +48,21 @@ const ShowRecordsContainer = ({
             </div>
           )}
         </div>
-        
+
         {btnn && <Radio view={view} setView={setView} />}
-        
+
         <div className="records-grid">
           {Array.from({ length: 6 }).map((_, index) => {
-            console.log("Skeleton Debug:", { advanced, userType, condition: advanced && userType !== "Hotel" });
+            console.log("Skeleton Debug:", {
+              advanced,
+              userType,
+              condition: advanced && userType !== "Hotel",
+            });
             return advanced && userType !== "Hotel" ? (
               <MonthCardSkeleton key={index} />
             ) : (
-              <ShowRecordsCardSkeleton 
-                key={index} 
+              <ShowRecordsCardSkeleton
+                key={index}
                 hasHeader={userType === "Hotel" || showRoomDetails}
                 hasFooter={userType === "Hotel"}
               />
@@ -297,10 +302,17 @@ const ShowRecordsContainer = ({
                         )}
                       </span>
                     </div>
-                    <div className="info-item">
-                      <span className="info-label">Persones:</span>
-                      <span className="info-value">{room.people_count}</span>
-                    </div>
+                    {isrecords ? (
+                      <div className="info-item">
+                        <span className="info-label">Bookings:</span>
+                        <span className="info-value">{room.count}</span>
+                      </div>
+                    ) : (
+                      <div className="info-item">
+                        <span className="info-label">Persones:</span>
+                        <span className="info-value">{room.people_count}</span>
+                      </div>
+                    )}
                   </div>
                   <div className="info-row">
                     <div className="info-item">

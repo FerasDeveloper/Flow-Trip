@@ -12,6 +12,9 @@ export default function AddPlane({ onClose }) {
   const [image, setImage] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+const [planeTypes, setPlaneTypes] = useState([]);
+const [typesLoading, setTypesLoading] = useState(true);
+const [typesError, setTypesError] = useState("");
 
   const modalRef = useRef(null);
 
@@ -34,11 +37,42 @@ export default function AddPlane({ onClose }) {
   };
 
   useEffect(() => {
+    fetchPlaneTypes();
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  const fetchPlaneTypes = async () => {
+  setTypesLoading(true);
+  setTypesError("");
+  try {
+    const token = TOKEN;
+    // غيّر المسار حسب الـ API عندك لو مختلف:
+    const res = await axios.get(`${baseURL}/GetAllPlaneTypes`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const body = res?.data?.data ?? res?.data ?? {};
+    // محاولات مرنة لاستخراج المصفوفة (حسب اسم الحقل عندك في الـ API)
+    const list =
+      body?.plane_types ??
+      body?.types ??
+      body?.data ??
+      (Array.isArray(body) ? body : []);
+
+    setPlaneTypes(Array.isArray(list) ? list : []);
+    if (!Array.isArray(list) || list.length === 0) {
+      setTypesError("لا توجد أنواع طائرات متاحة.");
+    }
+  } catch (e) {
+    setTypesError("فشل تحميل أنواع الطائرات.");
+    setPlaneTypes([]);
+  } finally {
+    setTypesLoading(false);
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,21 +119,34 @@ export default function AddPlane({ onClose }) {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content" ref={modalRef}>
+    <div className="modiel-overlay">
+      <div className="modiel-content" ref={modalRef}>
         <h2>Add a new plane</h2>
 
-        <form onSubmit={handleSubmit} className="form">
+        <form onSubmit={handleSubmit} className="form-plane">
           <label>
-          Aircraft type:
-                      <input
-              type="text"
-              name="plane_type_id"
-              value={formData.plane_type_id}
-              onChange={handleChange}
-              required
-            />
-          </label>
+   Aircraft type:
+   <select
+     name="plane_type_id"
+     value={formData.plane_type_id}
+     onChange={handleChange}
+     required
+    disabled={typesLoading || !!typesError}
+   >
+     <option value="" disabled>
+      {typesLoading ? "Loading types..." : (typesError || "Select type")}
+     </option>
+     {planeTypes.map((t) => {
+       const id = t.id ?? t.type_id ?? t.plane_type_id;
+       const name = t.name ?? t.type_name ?? t.title ?? `Type ${id}`;
+       return (
+         <option key={id} value={id}>
+           {name}
+         </option>
+       );
+     })}
+   </select>
+ </label>
 
           <label>
           Number of seats:
@@ -140,7 +187,7 @@ export default function AddPlane({ onClose }) {
 
           {error && <p className="error">{error}</p>}
 
-          <div className="modal-buttons">
+          <div className="modiel-buttons">
           <button
   type="submit"
   className="animated-btn"

@@ -5,7 +5,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./FlightDetails.css";
 
-export default function FlightDetails() {
+export default function UserFlightDetails() {
   const location = useLocation();
   const { departure, arrival } = location.state || {};
   const navigate = useNavigate();

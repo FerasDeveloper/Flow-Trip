@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./FlightsList.css";
 import { baseURL, FILTER_FLIGHTS } from "../Api/Api";
 
 export default function FlightsList() {
   const location = useLocation();
   const formData = location.state;
-
+  const passenger_count = formData.adults;
   const [flights, setFlights] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState(""); 
+  const [sortBy, setSortBy] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchFlights();
@@ -58,7 +59,22 @@ export default function FlightsList() {
       setLoading(false);
     }
   };
-
+  const handleCardClick = (id, isOneWay) => {
+    if (isOneWay) {
+      navigate(`/flight-information/${id[0]}`, {
+        state: { passenger_count,isTwoWay:false,isFirst:true, },
+      });
+    } else {
+      navigate(`/flight-information/${id[0]}`, {
+        state: {
+          passenger_count,
+          returnFlightId: id[1],
+          isTwoWay:true,
+          isFirst:true,
+        },
+      });
+    }
+  };
   return (
     <div className="flights-container">
       <h2 className="flights-title">Available flights ✈</h2>
@@ -92,9 +108,17 @@ export default function FlightsList() {
         flights.map((flight, idx) => {
           if (formData.tripType === "oneway" || flight.air_line) {
             return (
-              <div className="flight-card" key={idx}>
+              <div
+                onClick={() => {
+                  handleCardClick([flight.id],true);
+                }}
+                className="flight-card"
+                key={idx}
+              >
                 <div className="flight-header">
-                  <span className="airline">{flight.air_line?.air_line_name}</span>
+                  <span className="airline">
+                    {flight.air_line?.air_line_name}
+                  </span>
                   <span className="price-tag">{flight.price} $</span>
                 </div>
                 <div className="flight-route">
@@ -112,9 +136,13 @@ export default function FlightsList() {
 
           if (flight.go && flight.return) {
             return (
-              <div className="roundtrip-card" key={idx}>
+              <div onClick={()=>{
+                handleCardClick([flight.go.id,flight.return.id],false)
+              }} className="roundtrip-card" key={idx}>
                 <div className="trip-header">
-                  <span className="airline">{flight.go.air_line?.air_line_name}</span>
+                  <span className="airline">
+                    {flight.go.air_line?.air_line_name}
+                  </span>
                   <span className="price-tag">
                     💰 {flight.go.price + flight.return.price} $
                   </span>

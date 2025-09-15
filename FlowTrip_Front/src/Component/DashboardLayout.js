@@ -5,8 +5,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Admin/DashBourd.css";
 import { baseURL, LOGOUT } from "../Api/Api";
+import { label, path } from "framer-motion/client";
+import Activity from "../Admin/Activity";
 
-const role = Cookies.get("role");
+const role = Cookies.get("role")||localStorage.getItem("role");
 
 // تعريف المينيوهات لكل نوع مستخدم
 const menus = {
@@ -29,7 +31,6 @@ const menus = {
     { path: "vehiclys", label: "Vehiclys", icon: "fas fa-car" },
     { path: "profile", label: "Profile", icon: "fas fa-user" },
     { path: "Evaluation", label: "Evaluation", icon: "fas fa-star" },
-
   ],
   Accommodation: [
     { path: "profile", label: "Profile", icon: "fas fa-user" },
@@ -43,6 +44,14 @@ const menus = {
     { path: "advanced", label: "Advanced", icon: "fas fa-cogs" },
     { path: "Evaluation", label: "Evaluation", icon: "fas fa-star" },
   ],
+  Airline: [
+    { path: "flights", label: "Flights", icon: "fa-solid fa-jet-fighter" },
+    { path: "showallplans", label: "Planes", icon: "fa-solid fa-plane-up" },
+    { path: "getevaluation", label: "Ratings", icon: "fa-solid fa-star" },
+    { path: "records", label: "Records", icon: "fa-regular fa-clipboard" },
+    { path: "profile", label: "Profile", icon: "fas fa-user" },
+  ],
+  Activity: [{ path: "profile", label: "Profile", icon: "fas fa-user" }],
 };
 
 export default function DashboardLayout({ role }) {

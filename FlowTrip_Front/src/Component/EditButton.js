@@ -1,8 +1,8 @@
 import "./EditButton.css"
 
-export default function EditButton(){
+export default function EditButton({onClick}){
   return(
-    <button className="continue-application">
+    <button className="continue-application" onClick={onClick}>
             <div>
               <div className="pencil"></div>
               <div className="folder">

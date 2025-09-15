@@ -160,7 +160,6 @@
 }
 
 .registercontainer.sign-up-mode::before {
-
   transform: translate(100%, -50%);
   right: 52%;
 }
@@ -393,7 +392,7 @@
 .wave-group .inputregister:valid ~ .label .label-char {
   transform: translateY(-20px);
   font-size: 14px;
-  color: #5264AE;
+  color: #5264ae;
 }
 
 .wave-group .bar {
@@ -404,12 +403,12 @@
 
 .wave-group .bar:before,
 .wave-group .bar:after {
-  content: '';
+  content: "";
   height: 2px;
   width: 0;
   bottom: 1px;
   position: absolute;
-  background: #5264AE;
+  background: #5264ae;
   transition: 0.2s ease all;
 }
 
@@ -426,7 +425,6 @@
   width: 50%;
 }
 
-
 .password-group {
   position: relative;
 }
@@ -442,22 +440,14 @@
   color: var(--color1);
 }
 
-
-
-
-
 .glass-radio-group {
-
-
   display: flex;
   position: relative;
   background: var(--color1);
   border-radius: 1rem;
   backdrop-filter: blur(12px);
-  box-shadow:
-    inset 1px 1px 4px var(--color6), 
-    inset -1px -1px 6px rgba(0, 0, 0, 0.3),
-    0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 1px 1px 4px var(--color6),
+    inset -1px -1px 6px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   width: fit-content;
 }
@@ -484,7 +474,7 @@
 }
 
 .glass-radio-group label:hover {
-  color:var(--color5); 
+  color: var(--color5);
 }
 
 .glass-radio-group input:checked + label {
@@ -498,30 +488,24 @@
   width: calc(100% / 2);
   border-radius: 1rem;
   z-index: 1;
-  transition:
-    transform 0.5s cubic-bezier(0.37, 1.95, 0.66, 0.56),
-    background 0.4s ease-in-out,
-    box-shadow 0.4s ease-in-out;
+  transition: transform 0.5s cubic-bezier(0.37, 1.95, 0.66, 0.56),
+    background 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
 }
 
 /* User */
 #glass-user:checked ~ .glass-glider {
   transform: translateX(0%);
-  background: linear-gradient(135deg, var(--color4), var(--color5)); 
-  box-shadow:
-    0 0 18px rgba(170, 199, 215, 0.5),
+  background: linear-gradient(135deg, var(--color4), var(--color5));
+  box-shadow: 0 0 18px rgba(170, 199, 215, 0.5),
     0 0 10px rgba(223, 235, 247, 0.4) inset;
 }
 
-
 #glass-owner:checked ~ .glass-glider {
   transform: translateX(100%);
-  background: linear-gradient(135deg,var(--color3), var(--color4));
-  box-shadow:
-    0 0 18px rgba(119, 139, 150, 0.5),
+  background: linear-gradient(135deg, var(--color3), var(--color4));
+  box-shadow: 0 0 18px rgba(119, 139, 150, 0.5),
     0 0 10px rgba(170, 199, 215, 0.4) inset;
 }
-
 
 .forget-password {
   text-align: right;
@@ -529,7 +513,7 @@
 }
 
 .forget-password a {
-  color: var(--color4); 
+  color: var(--color4);
   font-size: 0.9rem;
   text-decoration: none;
 }
@@ -537,7 +521,6 @@
 .forget-password a:hover {
   text-decoration: underline;
 }
-
 
 .containercheckbox {
   cursor: pointer;
@@ -569,16 +552,15 @@
   stroke-dashoffset: -262.2723388671875;
 }
 
-
-.forget-password a{
+.forget-password a {
   text-decoration: none;
 }
 
-.forgot-password{
-  transition: .3s linear;
+.forgot-password {
+  transition: 0.3s linear;
 }
 
-.forgot-password:hover{
+.forgot-password:hover {
   transform: scale(1.1);
 }
 

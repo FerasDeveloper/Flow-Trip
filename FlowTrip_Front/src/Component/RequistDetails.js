@@ -9,10 +9,14 @@ import ConfirmDialog from "./ConfirmDialog";
 import CategoryPopup from "../Admin/CategoryPopup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ACCEPT_REQUEST, baseURL, DELETE_REQUEST, SHOW_REQUEST, TOKEN } from "../Api/Api";
+import {
+  ACCEPT_REQUEST,
+  baseURL,
+  DELETE_REQUEST,
+  SHOW_REQUEST,
+  TOKEN,
+} from "../Api/Api";
 import RequestDetailsSkeleton from "./RequestDetailsSkeleton";
-
-
 
 const RequestDetails = () => {
   const { id } = useParams();
@@ -39,14 +43,11 @@ const RequestDetails = () => {
       }
 
       try {
-        const res = await axios.get(
-          `${baseURL}/${SHOW_REQUEST}/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await axios.get(`${baseURL}/${SHOW_REQUEST}/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (res.data && res.data.data) {
           setRequest(res.data.data);
         }
@@ -80,7 +81,7 @@ const RequestDetails = () => {
         },
       });
       toast.success("Order confirmed successfully");
-      setTimeout(() => navigate("/Admin/dashbord/requist"), 1500);
+      setTimeout(() => navigate("/Admin/dashboard/requist"), 1500);
     } catch (error) {
       console.error("Error confirming request:", error);
 
@@ -135,17 +136,23 @@ const RequestDetails = () => {
     }
 
     // Create email subject and body
-    const subject = encodeURIComponent(`Regarding your request: ${req.business_name}`);
-    const body = encodeURIComponent(`Hello,\n\nI am contacting you regarding your request for "${req.business_name}".\nPlease Send ....,\n\nAdmin Team`);
+    const subject = encodeURIComponent(
+      `Regarding your request: ${req.business_name}`
+    );
+    const body = encodeURIComponent(
+      `Hello,\n\nI am contacting you regarding your request for "${req.business_name}".\nPlease Send ....,\n\nAdmin Team`
+    );
 
     // Open default email client
     const mailtoLink = `mailto:${email}?subject=${subject}&body=${body}`;
 
     try {
-      window.open(mailtoLink, '_blank');
+      window.open(mailtoLink, "_blank");
     } catch (error) {
       console.error("Error opening email client:", error);
-      toast.error("Failed to open email client. Please copy the email address manually.");
+      toast.error(
+        "Failed to open email client. Please copy the email address manually."
+      );
     }
   };
 
@@ -179,45 +186,65 @@ const RequestDetails = () => {
 
         <section className="request-section">
           <h3 className="section-title">Request Details</h3>
-          <p><strong className="field-label">Description:</strong> {req.description}</p>
-          <p><strong className="field-label">Location:</strong> {req.location}</p>
-          <p><strong className="field-label">Category:</strong> {req.owner_category_id}</p>
-          <p><strong className="field-label">Activity:</strong> {req.activity_name || "Not specified"}</p>
-          <p><strong className="field-label">Accommodation:</strong> {req.accommodation_type || "Not specified"}</p>
+          <p>
+            <strong className="field-label">Description:</strong>{" "}
+            {req.description}
+          </p>
+          <p>
+            <strong className="field-label">Location:</strong> {req.location}
+          </p>
+          <p>
+            <strong className="field-label">Category:</strong>{" "}
+            {req.owner_category_id}
+          </p>
+          <p>
+            <strong className="field-label">Activity:</strong>{" "}
+            {req.activity_name || "Not specified"}
+          </p>
+          <p>
+            <strong className="field-label">Accommodation:</strong>{" "}
+            {req.accommodation_type || "Not specified"}
+          </p>
         </section>
 
         <div className="buttons-group">
           <Button onClick={handleConfirm} />
-          <div onClick={() => setShowCategoryPopup(true)}>
+          {/* <div onClick={() => setShowCategoryPopup(true)}>
             <EditButton />
-          </div>
+          </div> */}
+          {req.owner_category_id === 5 && (
+            <div onClick={() => setShowCategoryPopup(true)}>
+              <EditButton />
+            </div>
+          )}
+
           <div onClick={() => setShowDeleteConfirm(true)}>
             <DeleteButton />
           </div>
           <button
             onClick={handleContact}
             style={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '12px 20px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              padding: "12px 20px",
+              cursor: "pointer",
+              fontSize: "14px",
+              fontWeight: "600",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              transition: "all 0.3s ease",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}
             onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-2px)';
-              e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+              e.target.style.transform = "translateY(-2px)";
+              e.target.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
             }}
             onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+              e.target.style.transform = "translateY(0)";
+              e.target.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
             }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

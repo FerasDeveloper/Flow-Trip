@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./CategoryPopup.css";
 import { toast } from "react-toastify";
-import { baseURL, EDIT_REQUEST, GET_ALL_OWNER_CATEGORIES, TOKEN } from "../Api/Api";
+import { baseURL, EDIT_REQUEST, GET_ALL_ACTIVITY, GET_ALL_OWNER_CATEGORIES, TOKEN } from "../Api/Api";
 
 const token = TOKEN;
 
@@ -11,13 +11,14 @@ const CategoryPopup = ({ onClose, requestId, onSuccessUpdate }) => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/${GET_ALL_OWNER_CATEGORIES}`, {
+      .get(`${baseURL}/${GET_ALL_ACTIVITY}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        setCategories(res.data.owners_categories || []);
+        console.log(res);
+        setCategories(res.data.data || []);
       })
       .catch((err) => {
         toast.error(`Error:${err}`);

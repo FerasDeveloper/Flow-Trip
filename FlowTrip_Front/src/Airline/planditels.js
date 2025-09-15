@@ -47,7 +47,7 @@ export default function PlanDetails() {
         setShowConfirmDelete(false);
         setShowSuccessModal(true);
         setTimeout(() => {
-          navigate("/plans/showallplans");
+          navigate("/Airline/dashboard/showallplans");
         }, 2000);
       } else {
         console.error("Deletion failed");
@@ -86,7 +86,7 @@ export default function PlanDetails() {
           </p>
 
           <div className="action-buttons">
-  <div onClick={() => navigate(`/plans/edit/${planeId}`)}>
+  <div onClick={() => navigate(`/editPlane/${planeId}`)}>
     <EditButton />
   </div>
 
@@ -99,10 +99,10 @@ export default function PlanDetails() {
       </div>
 
       {showConfirmDelete && (
-        <div className="modal-overlay">
-          <div className="modal-box">
+        <div className="modil-overlay">
+          <div className="modil-box">
             <p>هل أنت متأكد أنك تريد حذف هذه الطائرة؟</p>
-            <div className="modal-buttons">
+            <div className="modil-buttons">
               <button className="confirm-btn" onClick={handleDelete}>نعم، احذف</button>
               <button className="cancel-btn" onClick={() => setShowConfirmDelete(false)}>إلغاء</button>
             </div>
@@ -111,8 +111,8 @@ export default function PlanDetails() {
       )}
 
       {showSuccessModal && (
-        <div className="modal-overlay">
-          <div className="modal-box success">
+        <div className="modil-overlay">
+          <div className="modil-box success">
             <p>✅ تم حذف الطائرة بنجاح</p>
           </div>
         </div>
