@@ -394,6 +394,7 @@ function App() {
       <Route path="not-registered" element={<NotRegistered />} />
       <Route path="about-us" element={<AboutUs />} />
       <Route path="boocking" element={<Bookings />} />
+      <Route path="/ActivityOwner/profile" element={<Profile/>}/>
     </Routes>
   );
 }

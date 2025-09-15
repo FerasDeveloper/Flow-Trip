@@ -190,7 +190,7 @@ const Auth = () => {
               navigate("/AirlinesCompany/dashboard");
               break;
             case "Activity Owner":
-              // navigate("/profile/dashboard");
+              navigate("/ActivityOwner/profile");
               break;
             default:
               navigate("/Accommodation/dashboard");

@@ -87,6 +87,16 @@ const AddPackageStep1 = () => {
       return;
     }
 
+    if (!description.trim()) {
+      toast.error("Please enter a description.");
+      return;
+    }
+
+    if (!price || price <= 0) {
+      toast.error("Please enter a valid price.");
+      return;
+    }
+
     setLoading(true);
 
     const formData = new FormData();
@@ -95,8 +105,9 @@ const AddPackageStep1 = () => {
     formData.append("checked", 1);
     formData.append("package_picture", image);
 
-    // طباعة البيانات قبل الإرسال
+    // طباعة البيانات قبل الإرسال للتأكد
     console.log("📌 Final URL:", `${baseURL}/${BASETOURISM}/${CREATE_PACKAGE}`);
+    console.log("📌 Token:", TOKEN ? "Token exists" : "No token found");
     for (let [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
@@ -105,22 +116,35 @@ const AddPackageStep1 = () => {
       const res = await fetch(`${baseURL}/${BASETOURISM}/${CREATE_PACKAGE}`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${TOKEN}`
-          // ملاحظة: لا تضيف Content-Type مع FormData، المتصفح بيحطها تلقائياً
+          Authorization: `Bearer ${TOKEN}`,
+          Accept: "application/json"
+          // لا تضيف Content-Type مع FormData
         },
         body: formData
       });
 
+      console.log("📌 Response status:", res.status);
+      console.log("📌 Response headers:", res.headers);
+
       if (res.ok) {
+        const responseData = await res.json();
+        console.log("📌 Success response:", responseData);
         toast.success("Package created successfully!");
         setTimeout(() => navigate("/TourismCompany/dashboard/packages"), 1200);
       } else {
-        const data = await res.json().catch(() => ({}));
-        toast.error(data.message || "Failed to create package.");
+        const errorText = await res.text();
+        console.log("📌 Error response:", errorText);
+        
+        try {
+          const errorData = JSON.parse(errorText);
+          toast.error(errorData.error || errorData.message || `Error ${res.status}: ${res.statusText}`);
+        } catch {
+          toast.error(`Error ${res.status}: ${res.statusText}`);
+        }
       }
     } catch (err) {
       console.error("❌ Fetch error:", err);
-      toast.error("Failed to create package.");
+      toast.error("Network error. Please check your connection and try again.");
     } finally {
       setLoading(false);
     }

@@ -8,7 +8,7 @@ import { baseURL, LOGOUT } from "../Api/Api";
 import { label, path } from "framer-motion/client";
 import Activity from "../Admin/Activity";
 
-const role = Cookies.get("role")||localStorage.getItem("role");
+const role = Cookies.get("role") || localStorage.getItem("role");
 
 // تعريف المينيوهات لكل نوع مستخدم
 const menus = {
@@ -82,8 +82,10 @@ export default function DashboardLayout({ role }) {
 
       if (response.ok) {
         localStorage.removeItem("token");
+        localStorage.removeItem("role");
         Cookies.remove("authToken");
         Cookies.remove("token");
+        Cookies.remove("role");
         toast.success("Logged out successfully!");
         setTimeout(() => {
           navigate("/register");
@@ -101,7 +103,11 @@ export default function DashboardLayout({ role }) {
   return (
     <div className="maincontainer">
       <ToastContainer position="top-right" autoClose={3000} />
-      <div className={`sidpare ${isMobileMenuOpen ? "open" : ""} ${collapsed ? "collapsed" : ""}`}>
+      <div
+        className={`sidpare ${isMobileMenuOpen ? "open" : ""} ${
+          collapsed ? "collapsed" : ""
+        }`}
+      >
         {/* زر الموبايل */}
         <div
           className="mobile-menu-btn"
@@ -110,12 +116,12 @@ export default function DashboardLayout({ role }) {
           <i className="fa-solid fa-bars"></i>
         </div>
 
-        <img 
-          src={require("../Assets/logo-removebg-preview.png")} 
-          alt="Logo" 
+        <img
+          src={require("../Assets/logo-removebg-preview.png")}
+          alt="Logo"
           className={collapsed ? "small" : ""}
         />
-        
+
         {/* زر التوسيع/الانكماش */}
         <div
           className="longright"

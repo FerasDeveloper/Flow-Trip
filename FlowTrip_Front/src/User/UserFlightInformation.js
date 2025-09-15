@@ -12,6 +12,7 @@ import {
 import Booking from "../Component/Booking";
 import Loader from "../Component/Loader";
 import { toast, ToastContainer } from "react-toastify";
+import Cookies from "js-cookie";
 
 export const colors = {
   reserved: "#45576d",
@@ -20,10 +21,18 @@ export const colors = {
 };
 
 const UserFlightInformation = () => {
-  const token = TOKEN;
+  const token = Cookies.get("token") || localStorage.getItem("token");
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+
+  // التحقق من تسجيل الدخول
+  useEffect(() => {
+    if (!token) {
+      navigate("/not-registered");
+      return;
+    }
+  }, [token, navigate]);
   const passenger_count = location.state.passenger_count;
   const isTwoWay = location.state.isTwoWay;
   const isFirst = location.state.isFirst;
@@ -42,7 +51,13 @@ const UserFlightInformation = () => {
   const [selectedReturnSeats, setSelectedReturnSeats] = useState([]);
   const [ownerId, setOwnerId] = useState(null);
   const [airlineName, setAirlineName] = useState("");
+
+  // إذا لم يكن هناك توكن، لا نستدعي البيانات
   const fetchFlightData = async () => {
+    if (!token) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
       const flightRes = await axios.get(
@@ -77,6 +92,11 @@ const UserFlightInformation = () => {
   }, [id]);
 
   const handleSeatClick = (seat_number) => {
+    if (!token) {
+      navigate("/not-registered");
+      return;
+    }
+    
     if (isTwoWay) {
       if (isFirst) {
         setSelectedOutboundSeats((prev) =>
@@ -102,6 +122,10 @@ const UserFlightInformation = () => {
   };
 
   const handleBooking = () => {
+    if (!token) {
+      navigate("/not-registered");
+      return;
+    }
     setShowBookingForm(true);
   };
 
@@ -172,6 +196,12 @@ const UserFlightInformation = () => {
   const handleProfileClick = () => {
     navigate(`/owner_profile/${ownerId}`);
   };
+
+  // إذا لم يكن المستخدم مسجلاً، لا نعرض المحتوى
+  if (!token) {
+    return null; // سيتم إعادة التوجيه في useEffect
+  }
+
   if (loading)
     return (
       <>

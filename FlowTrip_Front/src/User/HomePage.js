@@ -19,6 +19,7 @@ import {
   FaBrain,
   FaInfoCircle,
   FaEnvelope,
+  FaPlane,
 } from "react-icons/fa";
 import PackageCard from "../Component/PackageCard";
 import Loader from "../Component/Loader";
@@ -95,6 +96,7 @@ export default function Homepage() {
         Cookies.remove("email");
         Cookies.remove("role");
         Cookies.remove("authToken");
+        Cookies.remove("role");
 
         // Redirect to home
         window.location.href = "/";
@@ -364,6 +366,9 @@ export default function Homepage() {
         <button onClick={() => navigate("/car-filter")}>
           <FaCar /> Cars
         </button>
+        <button onClick={() => navigate("/flight-search")}>
+          <FaPlane /> Flights
+        </button>
       </div>
 
       {/* Overlay sidebar */}
@@ -507,7 +512,7 @@ export default function Homepage() {
       </div>
 
       {/* Activities */}
-      <h2
+      {/* <h2
         style={{ textAlign: "center", margin: "60px 0 20px", color: "#2c3e50" }}
       >
         🌟 Discover our special activities 🌟
@@ -575,8 +580,90 @@ export default function Homepage() {
 
       <div className="show-more-row">
         <ShowMore to="/All-Activity" label="Show more" />
-      </div>
+      </div> */}
+      <h2
+        style={{ textAlign: "center", margin: "60px 0 20px", color: "#2c3e50" }}
+      >
+        🌟 Discover our special activities 🌟
+      </h2>
 
+      {loadingActivities ? (
+        <div className="activities-grid">
+          {[0, 1].map((i) => (
+            <ActivityCardSkeleton key={`a-lg-${i}`} size="large" />
+          ))}
+          {[0, 1, 2].map((i) => (
+            <ActivityCardSkeleton key={`a-sm-${i}`} size="small" />
+          ))}
+        </div>
+      ) : (
+        <div className="activities-grid">
+          {activities.map((act, index) => (
+            <div
+              key={act.id}
+              className={`activity-card ${
+                index < 2 ? "large-card" : "small-card"
+              }`}
+              onClick={() => {
+                const token = localStorage.getItem("token")||Cookies.get('token');
+                if (!token) {
+                  navigate("/not-registered");
+                  return;
+                }
+
+                console.log("Clicked activity:", {
+                  name: act.activity_name,
+                  owner_id: act.owner_id,
+                  id: act.id,
+                });
+
+                if (!act.owner_id) {
+                  console.warn("No owner_id; skip navigation.", act);
+                  return;
+                }
+
+                navigate(`/activity_profile/${act.owner_id}`, {
+                  state: { readOnly: true, ownerId: act.owner_id },
+                });
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  const token = localStorage.getItem("token");
+                  if (!token) {
+                    navigate("/not-registered");
+                    return;
+                  }
+
+                  navigate(`/activity_profile/${act.owner_id}`, {
+                    state: { readOnly: true, ownerId: act.owner_id },
+                  });
+                }
+              }}
+              title="View owner profile"
+            >
+              <img
+                src={getActivityImg(act.picture) || FALLBACK_IMG}
+                alt={act.activity_name}
+                className="activity-img"
+                onError={(e) => {
+                  e.currentTarget.src = FALLBACK_IMG;
+                }}
+              />
+              <div className="activity-overlay">
+                <h3>{act.activity_name}</h3>
+                <p>{act.owner_name}</p>
+                <p>
+                  {act.location}, {act.country_name}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="show-more-row">
+        <ShowMore to="/All-Activity" label="Show more" />
+      </div>
       {/* Accommodations */}
       <h2
         style={{ textAlign: "center", margin: "60px 0 20px", color: "#2c3e50" }}

@@ -9,12 +9,13 @@ import {
 } from "react-icons/fa";
 import "./Boockings.css";
 import BookingsSkeleton from "./BookingsSkeleton";
+import Cookies from "js-cookie";
 
 export default function Bookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+  const token = localStorage.getItem('token')||Cookies.get('token');
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/getBookings", {
       headers: {
